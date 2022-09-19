@@ -42,25 +42,25 @@ void dividerow(float(*mat)[20],int row,int col,float num)
         dispmatrix(mat,2,4);
     }
 }
-void inverse(float(*mat)[20],int row,int col) //for the augmented matrix specifically
+void inverse(float(*mat)[20],int row,int col) 
 {
     int i,j,k=0;
     float multiplier;
-    for(i=0;i<row;i++)
+    for(i=0;i<row;i++) //loop for identifying diagonal elements 
     {
         if(mat[i][i]!=1)
-            dividerow(mat,i,col,mat[i][i]); //divides first row
-        for(j=0;j<row;j++) //do row operations on the remaining rows
+            dividerow(mat,i,col,mat[i][i]); //This makes the diagonal element value 1 if it isn't already
+        for(j=0;j<row;j++) // loop for traversing row
         {
-            for(k=0;k<col;k++)
+            for(k=0;k<col;k++) //loop for traversing col
             {
-                if(j==i)
+                if(j==i) //if the row value is same as the row of current diagonal element
                     break;
                 else
                 {
                     multiplier=(mat[j][i]/mat[i][i]);
                     printf("\nChosen Multiplier: %f\n",multiplier);
-                    mat[j][k]=mat[j][k]-(multiplier*mat[i][k]);
+                    mat[j][k]=mat[j][k]-(multiplier*mat[i][k]); //performing row operation on all values of the row
                     printf("Value:%f\n",mat[j][k]);
                 }
             }
@@ -75,13 +75,13 @@ int main(void)
     int ord,row_aug,col_aug;
     printf("Enter the order of the coefficient matrix: ");
     scanf("%d",&ord);
-    row_aug=ord;
-    col_aug=2*ord;
+    row_aug=ord; // no of rows in augmented matrix
+    col_aug=2*ord; // no of cols in augmented matrix
     printf("Enter %d elements of the coefficient matrix: \n",ord*ord);
     getmatrix(mat,ord,ord);
     printf("Entered Matrix\n");
     dispmatrix(mat,ord,ord);
-    setidentity(mat,ord,ord); //not on augmented but on identity
+    setidentity(mat,ord,ord); //Augmenting coefficient matrix with a identity matrix
     printf("Generated Augmented Matrix:\n");
     dispmatrix(mat,row_aug,col_aug);
     inverse(mat,row_aug,col_aug);
