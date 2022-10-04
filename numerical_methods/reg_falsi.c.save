@@ -1,0 +1,19 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void range_input(double* lowl, double* uppl)
+{
+	printf("\nLower Limit:");
+	scanf("%lf",lowl);
+	printf("Upper Limit:");
+	scanf("%lf",uppl);
+}
+
+int main(void)
+{
+	double lowl,uppl;
+	printf("Enter a small range of values: ");
+	range_input(&lowl,&uppl);
+	
+	 
+}
