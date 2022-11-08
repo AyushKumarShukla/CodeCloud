@@ -52,13 +52,13 @@ void inverse(float(*mat)[20],int row,int col)
             dividerow(mat,i,col,mat[i][i]); //This makes the diagonal element value 1 if it isn't already
         for(j=0;j<row;j++) // loop for traversing row
         {
+	    multiplier=(mat[j][i]/mat[i][i]);//caution,this statement must not be in the loop below,the used value gets set to 0
             for(k=0;k<col;k++) //loop for traversing col
             {
                 if(j==i) //if the row value is same as the row of current diagonal element
                     break;
                 else
                 {
-                    multiplier=(mat[j][i]/mat[i][i]);
                     printf("\nChosen Multiplier: %f\n",multiplier);
                     mat[j][k]=mat[j][k]-(multiplier*mat[i][k]); //performing row operation on all values of the row
                     printf("Value:%f\n",mat[j][k]);
