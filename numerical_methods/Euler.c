@@ -5,7 +5,8 @@
 float eq(float x,float y,float step)
 {
                     //start expression at this position below
-    return (y + step*((y-x)/(y+x)));
+    float expr=(y-x)/(y+x);
+    return (y + step*(expr));
 }
 
 float Euler(float initx,float inity,float finx,float step)
@@ -16,9 +17,10 @@ float Euler(float initx,float inity,float finx,float step)
     for(i=initx;(i+step)<=finx;i=i+step)
     {
         res=eq(i,res,step);
-        printf("i=%f",(i+step));
-        printf("Y%d\t= %f\n",++k,res);
+        //printf("i=%f",(i+step));
+        printf("Y%d\t= Y(%.4f)\t= %.4f\n",++k,(i+step),res);
     }
+    printf("Y(%.4f)=%.4f\n",finx,res);
 }
 
 int main(void)
@@ -27,7 +29,7 @@ int main(void)
     printf("To solve a differential equation using Euler's method: ");
     printf("\nEnter the initial value of x: ");
     scanf("%f",&initx);
-    printf("\nEnter the initial value of y: ");
+    printf("Enter the initial value of y: ");
     scanf("%f",&inity);
     printf("Enter the final value of x: ");
     scanf("%f",&finx);

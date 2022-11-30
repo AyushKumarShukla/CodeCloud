@@ -11,7 +11,7 @@ double func(double x)
 
 void range_input(double* lowl, double* uppl)
 {
-	printf("Lower Limit:");
+	printf("\nLower Limit:");
 	scanf("%lf",lowl);
 	printf("Upper Limit:");
 	scanf("%lf",uppl);
@@ -28,8 +28,8 @@ double reg_falsi(double lowl,double uppl)
 		corr=(fabs(val_low)*(uppl-lowl))/(fabs(val_low)+fabs(val_upp));
 		prev_next=next;
 		next=lowl+corr;
-		printf("\nA\t\tB\tF(A)\t\t\tF(B)\t\t\tH\t\t\tNEXT\t\t\tF(NEX8T)");
-		printf("\n%lf\t%lf\t%lf\t%lf|",lowl,uppl,val_low,val_upp);
+//		printf("\nA\t\tB\tF(A)\t\t\tF(B)\t\t\tH\t\t\tNEXT\t\t\tF(NEX8T)");
+		//printf("\n%lf\t%lf\t%lf\t%lf|",lowl,uppl,val_low,val_upp);
 		if(func(next)<0)
 		{
 			if(val_low<0)
@@ -44,8 +44,8 @@ double reg_falsi(double lowl,double uppl)
 			else
 				uppl=next;
 		}
-	printf("\t%lf\t%lf\t%lf",corr,next,func(next));
-	}while(fabs(next-prev_next>1e-11));
+		printf("\t%lf\t%lf\t%lf\n",corr,next,func(next));
+	}while(fabs(next-prev_next>1e-7));
 	return next;
 }
 
