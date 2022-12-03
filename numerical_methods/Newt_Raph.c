@@ -14,13 +14,15 @@ double func_der(double x)
 
 double Newton_Raphson(double usr_x)
 {
-    double x=usr_x,corr;
+    double x=usr_x,corr,fx,fdx;
     do
     {
-        corr=-(func(x)/func_der(x));
+        fx=func(x);
+        fdx=func_der(x);
+        corr=-(fx/fdx);
         x=x+corr;
         printf("%lf\n",x);
-    }while(func(x)>=1e-8);
+    }while(abs(fx)>=1e-8);
     return x;
 }
 
