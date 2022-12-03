@@ -1,0 +1,11 @@
+DAY #3 - MODULES AND PIP
+1.MODULES
+		DEF: They are a method to use pre-written code in your programs
+	-EXTERNAL MODULES:
+		Modules that have to be installed from the internet and are not supplied natively in the python interpreter
+	-INTERNAL MODULES:
+		Modules that the python interpreter ships with
+2.PIP - Package manager for python
+	DEF: A package manager fetches and installs modules from the web to your python interpreter
+		Eg. pip install 'packagename'
+--------------------------------------------------------------------------------------------------------------
