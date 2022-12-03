@@ -9,17 +9,17 @@ get_array()
 bin_search()
 {
 	beg=0
-	end=$(( $usrnum-1 ))
+	end=$(( $1-1 ))
 	while [[ $beg -le $end ]]
 	do
 		mid=$(( ($beg+$end)/2 ))
 		mid=${mid/.*}
-		if((`echo "${arr[$mid]} == $key " | bc -l`))
+		if((`echo "${arr[$mid]} == $2 " | bc -l`))
 		then
 			flag=1
 			pos=$mid
 			break
-		elif((`echo "${arr[$mid]} <  $key " | bc -l`))
+		elif((`echo "${arr[$mid]} <  $2 " | bc -l`))
 		then
 			end=$(($mid-1))
 		else
