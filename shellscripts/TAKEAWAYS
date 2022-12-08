@@ -1,0 +1,9 @@
+TAKEAWAYS:
+8-12-22: 
+1. If you are using the Arithmetic expansion syntax, then $((i+1)) will also work, 
+there is no need to add the dollar sign with any variable inside the double parenthesis
+
+2. $arr of any array will return the value of the first element, if no index is specified the first index is
+taken to be default. Thus always use brace expansion like ${arr[$i]} before accessing elements of the array.
+
+
