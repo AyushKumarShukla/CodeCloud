@@ -6,4 +6,7 @@ there is no need to add the dollar sign with any variable inside the double pare
 2. $arr of any array will return the value of the first element, if no index is specified the first index is
 taken to be default. Thus always use brace expansion like ${arr[$i]} before accessing elements of the array.
 
-
+10-12-22:
+1. While passing a filename to grep NEVER use single quotes around file name, single quotes eliminate all types of expansions.
+2. Ideally, double quotes must be used around filenames to prevent spaces and tabs to be treated as delimiters and retain the actual filename.
+3. Not using any quotes will cause the shell to treat spaces and tabs as delimiters.

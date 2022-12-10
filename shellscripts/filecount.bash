@@ -5,10 +5,10 @@ if [ -f $file ]
 then
 	echo "Content Of File: "
 	cat $file
-	chars=`wc -m < $file`
-	spaces=`grep -o ' ' '$file' | wc -l`
 	words=`wc -w < $file`
+	spaces=`grep -o ' ' $file | wc -l`
 	lines=`wc -l < $file`
+	chars=$((`wc -m < $file` - $spaces - $lines))
 	echo -e "\nCharacter Count:$chars\nWord Count:$words\nLine Count:$lines\nSpace Count:$spaces"
 else
 	echo "File Does Not Exist"
