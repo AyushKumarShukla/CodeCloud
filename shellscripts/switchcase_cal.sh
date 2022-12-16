@@ -2,27 +2,22 @@ add()
 {
 	echo  "$1 + $2" | bc -l
 }
-
 sub()
 {
 	echo  "$1 - $2" | bc -l
 }
-
 mult()
 {
 	echo  "$1 * $2" | bc -l
 }
-
 div()
 {
 	echo "scale=5;$1 / $2" | bc -l
 }
-
 expo()
 {
 	echo "scale=5;$1 ^ $2" | bc -l
 }
-
 get_input()
 {
 	read -p 'Enter the first number: ' num1
