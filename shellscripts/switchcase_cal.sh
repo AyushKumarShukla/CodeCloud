@@ -85,7 +85,7 @@ mydoc
 	;;
 
 	*)
-	echo -n "Invalid Choice......."
+	echo -n -e "Invalid Choice.......\n"
 	;;
 	esac
 done
