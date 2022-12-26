@@ -51,13 +51,22 @@ is_perfect()
 
 is_armstrong()
 {
-	local temp=$1
+	temp=$1
 	sum=0
+	digcount=0
+	#Counting the number of digits
 	while [ $temp -gt 0 ]
 	do
-		local digit=$(($temp%10))
-		temp=$(($temp/10))
-		sum=$(($sum+$(($digit*$digit*$digit))))
+		temp=$(($temp / 10))
+		digcount=$(($digcount + 1))
+	done
+	#computing as per Armstrong number criteria
+	temp=$1
+	while [ $temp -gt 0 ]
+	do
+		digit=$((temp % 10))
+		sum=`echo "$sum + ($digit^$digcount)" | bc -l`
+		temp=$((temp / 10))
 	done
 	if [ $sum -eq $1 ]
 	then
