@@ -10,3 +10,24 @@ taken to be default. Thus always use brace expansion like ${arr[$i]} before acce
 1. While passing a filename to grep NEVER use single quotes around file name, single quotes eliminate all types of expansions.
 2. Ideally, double quotes must be used around filenames to prevent spaces and tabs to be treated as delimiters and retain the actual filename.
 3. Not using any quotes will cause the shell to treat spaces and tabs as delimiters.
+
+25-12-22
+1. To create good looking tables in the output use the printf function as follows:
+			FORMAT STRING		LIST OF INDIVIDUAL VARS	    REDIRECT TO FILE
+	printf "%-10s %-20s %-20s %-10s\n" "$var1" "$var2" "$var3" "$var4" >> filename // if redirection is intended
+		Here:
+			- means left aligned
+			the numbers 10 and 20 specify the size of a field as number of spaces
+			%s means a string quantity
+			format specifiers can be used in the format string
+	This prints the variables in fixed sized fields so that things look uniform :)
+2. The special shell varable $? stores the return value of grep, if it is non-zero , grep did not find anything
+
+26-12-22
+1.Logic behind famous algorithms:
+	Perfect Numbers: A positive integer equal to the sum of its' positive divisors excluding itself
+		Eg. 28 = 1+2+4+7+14
+	Krishnamurty Numbers: A positive number whose sum of factorial of each digit is equal to the number itself.
+		Eg. 145 = 1!+4!+5! = 1 + 24 + 120 
+	Armstrong Numbers: A positive number whose sum of digits raised to the power of number of digits is equal to the number itself.
+		Eg. 1634 = 1^4 + 6^4 + 3^4 + 4^4 = 1 + 1296 + 81 + 256  
