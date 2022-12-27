@@ -1,6 +1,7 @@
 /*Newton's Forward Interpolation Formula Calculation*/
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 //tested 
 void getarray(float(*arr)[20],int row,int col)
 {
@@ -14,10 +15,14 @@ void getarray(float(*arr)[20],int row,int col)
 void disparray(float(*arr)[20],int row,int col)
 {
 	int i,j;
+	printf("x\t\ty=f(x)\t\tdy\t\td2y\t\td3y\t\td4y\n");
 	for(i=0;i<row;i++)
 	{
 		for(j=0;j<col;j++)
-			printf("%.3f\t",arr[i][j]);
+		{
+			if(j<=(col-i)-1) //necessary condition to print the desired difference table
+				printf("%-10.4f\t",arr[i][j]);
+		}
 		printf("\n");
 	}
 }
@@ -48,7 +53,6 @@ void calc(float(*arr)[20],int row,float find,float phase)
 {
 	int i,j;
 	float temp=0,factor=1,tphase=phase;
-	printf("input phase:%f\n",tphase);
 	for(i=0;i<row-1;i++)
 	{
 		for(j=-1;j<i;j++)
@@ -57,26 +61,25 @@ void calc(float(*arr)[20],int row,float find,float phase)
 			tphase--;
 		}
 		//debugging
-		printf("Factor: %f\n",factor);
 		temp=temp+((factor/fact(i+1))*(arr[0][i+2])); //the order of operations matters, use parenthesis carefully
-		printf("Factorial: %f\n",fact(i+1)); //the factorials were at the wrong positions in the equations,that is they were with terms that the factorials were not associated with
-		printf("Temp: %f\n",temp);
+		//the factorials were at the wrong positions in the equations,that is they were with terms that the factorials were not associated with
 		//reseting variable values is important for next iteration
 		factor=1;
 		tphase=phase;
 	}
 	temp=temp+arr[0][1];
-	printf("\nANSWER:%.4f",temp);
+	printf("\nValue of f(%.4f) : %.4f",find,temp);
 }
 
 int main(void)
 {
 	int terms,i,j;
 	float mat[20][20],val,result,phase,height;;
+	memset(mat,0,sizeof(mat));
 	printf("Enter the number of terms: ");
 	scanf("%d",&terms);
 
-	printf("Enter x in F(x): ");
+	printf("Enter the value of x to find f(x): ");
 	scanf("%f",&val);
 
 	printf("Enter the values of x: ");
@@ -98,4 +101,6 @@ int main(void)
 	height=mat[1][0]-mat[0][0];
 	phase=(val-mat[0][0])/height;
 	calc(mat,terms,val,phase);
+	printf("\n");
+	return 0;
 }
