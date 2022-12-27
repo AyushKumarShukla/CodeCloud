@@ -1,6 +1,11 @@
 echo "To find the sum of the series 1+2+3+4+...+n"
 echo -n "Enter the number of terms:"
 read n
+if [ $n -lt 1 ]
+then
+	echo "There must be atleast 1 term in the series"
+	exit 1
+fi
 i=1	#loop counter
 sum=0
 while [ $i -le $n ]
@@ -8,5 +13,5 @@ do
 	sum=`expr $sum + $i`
 	i=$(( $i + 1 ))
 done
-echo "Sum upto $n : $sum "
+echo "Sum upto $n term(s) : $sum "
 
