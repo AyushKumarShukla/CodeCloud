@@ -15,7 +15,12 @@ void getarray(float(*arr)[20],int row,int col)
 void disparray(float(*arr)[20],int row,int col)
 {
 	int i,j;
-	printf("x\t\ty=f(x)\t\tdy\t\td2y\t\td3y\t\td4y\n");
+	printf("x\t\ty\t\t");
+	for(i=0;i<(row-1);i++)
+	{
+		printf("d%-dy\t\t",i+1);
+	}
+	printf("\n");
 	for(i=0;i<row;i++)
 	{
 		for(j=0;j<col;j++)
