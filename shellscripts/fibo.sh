@@ -15,8 +15,14 @@ fibo (){
 		currterm=$newval
 		i=$(($i+1))
 	done
-	
+	echo
 }
-
-fibo $terms
-echo
+if [ $terms -le 0 ]
+then
+	echo "Invalid input, there must be atleast 1 term in the sequence"
+elif [ $terms -eq 1 ]
+then
+	echo "0"
+else
+	fibo $terms
+fi
