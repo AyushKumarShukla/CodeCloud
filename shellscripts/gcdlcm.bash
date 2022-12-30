@@ -23,5 +23,10 @@ Euclid_Algo()
 echo "To find the GCD and LCM of two numbers: "
 read -p 'Enter the first number: ' num1
 read -p 'Enter the second number: ' num2
+if [ $num2 -eq 0 ]
+then
+	temp=$num1
+	num1=$num2
+	num2=$temp
+fi
 Euclid_Algo $num1 $num2
-
