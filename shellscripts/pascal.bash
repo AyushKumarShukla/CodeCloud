@@ -1,4 +1,4 @@
-# Shell script to check if a given number is a Krishnamurty Number\
+# Shell script to generate Pascal's Triangle
 
 factorial()
 {
@@ -23,6 +23,7 @@ c()
 
 pascal()
 {
+	k=0
 	for((i=0;i<$1;i++))
 	do
 		for((j=0;j<$1;j++))
@@ -30,7 +31,29 @@ pascal()
 			if [ $j -le $i ]
 			then
 				c $i $j
-				echo -n "$res "
+				arr[$k]=$res
+				k=$((k+1))
+			fi
+		done
+		echo
+	done
+}
+
+pattern()
+{
+	pascal $row
+	l=0
+	for ((i=0;i<$1;i++));
+	do
+		for ((j=0;j<$2;j++));
+		do
+			diff=$(($i-$j))
+			diff_sq=$(($diff * $diff))
+			abs_diff=`echo "scale=0;sqrt($diff_sq)" | bc -l`
+			if ([ $abs_diff -eq 0 ] || [ $(($abs_diff % 2)) -eq 0 ]) && ([ $j -ge $(($3 - $i )) ] && [ $j -le $(($3 + $i)) ]);
+			then
+				echo -n "${arr[$l]}"
+				l=$((l+1))
 			else
 				echo -n " "
 			fi
@@ -39,5 +62,14 @@ pascal()
 	done
 }
 
-read -p 'Enter the number of lines needed:' usrnum
-pascal $usrnum
+echo -n "Enter the number of lines needed in the pattern: "
+read row
+col=$(((2*row)-1))
+mid=$((col / 2))
+if [[ $row -le 0 ]]
+then
+	echo "There must be atleast one line"
+else
+	pattern $row $col $mid
+fi
+
