@@ -1,11 +1,3 @@
-get_array()
-{
-	for((i=0;i<$1;i++))
-	{
-		read temp;
-		arr[$i]=$temp
-	}
-}
 lin_search()
 {
 	for((i=0;i<$1;i++))
@@ -17,20 +9,16 @@ lin_search()
 		fi
 	}
 }
-
-echo "To perfom linear search in a list of numbers"
-read -p 'Enter the number of elements needed in the list: ' usrnum
-if (($usrnum < 1 ))
-then
-	echo "Invalid list size , the size of the list must be atleast 1"
-	exit 1 
-fi
-
-
-echo "Enter $usrnum Elements: "
+echo "To perform linear search in a list of numbers"
+echo -n "Enter array elements: "
+read -a arr
 flag=0
-get_array $usrnum
-
+usrnum=${#arr[@]}
+if [ $usrnum = 0 ]
+then
+	echo "Invalid Input, There must be atleast 1 element"
+	exit 1
+fi
 echo "Entered Elements: ${arr[*]}"
 read -p 'Enter the number to be searched: ' key
 lin_search $usrnum $key
