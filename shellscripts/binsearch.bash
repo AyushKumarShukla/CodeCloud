@@ -24,6 +24,11 @@ flag=0
 read -a arr
 arr=(`printf "%s\n" "${arr[@]}" | sort -n`)
 usrnum=${#arr[@]}
+if [ $usrnum -le 0 ]
+then
+	echo "Invalid input, there must be atleast 1 entry"
+	exit 1
+fi 
 echo "Entered Elements: ${arr[*]}"
 read -p 'Enter the number to be searched: ' key
 bin_search $usrnum $key
