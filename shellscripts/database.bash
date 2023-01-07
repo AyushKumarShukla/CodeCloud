@@ -15,16 +15,19 @@ insert_rec()
 view_rec()
 {
 	read -p 'Enter the Employee ID: ' eid
-	printf "%-10s %-20s %-20s %-10s\n" "ID" "NAME" "DESIGNATION" "SALARY(In LPA)"
-	grep "$eid" "$1"
+	grep -q "$eid" "$1"
 	if [ $? -ne 0 ]
 	then
 		echo "No entry with Employee ID $eid"
+	else
+		printf "%-10s %-20s %-20s %-10s\n" "ID" "NAME" "DESIGNATION" "SALARY(In LPA)"
 	fi
+	grep "$eid" "$1"
+
 }
 
 echo "Welcome to the employee database:"
-read -p 'Enter a filename to hold the database: ' database
+read -p 'Enter the filename of database file: ' database
 dir=`pwd`
 if test -e "$database"
 then
