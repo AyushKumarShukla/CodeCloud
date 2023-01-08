@@ -35,7 +35,6 @@ pascal()
 				k=$((k+1))
 			fi
 		done
-		echo
 	done
 }
 
@@ -52,14 +51,24 @@ pattern()
 			abs_diff=`echo "scale=0;sqrt($diff_sq)" | bc -l`
 			if ([ $abs_diff -eq 0 ] || [ $(($abs_diff % 2)) -eq 0 ]) && ([ $j -ge $(($3 - $i )) ] && [ $j -le $(($3 + $i)) ]);
 			then
-				echo -n "${arr[$l]}"
+				echo -n -e "${arr[$l]}"
 				l=$((l+1))
 			else
-				echo -n " "
+				echo -n -e " "
 			fi
 		done
 		echo
 	done
+	if [ $((row % 2)) -eq 0 ]
+	then
+		#l=$((l+1))
+		for((j=0;j<$((row * 2));j++))
+		do
+			echo -n "${arr[$l]} "
+			l=$((l+1))
+		done
+	echo
+	fi
 }
 
 echo -n "Enter the number of lines needed in the pattern: "
