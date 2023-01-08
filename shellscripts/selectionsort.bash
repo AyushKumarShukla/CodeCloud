@@ -1,38 +1,32 @@
-echo "To sort a list of integers using selection sort"
-read -p 'Enter the number of integers needed in the list' len
-
-get_array()
-{
-	for((i=0;i<$1;i++));
-	do
-		read num;
-		arr[i]=$num
-	done		
-}
-
 selection_sort()
 {
+	k=1
 	for((i=0;i<$(($1-1));i++))
 	do
-		minloc=i
-		for((j=1;j<$1;j++))
+		minloc=$i
+		for((j=$((i+1));j<$1;j++))
 		do
-			if [ ${arr[$j]} -lt ${arr[$minloc]} ]
+			if [ "${arr[$j]}" -lt "${arr[$minloc]}" ]
 			then
-				min=j;
+				minloc="$j"
 			fi
 		done
-		temp=${arr[$minloc]}
-		arr[$minloc]=${arr[$min]}
-		arr[$min]=$temp		
+		if [ "$minloc" -ne "$i" ]
+		then
+			temp="${arr[$i]}"
+			arr[$i]="${arr[$minloc]}"
+			arr[$minloc]="$temp"
+		fi
+		echo "Pass $k: ${arr[@]}"
+		k=$((k+1))
 	done
 }
-
-
-echo "Enter $len integers in the list"
-get_array $len
+echo "To sort a list of integers using selection sort"
+echo "Enter the list of integers"
+read -a arr
 echo -n "Entered Elements: "
 echo "${arr[*]}"
+len=${#arr[@]}
 selection_sort $len
 echo -n "Sorted array: "
 echo "${arr[*]}"
