@@ -84,9 +84,6 @@ int main(void)
 	printf("Enter the number of terms: ");
 	scanf("%d",&terms);
 
-	printf("Enter the value of x to find f(x): ");
-	scanf("%f",&val);
-
 	printf("Enter the values of x: ");
 	getarray(mat,terms,0);
 
@@ -98,6 +95,9 @@ int main(void)
 
 	printf("Entered Values of y: \n");
 	disparray(mat,terms,terms+1);
+
+	printf("Enter the value of x to find f(x): ");
+	scanf("%f",&val);
 
 	createtable(mat,terms);
 	printf("Forward Difference Table: \n");
