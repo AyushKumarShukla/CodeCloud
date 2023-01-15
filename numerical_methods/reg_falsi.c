@@ -16,6 +16,16 @@ void range_input(double* lowl, double* uppl)
 	printf("Upper Limit:");
 	scanf("%lf",uppl);
 }
+void validate(double lowl, double uppl)
+{
+	double check;
+	check=func(lowl)*func(uppl);
+	if(check>0)
+	{
+		printf("No root exists between %lf and %lf\n",lowl,uppl);
+		exit(1);
+	}
+}
 
 double reg_falsi(double lowl,double uppl)
 {
@@ -57,6 +67,7 @@ int main(void)
 	printf("To find the root of the equation sinx + cosx - 1 = 0 using Regula Falsi method:\n");
 	printf("Enter a small range of values: ");
 	range_input(&lowl,&uppl);
+	validate(lowl,uppl);
 	//printf("%lf%lf",lowl,uppl);
 	root=reg_falsi(lowl,uppl);
 	printf("\nRoot is %lf\n",root);
