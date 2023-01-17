@@ -4,12 +4,14 @@
 
 double func(double x)
 {
-    return (pow(x,3)-x-0.1);
+    //return (pow(x,3)-x-0.1);
+    return (3*x-cos(x)-1);
 }
 
 double func_der(double x)
 {
-    return (3*pow(x,2)-1);
+    //return (3*pow(x,2)-1);
+    return (3+sin(x));
 }
 
 double Newton_Raphson(double usr_x)
@@ -34,7 +36,7 @@ void validate(double lowl, double uppl)
 {
 	if(func(lowl)*func(uppl)>=0)
 	{
-		printf("No root exists between %lf and %lf",lowl,uppl);
+		printf("No root exists between %lf and %lf for the given function \n",lowl,uppl);
 		exit(1);
 	}
 }
@@ -42,7 +44,8 @@ void validate(double lowl, double uppl)
 int main(void)
 {
     double lowl,uppl,res;
-    printf("To find the roots of the equation: \n");
+    //printf("To find the roots of the equation x^3-x-0.1 = 0 using Newton-Raphson Method : \n");
+    printf("To find the roots of the equation 3x-cosx-1 = 0 using Newton-Raphson Method: \n"); 
     printf("Enter a small range of values: \n");
     printf("Enter Lower Limit: ");
     scanf("%lf",&lowl);
@@ -50,6 +53,6 @@ int main(void)
     scanf("%lf",&uppl);
     validate(lowl,uppl);
     res=Newton_Raphson(lowl);
-    printf("\nThe Root of the given equation between %lf and %lf is:%lf\n",lowl,uppl,res);
+    printf("\nThe Root of the given equation between %lf and %lf is: %lf\n",lowl,uppl,res);
     return 0;
 }
