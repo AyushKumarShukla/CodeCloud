@@ -1,85 +1,110 @@
 /*C program to implement Gauss Jacobi method*/
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 
-void matinit(float(*matrix)[20],int row,int col)
+void matinit(float(*matrix)[20],int ord)
 {
     int i,j;
-    for(i=0;i<row;i++)
-        for(j=0;j<col;j++)
+    for(i=0;i<ord;i++)
+        for(j=0;j<(ord+1);j++)
             scanf("%f",&matrix[i][j]);
 }
 
-void matdisp(float(*matrix)[20],int row,int col)
+void matdisp(float(*matrix)[20],int ord)
 {
     int i,j;
-    for(i=0;i<row;i++)
+    for(i=0;i<ord;i++)
     {
-        for(j=0;j<col;j++)
-            printf("%.2f ",matrix[i][j]);
+        for(j=0;j<(ord+1);j++)
+            printf("%.3f ",matrix[i][j]);
         printf("\n");
     }
 }
 
-void init_var_arr(float(*matrix)[20],float *arr,int row,int col)
+void init_var_arr(float(*matrix)[20],float *arr,int ord)
 {
     int i;
-    for(i=0;i<row;i++)
-        arr[i]=((matrix[i][col-1])/(matrix[i][i]));
+    for(i=0;i<ord;i++)
+        arr[i]=((matrix[i][ord])/(matrix[i][i]));
 }
 
-void disparr(float *arr,int row)
+void disparr(float *arr,int ord)
 {
     int i;
-    for(i=0;i<row;i++)
-        printf("%.20f ",arr[i]);
+    for(i=0;i<ord;i++)
+        printf("X%d = %.3f\n",i,arr[i]);
 }
-
-void Gauss_Jacobi(float (*matrix)[20],int row,int col)
+void Gauss_Jacobi(float (*matrix)[20],int ord)
 {
-    int limit,count=0,i,j;
-    float *var_arr,temp=0;
-
-    var_arr=(float*)malloc((row)*sizeof(float));
-    init_var_arr(matrix,var_arr,row,col);
-
-    disparr(var_arr,row);
+    int limit,count=0,i,j,k;
+    float *var_arr,*var_arr_new,temp=0;
+    var_arr=(float*)malloc((ord)*sizeof(float));
+    var_arr_new=(float*)malloc((ord)*sizeof(float));
+    init_var_arr(matrix,var_arr,ord);
+    printf("\nInitial Guess Values are: \n");		 
+    disparr(var_arr,ord);//displays the initial values of var_arr
     printf("\nEnter the number of iterations: ");
     scanf("%d",&limit);
 
     while(count!=limit)
     {
-        for(i=0;i<row;i++)
+        for(i=0;i<ord;i++)
         {
-            for(j=0;j<row;j++)
+            for(j=0;j<ord;j++)
             {
                 if(j==i)
                     continue;
                 else
                     temp=temp+(matrix[i][j]*var_arr[j]);
             }
-            temp=((matrix[i][col-1])-(temp))/matrix[i][i];
-            var_arr[i]=temp;
+            temp=((matrix[i][ord])-(temp))/matrix[i][i];
+            var_arr_new[i]=temp;
             temp=0;
         }
         count++;
+        for(k=0;k<ord;k++)
+        	var_arr[k]=var_arr_new[k];
     }
-    printf("The Approximated Values Upto A Order Of %d Are: ",limit);
-    disparr(var_arr,row);
+    printf("The Approximated Values Upto %d Iterations Are: \n",limit);
+    disparr(var_arr,ord);
+    printf("\n");
+}
+void check_dd(float (*arr)[20], int ord)
+{
+	int i,j;
+	float sum;
+	for(i=0;i<ord;i++)
+	{
+		sum=0;
+		for(j=0;j<ord;j++)
+		{
+			if(i==j)
+				continue;
+			sum=sum+fabs(arr[i][j]);
+		}
+		if(fabs(sum)>fabs(arr[i][i]))
+		{
+			printf("The given system of equations is not diagonally dominant\n");
+			printf("Please enter a diagonally dominant system of equations\n");
+			exit(1);
+		}
+	}
 }
 
 int main(void)
 {
-    int row,col;
+    int ord;
     float matrix[20][20];
-    printf("Enter the number of rows: ");
-    scanf("%d",&row);
-    printf("Enter the number of columns: ");
-    scanf("%d",&col);
-    printf("\nEnter %d elements of the matrix:\n",row*col);
-    matinit(matrix,row,col);
-    printf("\n%d elements of the matrix are: \n",row*col);
-    matdisp(matrix,row,col);
-    Gauss_Jacobi(matrix,row,col);
-
+    printf("To solve a system of linear equations by Gauss-Jacobi Iteration Method:\n");
+    printf("Enter the number of equations: ");
+    scanf("%d",&ord);
+    printf("\nEnter %d elements of the augmented matrix:\n",ord*(ord+1));
+    matinit(matrix,ord);
+    check_dd(matrix,ord);
+    printf("\n%d elements of the matrix are: \n",ord*(ord+1));
+    matdisp(matrix,ord);
+    Gauss_Jacobi(matrix,ord);
+    return 0;
+    
 }
