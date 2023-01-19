@@ -4,7 +4,7 @@
 
 float f(float x, float y)
 {
-    return x-y;
+    return x*y;
 
 }
 void secondorder(float x, float y, float step, float finx)
@@ -43,6 +43,7 @@ int main()
 {
     float initx, inity, step, finx;
     int ch;
+    printf("To solve the differential equation dy/dx = xy, using Runge-Kutta Methods:\n");
     printf("Enter initial values of x and y: ");
     scanf("%f %f", &initx, &inity);
     printf("Enter final value of x: ");
