@@ -35,6 +35,12 @@ int main(void)
 	printf("To perform interpolation using Lagrange's Interpolation Formula\n");
 	printf("Enter the number of given datapoints: ");
 	scanf("%d",&num);
+	//input validation
+	if(num<=0)
+	{
+		printf("Invalid Input, Enter a valid number of datapoints\n");
+		exit(1);
+	}
 	printf("Enter the values of x: ");
 	getarray(x,num);
 	printf("Enter the values of y: ");
