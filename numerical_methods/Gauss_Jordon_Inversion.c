@@ -38,8 +38,8 @@ void dividerow(float(*mat)[20],int row,int col,float num)
     for(j=0;j<col;j++)
     {
         mat[row][j]=(mat[row][j]/num);
-        printf("After Dividing Row: \n");
-        dispmatrix(mat,2,4);
+        //printf("After Dividing Row: \n");
+        //dispmatrix(mat,2,4);
     }
 }
 void inverse(float(*mat)[20],int row,int col) 
@@ -59,20 +59,36 @@ void inverse(float(*mat)[20],int row,int col)
                     break;
                 else
                 {
-                    printf("\nChosen Multiplier: %f\n",multiplier);
+                    //printf("\nChosen Multiplier: %f\n",multiplier);
                     mat[j][k]=mat[j][k]-(multiplier*mat[i][k]); //performing row operation on all values of the row
-                    printf("Value:%f\n",mat[j][k]);
+                    //printf("Value:%f\n",mat[j][k]);
                 }
             }
         }
     }
 }
 
+void mult(float(*mat)[20],float *rhv,int ord)
+{
+	int i,j;
+	float res=0;
+ 	for(i=0;i<ord;i++)
+	{
+ 		for(j=ord;j<2*ord;j++)
+ 		{
+			res=res+(mat[i][j]*rhv[j-ord]);
+		}
+		printf("X%d = %f\n",i,res);
+ 		res=0;
+	}
+}
+
 int main(void)
 {
-    float mat[20][20];
+    float mat[20][20],rhv[20];
     memset(mat,0,sizeof(mat));
-    int ord,row_aug,col_aug;
+    int ord,row_aug,col_aug,i;
+    printf("To solve a given set of linear equations using Gauss-Jordon Inversion Method:\n");
     printf("Enter the order of the coefficient matrix: ");
     scanf("%d",&ord);
     row_aug=ord; // no of rows in augmented matrix
@@ -85,8 +101,13 @@ int main(void)
     printf("Generated Augmented Matrix:\n");
     dispmatrix(mat,row_aug,col_aug);
     inverse(mat,row_aug,col_aug);
-    printf("Inverse:\n");
+    printf("Inverse Augmented Matrix:\n");
     dispmatrix(mat,row_aug,col_aug);
+    printf("Enter %d elements of the right hand vector: ",ord);
+    for(i=0;i<ord;i++)
+	scanf("%f",&rhv[i]);
+    printf("Solution: \n");
+    mult(mat,rhv,ord);
     return 0;
 
 }
