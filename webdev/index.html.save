@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hare Krishna</title>
+<meta name="description" content="My first webpage">
+<meta name="keywords" content="html,css,javascript">
+<meta name="robots" content="INDEX,FOLLOW">
+<link rel="stylesheet" href="design.css">
+<!-- attaching script and logic -->
+<script src="logic.js"></script>
+</head>
+<body>
+</body>
+</html>
