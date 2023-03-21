@@ -37,10 +37,10 @@ void disparr(float *arr,int ord)
 }
 void Gauss_Jacobi(float (*matrix)[20],int ord)
 {
-    int limit,count=0,i,j,k;
-    float *var_arr,*var_arr_new,temp=0;
+    int limit,count=0,i,j;
+    float *var_arr,temp=0;
+
     var_arr=(float*)malloc((ord)*sizeof(float));
-    var_arr_new=(float*)malloc((ord)*sizeof(float));
     init_var_arr(matrix,var_arr,ord);
     printf("\nInitial Guess Values are: \n");		 
     disparr(var_arr,ord);//displays the initial values of var_arr
@@ -59,12 +59,10 @@ void Gauss_Jacobi(float (*matrix)[20],int ord)
                     temp=temp+(matrix[i][j]*var_arr[j]);
             }
             temp=((matrix[i][ord])-(temp))/matrix[i][i];
-            var_arr_new[i]=temp;
+            var_arr[i]=temp;
             temp=0;
         }
         count++;
-        for(k=0;k<ord;k++)
-        	var_arr[k]=var_arr_new[k];
     }
     printf("The Approximated Values Upto %d Iterations Are: \n",limit);
     disparr(var_arr,ord);
