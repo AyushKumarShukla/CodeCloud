@@ -1,0 +1,18 @@
+/*class and element selector grouping*/
+.darkmode,h1{
+		color:skyblue;
+		font-family:monospace;	
+}
+/*class selector*/
+.darkmode{
+		font-family:"arial";
+}
+/*element selector*/
+h1{
+	
+	border:2px solid red
+}
+/*element selector*/
+body{
+	background-color:black;
+}
