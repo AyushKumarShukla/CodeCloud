@@ -7,9 +7,11 @@
 void init_mat(int(*mat)[20],int ord)
 {
 	int i,j;
-	for(i=0;i<ord;i++)
-		for(j=0;j<ord;j++)
+	for(i=0;i<20;i++)
+		for(j=0;j<20;j++)
 			if(i==j)
+				mat[i][j]=0;
+			else if(i!=j && i>ord)
 				mat[i][j]=0;
 			else
 				mat[i][j]=999;
@@ -53,8 +55,8 @@ int main(void)
 	scanf("%d",&v);
 	printf("Enter the number of edges  in the graph: ");
 	scanf("%d",&e);
+	memset(mat,0,sizeof(mat));
 	init_mat(mat,v);	
-	memset(mat,0,sizeof(int));
 	printf("Enter the adjacency matrix: \n");
 	get_mat(mat,e,v);
 	printf("Entered adjacency matrix: \n");
