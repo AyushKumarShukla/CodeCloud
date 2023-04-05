@@ -1,0 +1,17 @@
+
+body
+{
+	background-color:black;
+}
+#wlcmhead
+{
+	color:white;
+	font-family: 'Playfair Display', serif;
+	font-size:100px;
+	font-style:oblique;
+}
+#brag,p
+{
+	color:cyan;
+	font-weight:bold;
+}
