@@ -38,7 +38,7 @@ void displist(node* start)
 {
 	node* temp;
 	temp=start;
-	printf("\n");
+	//printf("\n");
 	while(temp!=NULL)
 	{
 		printf("%d\t",temp->data);
@@ -47,20 +47,40 @@ void displist(node* start)
 	printf("\n");
 }
 
+void disp_adjlist(node** adj,int v)
+{
+	int i;
+	for(i=0;i<v;i++)
+	{
+		printf("V%d: ",i);
+		displist(adj[i]);
+	}
+}
+
+void get_adjlist(node **adj,int v)
+{
+	int i,temp,j,vnum;
+	for(i=0;i<v;i++)
+	{
+		printf("Enter the number of vertices connected to V%d: ",i);
+		scanf("%d",&temp);
+		for(j=0;j<temp;j++)
+		{
+			printf("Enter the vertex number : ");
+			scanf("%d",&vnum);
+			adj[i]=insert_at_end(adj[i],vnum);
+		}
+	}
+}
+
 int main(void)
 {
-	int item,num,i;
-	node* start=NULL;
-	printf("ENTER THE NUMBER OF ITEMS : ");
-	scanf("%d",&num);
-	for(i=0;i<num;i++)
-	{
-		printf("To insert at end, enter the item to be inserted: ");
-		scanf("%d",&item);
-		fflush(stdin);
-		start=insert_at_end(start,item);
-	}
-	displist(start);
+	int item,v,i;
+	node* adj[20];
+	printf("Enter the number of vertices in the graph : ");
+	scanf("%d",&v);
+	get_adjlist(adj,v);
+	disp_adjlist(adj,v);
 	return 0;
 }
 
