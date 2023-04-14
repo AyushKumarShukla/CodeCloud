@@ -75,11 +75,47 @@ void get_adjlist(node **adj,int v)
 node* init_source(int vs)
 {
 	node *s;
-	s=createnode(0);
+	s=createnode(vs);
+	s->data=vs;
 	s->color=1;
 	s->d=0;
 	s->pi=0;
 	return s;	
+}
+
+node* delist(node *q)
+{
+	node* temp;
+	temp=q->next;
+	free(q);
+	return temp;
+}
+
+void bfs(node **adj,int v,node *s)
+{
+	node *q=NULL,*temp,*trav;
+	q=insert_at_end(q,s->data);
+	temp=q;
+	//extracts breadth first elements from the FIFO Queue q
+	while(temp!=NULL)
+	{
+		q=delist(q);	
+		trav=adj[temp->data];
+		//traverses the adjacency list of a vertex changing the attributes
+		while(trav!=NULL)
+		{
+			if(trav->color==0)
+			{
+				trav->color=1;
+				trav->d=temp->d + 1;
+				trav->pi=temp->data;
+				insert_at_end(q,trav->data);
+			}
+				trav=trav->next;
+		}
+		temp->color=2;
+		temp=q;
+	}
 }
 
 int main(void)
@@ -99,6 +135,9 @@ int main(void)
 	disp_adjlist(adj,v);
 	printf("\nSource attributes: ");
 	printf("%d %d %d %d\n",s->data,s->color,s->d,s->pi);
+	bfs(adj,v,s);
+	printf("After applying breadth first search: \n");
+	disp_adjlist(adj,v);
 	return 0;
 }
 
