@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ALIGNMENT</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap" rel="stylesheet">
+	<style>
+	*{
+		box-sizing:border-box;
+	}
+	body{
+		background-color:#36353a;
+	}
+	.container{
+		border: 4px solid black;
+		margin: auto;
+		padding: 17px;
+		width:700px;
+		height:500px;
+		background-color:#462626;
+	}
+	.box{
+		border:4px solid rgb(106 37 37);
+		padding: 5px;
+		margin: 4px;
+		text-align:center;
+		font-family: 'Oxygen', sans-serif;
+	}
+	#b1{
+		float:left;
+		width:317px;
+		height:450px;
+		background-color:black;
+	}
+	#b2{
+		float:right;
+		width:323px;
+		height:450px;
+		background-color:white;
+	}
+	.leftd{
+		color:white;
+		font-style:bold;
+	}
+	.rightd{
+		color:black;
+		font-style:bold;
+	}
+	.btn{
+		font-style:bold;
+		margin:44px;
+		padding:3px;
+		font-size:22px;
+		border:none;
+		border-radius:5px;
+		font-family: 'Chivo Mono', monospace;
+	}
+	#btn1{
+		background-color:white;
+		color:black;
+	}
+	#btn2{
+		background-color:black;
+		color:white;
+	}
+	#btn1:hover{  /*pseudoselectors*/
+		background-color:black;
+		color:white;
+	}
+	#btn2:hover{
+		background-color:white;
+		color:black;
+	}
+	
+	</style>
+</head>
+<body>
+	<div class="container" id="maincontainer">
+		<div class="box" id="b1">
+			<h2 class="leftd">THIS IS LEFT</h2>
+			<p class="leftd">People say that he is bad,which is somewhat true... he is good at heart but does good of the needy people by punishing bad guys in the worst possible manner.He loots the rich and makes them suffer to provide to the people, his philosphy is that the powerful people will never let the innocent needy rise up and to bring down powerfull people, softness wont work</p>
+			<button class="btn" id="btn1">IS LEFT RIGHT?</button>
+		</div>
+		<div  class="box" id="b2">
+			<h2 class="rightd">THIS IS RIGHT</h2>
+			<p class="rightd">He is the hero of the society, the maintainer of law and the punisher of bad guys.Anyone who goes against the law and hurts other people get brutally punished by him.He never lets anyone make anyone else suffer, his philosophy is that crime should be uprooted completely and nobody should torture anyone else for their own gratifications and pleasure..yes he is after left too...</p>
+			<button class="btn" id="btn2">OR IS RIGHT LEFT?</button>
+		</div>
+	</div>
+</body>
+</html>
