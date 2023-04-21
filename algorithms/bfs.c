@@ -122,6 +122,23 @@ void get_vlist(node** vertices,int v,int vs)
 	}
 
 }
+
+void free_lists(node** adjlist,node** vertices,int v)
+{
+	node* temp1,*temp2;
+	int i;
+	for(i=0;i<v;i++)
+	{
+		free(vertices[i]);
+		temp1=adjlist[i];
+		while(temp1->next!=NULL)
+		{
+			temp2=temp1->next;
+			free(temp1);
+			temp1=temp2;
+		}
+	}
+}
 int main(void)
 {
 	int item,v,i,vs;
@@ -131,9 +148,9 @@ int main(void)
 	printf("To implement breadth first search in a graph:\n");
 	printf("Enter the number of vertices in the simple graph : ");
 	scanf("%d",&v);
-	get_vlist(vertices,v,vs);
 	printf("Enter the source vertex number:");
 	scanf("%d",&vs);
+	get_vlist(vertices,v,vs);
 	get_adjlist(adj,v);
 	printf("The adjacency list representation of G is :\n");
 	disp_adjlist(adj,v);
@@ -143,6 +160,7 @@ int main(void)
 	disp_adjlist(adj,v);
 	printf("Vertices List\n");
 	disp_adjlist(vertices,v);
+	free_lists(adj,vertices,v);
 	return 0;
 }
 
