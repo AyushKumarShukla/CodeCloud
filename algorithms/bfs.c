@@ -81,9 +81,9 @@ node* delist(node *q)
 	return temp;
 }
 
-void bfs(node **adj,int v,int vs)
+void bfs(node **adj,node **vertices,int v,int vs)
 {
-	int current;
+	int current,index;
 	node *queue=NULL,*trav=NULL;
 	//initialising source
 	queue=insert_at_end(queue,vs,1,0,-1);
@@ -93,37 +93,56 @@ void bfs(node **adj,int v,int vs)
 		trav=adj[current];
 		while(trav!=NULL)
 		{
-			if(trav->color==0)
+			index=trav->data;
+			if(vertices[index]->color==0)
 			{
-				trav->color=1;
-				trav->d= (queue->d) + 1;
-				trav->pi=queue->data;
+				vertices[index]->color=1;
+				vertices[index]->d=vertices[queue->data]->d + 1;
+				vertices[index]->pi=vertices[queue->data]->data;
 				//here,there should be a defined condition of when an element must be enqueued.
-				queue=insert_at_end(queue,trav->data,trav->color,trav->d,trav->pi);
+				queue=insert_at_end(queue,index,trav->color,trav->d,trav->pi);
 			}
 				trav=trav->next;
 		}
+		vertices[queue->data]->color=2;
 		queue=delist(queue);
 
 	}
 }
 
+void get_vlist(node** vertices,int v,int vs)
+{
+	int i;
+	for(i=0;i<v;i++)
+	{
+		if(i==vs)
+			vertices[vs]=insert_at_end(vertices[vs],vs,1,0,-1);
+		else
+			vertices[i]=insert_at_end(vertices[i],i,0,999,-1);
+	}
+
+}
 int main(void)
 {
 	int item,v,i,vs;
 	node *adj[20];
+	node *vertices[20];
 	memset(adj,0,sizeof(adj));
 	printf("To implement breadth first search in a graph:\n");
 	printf("Enter the number of vertices in the simple graph : ");
 	scanf("%d",&v);
+	get_vlist(vertices,v,vs);
 	printf("Enter the source vertex number:");
 	scanf("%d",&vs);
 	get_adjlist(adj,v);
 	printf("The adjacency list representation of G is :\n");
 	disp_adjlist(adj,v);
-	bfs(adj,v,vs);
+	bfs(adj,vertices,v,vs);
 	printf("After applying breadth first search: \n");
+	printf("Adjacency List\n");
 	disp_adjlist(adj,v);
+	printf("Vertices List\n");
+	disp_adjlist(vertices,v);
 	return 0;
 }
 
