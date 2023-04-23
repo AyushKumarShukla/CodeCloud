@@ -2,7 +2,12 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-
+#define DEFCOL 0
+#define DEFD 999
+#define DEFPI -1
+#define SRCCOL 1
+#define SRCD 0
+#define VISITED 2
 typedef struct node
 {
 	int data;
@@ -12,7 +17,6 @@ typedef struct node
 	struct node *next;
 }node;
 
-//this function initialises all nodes on demand
 node* createnode(int item,int col,int dist,int pre)
 {
 	node *temp=(node*)malloc(sizeof(node));
@@ -68,11 +72,11 @@ void get_adjlist(node **adj,int v)
 		{
 			printf("Enter the vertex number : ");
 			scanf("%d",&vnum);
-			adj[i]=insert_at_end(adj[i],vnum,0,999,-1);
+			adj[i]=insert_at_end(adj[i],vnum,DEFCOL,DEFD,DEFPI);
 		}
 	}
 }
-
+//to pop items off the queue
 node* delist(node *q)
 {
 	node* temp;
@@ -82,13 +86,15 @@ node* delist(node *q)
 	free(q);
 	return temp;
 }
-
+//on paper, the nodes are global, changes made to one node are available to all other nodes, but in this 
+//program,the adjacency list does not have the ability to sync changes made to a particular node number to all
+//instances of that node in the adjacency list, therefore the extra list 'vertices' has been used to refer and
+//update values of particular nodes.
 void bfs(node **adj,node **vertices,int v,int vs)
 {
 	int current,index;
 	node *queue=NULL,*trav=NULL;
-	//initialising source
-	queue=insert_at_end(queue,vs,1,0,-1);
+	queue=insert_at_end(queue,vs,SRCCOL,SRCD,DEFPI);
 	while(queue!=NULL)
 	{
 	        current=queue->data;
@@ -101,26 +107,25 @@ void bfs(node **adj,node **vertices,int v,int vs)
 				vertices[index]->color=1;
 				vertices[index]->d=vertices[queue->data]->d + 1;
 				vertices[index]->pi=vertices[queue->data]->data;
-				//here,there should be a defined condition of when an element must be enqueued.
 				queue=insert_at_end(queue,index,trav->color,trav->d,trav->pi);
 			}
 				trav=trav->next;
 		}
-		vertices[queue->data]->color=2;
+		vertices[queue->data]->color=VISITED;
 		queue=delist(queue);
 
 	}
 }
-
+//this creates an array of node pointers with each index holding a node with number=index no, this list holds the intial values of all nodes and is updated as the bfs progresses,this is the result list
 void get_vlist(node** vertices,int v,int vs)
 {
 	int i;
 	for(i=0;i<v;i++)
 	{
 		if(i==vs)
-			vertices[vs]=insert_at_end(vertices[vs],vs,1,0,-1);
+			vertices[vs]=insert_at_end(vertices[vs],vs,SRCCOL,SRCD,DEFPI);
 		else
-			vertices[i]=insert_at_end(vertices[i],i,0,999,-1);
+			vertices[i]=insert_at_end(vertices[i],i,DEFCOL,DEFD,DEFPI);
 	}
 
 }
@@ -164,17 +169,28 @@ int main(void)
 	printf("To implement breadth first search in a graph:\n");
 	printf("Enter the number of vertices in the simple graph : ");
 	scanf("%d",&v);
+	if(v<1)
+	{
+		printf("Number of vertices cannot be less than 1\n");
+		exit(1);
+	}
 	printf("Enter the source vertex number:");
 	scanf("%d",&vs);
+	if(vs<0 || vs > v)
+	{
+		printf("Invalid source vertex\n");
+		exit(2);
+	}
 	get_vlist(vertices,v,vs);
 	get_adjlist(adj,v);
 	printf("The adjacency list representation of G is :\n");
 	disp_adjlist(adj,v);
 	bfs(adj,vertices,v,vs);
-	printf("After applying breadth first search: \n");
 	printf("Adjacency List\n");
 	disp_adjlist(adj,v);
-	printf("Vertices List\n");
+	printf("After applying breadth first search: \n");
+	printf("Vertices Attribute List Is:\n");
+	printf("VNUM COL DIST PRE\n");
 	disp_adjlist(vertices,v);
 	free_lists(adj,vertices,v);
 	return 0;
