@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ALIGNMENT</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap" rel="stylesheet">
+	<style>
+	*{
+		box-sizing:border-box;
+	}
+	.navbar{
+		background-color:#6e3b3b;
+		border-radius:20px;
+	}
+	.navbar ul{ /*targets entire list in navbar*/
+		overflow:auto;
+	}
+	.navbar li{ /*targets list item in navbar*/
+		float:left;
+		list-style:none;
+		padding:5px 11px;
+		font-family:sans-serif;
+	}
+	.navbar li:hover{
+		background-color:#503131;
+	}
+	.navbar li a{ /*targets the anchor tags*/
+		color:white;
+		text-decoration:none;
+	}
+	#search{
+		border:2px solid black;
+		border-radius:5px;
+		float:right;
+		margin:5px 140px;
+	}
+	</style>
+</head>
+<body>
+	<nav class="navbar">
+		<ul>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Vision</a></li>
+			<li><a href="#">Contact Us</a></li>
+			<div>
+				<input type="text" name="searchbox" id="search" placeholder="SEARCH WEBSITE">
+			</div>
+		</ul>
+	</nav>
+
+</body>
+</html>
