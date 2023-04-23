@@ -26,7 +26,7 @@ node* createnode(int item,int col,int dist,int pre)
 
 node* insert_at_end(node* start, int item,int col,int dist,int pre)
 {
-	node *temp, *ptr;
+	node *temp=NULL, *ptr=NULL;
 	temp=createnode(item,col,dist,pre);
 	if(start==NULL)
 		start=temp;
@@ -76,6 +76,8 @@ void get_adjlist(node **adj,int v)
 node* delist(node *q)
 {
 	node* temp;
+	if(q==NULL)
+		return NULL;
 	temp=q->next;
 	free(q);
 	return temp;
@@ -125,25 +127,39 @@ void get_vlist(node** vertices,int v,int vs)
 
 void free_lists(node** adjlist,node** vertices,int v)
 {
-	node* temp1,*temp2;
+	node* temp1=NULL;
+	node* temp2=NULL;
 	int i;
 	for(i=0;i<v;i++)
 	{
 		free(vertices[i]);
 		temp1=adjlist[i];
-		while(temp1->next!=NULL)
+		do
 		{
-			temp2=temp1->next;
-			free(temp1);
-			temp1=temp2;
-		}
+			if(temp1!=NULL)
+			{
+				temp2=temp1->next;
+				free(temp1);
+				temp1=temp2;
+			}
+		}while(temp1!=NULL);
 	}
+}
+
+void init_list_to_null(node** list,int num)
+{
+	int i;
+	for(i=0;i<num;i++)
+		list[i]=NULL;
+
 }
 int main(void)
 {
 	int item,v,i,vs;
 	node *adj[20];
 	node *vertices[20];
+	init_list_to_null(adj,20);
+	init_list_to_null(vertices,20);
 	memset(adj,0,sizeof(adj));
 	printf("To implement breadth first search in a graph:\n");
 	printf("Enter the number of vertices in the simple graph : ");
