@@ -54,7 +54,7 @@ void disp_adjlist(node** adj,int v)
 		temp=adj[i];
 		while(temp!=NULL)
 		{
-			printf("%d %d %d %d\t",temp->data,temp->color,temp->d,temp->pi);
+			printf("%d  %d  %d  %d",temp->data,temp->color,temp->d,temp->pi);
 			temp=temp->next;
 		}
 		printf("\n");
@@ -200,6 +200,7 @@ int main(void)
 	get_adjlist(adj,v);
 	printf("The adjacency list representation of G is :\n");
 	disp_adjlist(adj,v);
+	printf("DFS TREE:");
 	dfs(adj,vertices,v,vs);
 	printf("\nAfter applying depth first search: \n");
 	printf("Vertices Attribute List Is:\n");
