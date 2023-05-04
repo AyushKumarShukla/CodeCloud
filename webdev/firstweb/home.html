@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Explore Home</title>
+	<style>
+		body{
+			background-color:black;
+		}
+		*{
+			box-sizing:border-box;
+		}
+		.box{
+			width:200px;
+			height:200px;
+			border:2px solid white;
+			margin:5px;
+			padding:2px;
+			display:inline-block;
+			text-align:center;
+			background-color:#507c9b;
+		}
+		.box a{
+			display:block;
+			height:80px;
+			margin:60px auto;
+			text-decoration:none;
+			color:white;
+			font-size:19px;
+			font-style:bold;
+		}
+		.container{
+			width:500px;
+			margin:200px auto;
+		}
+		#up,#down{
+			transition-property:transform;
+			transition-duration:0.5s;
+			transition-timing-function:ease;
+			transition-delay:0s;
+		}
+		#up:hover{
+			background-color:#3a50eb;
+			transform:translateY(-10px);
+		}
+		#down:hover{
+			background-color:#3a50eb;
+			transform:translateY(10px);
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box" id="up">
+			<a href="#">DATA STRUCTURES</a>
+		</div>
+		<div class="box" id="up">
+			<a href="#">ALGORITHMS</a>
+		</div>
+		<div class="box" id="down">
+			<a href="#">LINUX</a>
+		</div>
+		<div class="box" id="down">
+			<a href="#">DIGITAL LOGIC</a>
+		</div>
+	</div>
+</body>
+</html>

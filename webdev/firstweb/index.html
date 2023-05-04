@@ -100,15 +100,12 @@
 			background-color:black;
 			color:white;
 		}
-		#weblogodiv{
-			padding:0px;
-			position:absolute;
-			right:250px;
-			top:80px;
-		}
 		#weblogo{
-			width:240px;
-			height:240px;
+			position:absolute;
+			top:100px;
+			right:50px;
+			width:120px;
+			height:120px;
 			border-radius:10px;
 		}
 		.navbar li:hover{
@@ -120,8 +117,8 @@
 <body>
 		<nav class="navbar">
 			<ul>
-				<li> <a href="#">Home</a> </li>
-				<li> <a href="#">Algorithms</a> </li>
+				<li> <a href="/home.html">Home</a> </li>
+				<li> <a href="#">Learn</a> </li>
 				<li> <a href="#">Contact Us</a> </li>
 				<li id="logo1"> <a href="https://www.youtube.com/channel/UC7RzeUPBUGhYB0qz5d0P-Fg"><img src="/ytlogo.png" id="ytlogo"></a> </li>
 			</ul>
@@ -131,9 +128,7 @@
 			<h2>Welcome To AlgoRhythms</h2>
 		</div>
 
-		<div id="weblogodiv">
 			<img src="/weblogo.png" alt="failed to load logo" id="weblogo">
-		</div>
 		<div class="container" id="signup">
 			<h3 id="title2">Sign Up</h3>
 			<form action="backend.php">
@@ -143,7 +138,7 @@
 				</div>
 				<div class="userdata">
 					<label for="email">E-mail:</label>
-					<input type="text" name="emain">
+					<input type="text" name="email">
 				<div>
 				<button id="btn">Register</button>
 			</form>
