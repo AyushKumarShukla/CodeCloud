@@ -54,7 +54,7 @@ void disp_adjlist(node** adj,int v)
 		temp=adj[i];
 		while(temp!=NULL)
 		{
-			printf("%d  %d  %d  %d",temp->data,temp->color,temp->d,temp->pi);
+			printf("%d  %d  %d  %d  ",temp->data,temp->color,temp->d,temp->pi);
 			temp=temp->next;
 		}
 		printf("\n");
@@ -108,7 +108,7 @@ int pop(node **stack)  //using a pointer to a pointer to be able to set start of
 //update values of particular nodes.
 void dfs(node **adj,node **vertices,int v,int vs)
 {
-	int current,index;
+	int current,index,vnode;
 	node *stack=NULL,*trav=NULL;
 	stack=insert_at_end(stack,vs,SRCCOL,SRCD,DEFPI);
 	while(stack!=NULL)
@@ -118,7 +118,10 @@ void dfs(node **adj,node **vertices,int v,int vs)
 		while(trav!=NULL)
 		{
 			index=trav->data;
-			if(vertices[index]->color==0)
+//should the condition be color==0 or color==0||color==1?
+//if it is the former, nodes may not be visited due to its color being 1 which came for an older value of current while its adjacency list was being scanned and nodes were being marked as color=1
+//what exactly should be the condition for pushing a node in the stack and changing its attributes wrt the incumbent current value....
+			if(vertices[index]->color==0 || vertices[index]->color==1)
 			{
 				vertices[index]->color=1;
 				vertices[index]->d=vertices[current]->d + 1;
@@ -128,7 +131,6 @@ void dfs(node **adj,node **vertices,int v,int vs)
 				trav=trav->next;
 		}
 		vertices[current]->color=VISITED;
-		printf("%d ",vertices[current]->data);
 	}
 }
 //this creates an array of node pointers with each index holding a node with number=index no, this list holds the intial values of all nodes and is updated as the dfs progresses,this is the result list
@@ -175,7 +177,7 @@ void init_list_to_null(node** list,int num)
 }
 int main(void)
 {
-	int item,v,i,vs;
+	int item,v,i,vs,visited[20];
 	node *adj[20];
 	node *vertices[20];
 	init_list_to_null(adj,20);
@@ -200,7 +202,6 @@ int main(void)
 	get_adjlist(adj,v);
 	printf("The adjacency list representation of G is :\n");
 	disp_adjlist(adj,v);
-	printf("DFS TREE:");
 	dfs(adj,vertices,v,vs);
 	printf("\nAfter applying depth first search: \n");
 	printf("Vertices Attribute List Is:\n");
