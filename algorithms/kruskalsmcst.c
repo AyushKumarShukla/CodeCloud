@@ -87,7 +87,7 @@ int main(void)
 	printf("\nAfter Sorting Edges By Weight:\n");
 	disp_edges(edges,nume);
 	printf("\nEdges in the MCST are: \n");
-	cost=kruskalsmcst(edges,parent,numv);
+	cost=kruskalsmcst(edges,parent,nume);
 	printf("Minimum Cost: %d\n",cost);
 	return 0;
 }
