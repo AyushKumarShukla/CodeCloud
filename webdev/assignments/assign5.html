@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Registration</title>
+	<style>
+		.container{
+			border:2px solid black;
+			margin:auto;
+			width:800px;
+			height:600px;
+		/*	text-align:center; is dis-aligning the fields */
+		}
+		.forminp{
+			display:block;
+			margin:auto;
+			width:290px;
+		}
+		label,input{
+			display:inline-block;
+			margin:4px 0px;
+		}
+		label{
+			text-align:right;
+			width:100px;
+		}
+	</style>
+</head>
+<body>
+		<h1>Delta Subsystems</h1>
+		<div class="container">
+			<h3>New Employee Registration</h3>
+			<form action="submit.php">
+				<div class="forminp">
+				<label for="fname">First Name</label>
+				<input type="text" name="fname"></input>
+				</div>
+				<div class="forminp">
+				<label for="mname">Middle Name</label>
+				<input type="text" name="mname"></input>
+				</div>
+				<div class="forminp">
+				<label for="lname">Last Name</label>
+				<input type="text" name="lname"></input>
+				</div>
+				<div class="forminp">
+				<label for="dob">Date Of Birth</label>
+				<input type="date" name="dob"></input>
+				</div>
+				<div class="forminp" id="gender">
+				Gender	
+				<label for="Gender">Male</label>
+				<input type="radio" name="male" value="Male" ></input>
+				<label for="Gender">Female</label>
+				<input type="radio" name="female" value="Female"></input>
+				<label for="Gender">Other</label>
+				<input type="radio" name="other" value="Other"></input>
+				</div>
+				
+			</form>
+		</div>
+    
+</body>
+</html>
