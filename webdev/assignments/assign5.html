@@ -9,8 +9,9 @@
 		.container{
 			border:2px solid black;
 			margin:auto;
-			width:800px;
-			height:600px;
+			width:755px;
+			height:360px;
+			background-color:#c4ffff;
 		/*	text-align:center; is dis-aligning the fields */
 		}
 		.forminp{
@@ -22,45 +23,104 @@
 			display:inline-block;
 			margin:4px 0px;
 		}
+		input,textarea{
+			border:2px solid black;
+			border-radius:5px;
+			background-color:#fffad2;
+		}
 		label{
 			text-align:right;
 			width:100px;
 		}
+		
+		#gender{	
+			width:383px;
+			text-align:right;
+		}
+
+		#gender label,#gender input{
+			display:inline-block;
+			margin:2px;
+			width:50px;
+		}
+		#gender input{
+			width:25px;
+		}
+		#submit{
+			width:100px;
+			display:block;
+			text-align:center;
+		}
+		#title2{
+			width:230px;
+			margin:auto;
+		}
+		#addr{
+			display:flex;
+			align-items:top;
+		}
+		h1{
+			margin:10px auto;
+			width:250px;
+		}
+
 	</style>
 </head>
 <body>
 		<h1>Delta Subsystems</h1>
 		<div class="container">
-			<h3>New Employee Registration</h3>
+			<div id="title2">
+				<h3>New Employee Registration</h3>
+			</div>
+
 			<form action="submit.php">
+
 				<div class="forminp">
-				<label for="fname">First Name</label>
+				<label for="fname">First Name:</label>
 				<input type="text" name="fname"></input>
 				</div>
+
 				<div class="forminp">
-				<label for="mname">Middle Name</label>
+				<label for="mname">Middle Name:</label>
 				<input type="text" name="mname"></input>
 				</div>
+
 				<div class="forminp">
-				<label for="lname">Last Name</label>
+				<label for="lname">Last Name:</label>
 				<input type="text" name="lname"></input>
 				</div>
+
 				<div class="forminp">
-				<label for="dob">Date Of Birth</label>
+				<label for="dob">Date Of Birth:</label>
 				<input type="date" name="dob"></input>
 				</div>
+
 				<div class="forminp" id="gender">
-				Gender	
+				Gender:
 				<label for="Gender">Male</label>
-				<input type="radio" name="male" value="Male" ></input>
+				<input type="radio" id="male" name="gender" value="Male" ></input>
 				<label for="Gender">Female</label>
-				<input type="radio" name="female" value="Female"></input>
+				<input type="radio" id="female" name="gender" value="Female"></input>
 				<label for="Gender">Other</label>
-				<input type="radio" name="other" value="Other"></input>
+				<input type="radio" id="other" name="gender" value="Other"></input>
 				</div>
-				
+					
+				<div class="forminp">
+				<label for="email">Email ID:</label>
+				<input type="email" id="email" placeholder="example@gmail.com"></input>
+				</div>
+
+				<div class="forminp" id="addr">
+				<label for="addr">Address:</label>
+				<textarea rows="5" cols="15"  ></textarea>
+				</div>
+
+				<div class="forminp" id="submit">
+				<input type="submit" value="Submit Form">
+				</div>
+
 			</form>
 		</div>
     
-</body>
+</body>	
 </html>
