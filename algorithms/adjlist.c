@@ -3,10 +3,9 @@
 #include<string.h>
 #include<math.h>
 
-
 typedef struct node
 {
-	int data;
+	int data; //holds the vertex number
 	struct node *next;
 }node;
 
@@ -14,15 +13,15 @@ node* createnode(int item)
 {
 	node *temp=(node*)malloc(sizeof(node));
 	temp->next=NULL;
-	temp->data=item;
+	temp->data=item; //the data field holds the vertex number
 	return temp;
 }
 
 node* insert_at_end(node* start, int item)
 {
-	node *temp, *ptr;
+	node *temp=NULL, *ptr=NULL;
 	temp=createnode(item);
-	if(start==NULL)
+	if(start==NULL) //if the adjacency list is empty
 		start=temp;
 	else
 	{
@@ -34,26 +33,20 @@ node* insert_at_end(node* start, int item)
 	return start;
 }
 
-void displist(node* start)
-{
-	node* temp;
-	temp=start;
-	//printf("\n");
-	while(temp!=NULL)
-	{
-		printf("%d\t",temp->data);
-		temp=temp->next;
-	}
-	printf("\n");
-}
-
 void disp_adjlist(node** adj,int v)
 {
+	node* temp=NULL;
 	int i;
 	for(i=0;i<v;i++)
 	{
 		printf("V%d: ",i);
-		displist(adj[i]);
+		temp=adj[i]; 
+		while(temp!=NULL)
+		{
+			printf("%d ",temp->data);
+			temp=temp->next;
+		}
+		printf("\n");	
 	}
 }
 
@@ -72,15 +65,43 @@ void get_adjlist(node **adj,int v)
 		}
 	}
 }
-
+//initialise the adjacency list pointers to NULL
+void init_adj(node** adjlist,int v)
+{
+	int i;
+	for(i=0;i<v;i++)
+		adjlist[i]=NULL;		
+}
+//free the allocated nodes in the adjacency list
+void free_adjlist(node** adjlist,int v)
+{
+	node* temp1=NULL;
+        node* temp2=NULL;
+        int i;
+        for(i=0;i<v;i++)
+        {
+                temp1=adjlist[i];
+                do
+                {
+                        if(temp1!=NULL)
+                        {
+                                temp2=temp1->next;
+                                free(temp1);
+                                temp1=temp2;
+                        }
+                }while(temp1!=NULL);
+        }
+}
 int main(void)
 {
 	int item,v,i;
 	node* adj[20];
 	printf("Enter the number of vertices in the graph : ");
 	scanf("%d",&v);
+	init_adj(adj,v);
 	get_adjlist(adj,v);
 	disp_adjlist(adj,v);
+	free_adjlist(adj,v);
 	return 0;
 }
 
