@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
+#define INF 0.1/0.0
 //display the adjacency matrix
 void disp_mat(int(*mat)[20],int v)
 {
@@ -17,7 +18,7 @@ void disp_mat(int(*mat)[20],int v)
 
 void get_mat(int(*mat)[20],int v)
 {
-	int i,j;
+	int i,j,input;
 	for(i=0;i<v;i++)
 		for(j=0;j<v;j++)
 			{

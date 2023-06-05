@@ -6,21 +6,23 @@
 typedef struct node
 {
 	int data; //holds the vertex number
+	int w;
 	struct node *next;
 }node;
 
-node* createnode(int item)
+node* createnode(int item,int weight)
 {
 	node *temp=(node*)malloc(sizeof(node));
 	temp->next=NULL;
+	temp->w=weight;
 	temp->data=item; //the data field holds the vertex number
 	return temp;
 }
 
-node* insert_at_end(node* start, int item)
+node* insert_at_end(node* start, int item,int weight)
 {
 	node *temp=NULL, *ptr=NULL;
-	temp=createnode(item);
+	temp=createnode(item,weight);
 	if(start==NULL) //if the adjacency list is empty
 		start=temp;
 	else
@@ -37,13 +39,14 @@ void disp_adjlist(node** adj,int v)
 {
 	node* temp=NULL;
 	int i;
+	printf("Vn: (V,W)\n");
 	for(i=0;i<v;i++)
 	{
 		printf("V%d: ",i);
 		temp=adj[i]; 
 		while(temp!=NULL)
 		{
-			printf("%d ",temp->data);
+			printf("(%d,%d)",temp->data,temp->w);
 			temp=temp->next;
 		}
 		printf("\n");	
@@ -52,7 +55,7 @@ void disp_adjlist(node** adj,int v)
 
 void get_adjlist(node **adj,int v)
 {
-	int i,temp,j,vnum;
+	int i,temp,j,vnum,vw;
 	for(i=0;i<v;i++)
 	{
 		printf("Enter the number of vertices connected to V%d: ",i);
@@ -61,7 +64,9 @@ void get_adjlist(node **adj,int v)
 		{
 			printf("Enter the vertex number : ");
 			scanf("%d",&vnum);
-			adj[i]=insert_at_end(adj[i],vnum);
+			printf("Enter the weight of the edge : ");
+			scanf("%d",&vw);
+			adj[i]=insert_at_end(adj[i],vnum,vw);
 		}
 	}
 }
