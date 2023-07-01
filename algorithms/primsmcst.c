@@ -2,21 +2,17 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-
-
 typedef struct node
 {
 	int data;
 	int weight;
 	struct node *next;
 }node;
-
 typedef struct vertex
 {
 	int minweight;
 	int visited;
 }vertex;
-
 node* createnode(int item,int vw)
 {
 	node *temp=(node*)malloc(sizeof(node));
@@ -25,7 +21,6 @@ node* createnode(int item,int vw)
 	temp->weight=vw;
 	return temp;
 }
-
 node* insert_at_end(node* start, int item,int vw)
 {
 	node *temp, *ptr;
@@ -41,7 +36,6 @@ node* insert_at_end(node* start, int item,int vw)
 	}
 	return start;
 }
-
 void disp_adjlist(node** adj,int v)
 {
 	node* temp;
@@ -58,7 +52,6 @@ void disp_adjlist(node** adj,int v)
 		printf("\n");
 	}
 }
-
 void get_adjlist(node **adj,int v)
 {
 	int i,temp,j,vnum,vw;
@@ -74,14 +67,12 @@ void get_adjlist(node **adj,int v)
 		}
 	}
 }
-
 void init_adj(node** adj,int v)
 {
 	int i;
 	for(i=0;i<v;i++)
 		adj[i]=NULL;
 }
-
 void init_varr(vertex* varr,int v,int source)
 {
 	int i;
@@ -94,7 +85,6 @@ void init_varr(vertex* varr,int v,int source)
 		varr[i].visited=0;
 	}
 }
-
 void disp_varr(vertex* varr,int v)
 {
 	int i;
@@ -102,7 +92,6 @@ void disp_varr(vertex* varr,int v)
 		printf("(%d,%d)",varr[i].minweight,varr[i].visited);
 	printf("\n");
 }
-
 int extract_min(vertex* varr,int v)
 {
 	int minindex,minval,cw=0,i;
@@ -127,7 +116,6 @@ int extract_min(vertex* varr,int v)
 	}
 	return minindex;
 }
-
 int primsmcst(node** adjlist,vertex* varr,int v)
 {
 	int i,index,CN,CW,cost=0;
@@ -145,12 +133,13 @@ int primsmcst(node** adjlist,vertex* varr,int v)
 			trav=trav->next;
 		}
 		varr[index].visited=1;
-		printf("VERTEX %d\n",index);
+		printf("V%d",index);
+		if(i!=v-1)
+			printf("<-->");
 		cost+=varr[index].minweight;
 	}
 	return cost;
 }
-
 int main(void)
 {
 	int item,v,i,s,cost=0;
@@ -166,9 +155,9 @@ int main(void)
 	init_varr(varr,v,s);
 	printf("Initialised Vertices list:\n");
 	disp_varr(varr,v);
-	printf("Vertices in the MCST are: \n");
+	printf("Edges in the MCST are: \n");
 	cost=primsmcst(adj,varr,v);
-	printf("Final Vertices list:\n");
+	printf("\nFinal Vertices list:\n");
 	disp_varr(varr,v);
 	printf("\nMinimum Weight: %d\n",cost);
 	return 0;

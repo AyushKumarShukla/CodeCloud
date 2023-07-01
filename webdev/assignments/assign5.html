@@ -8,19 +8,19 @@
 	<style>
 		.container{
 			border:2px solid black;
-			margin:auto;
+			border-radius:4px;
+			margin:auto;/*to center container*/
 			width:755px;
 			height:360px;
 			background-color:#c4ffff;
-		/*	text-align:center; is dis-aligning the fields */
 		}
 		.forminp{
-			display:block;
-			margin:auto;
+			display:block;/*one input per line*/
+			margin:auto;/*center with respect to container*/
 			width:290px;
 		}
 		label,input{
-			display:inline-block;
+			display:inline-block;/*align at the center of the div*/
 			margin:4px 0px;
 		}
 		input,textarea{
@@ -29,7 +29,7 @@
 			background-color:#fffad2;
 		}
 		label{
-			text-align:right;
+			text-align:right;/*keep label close to input field*/
 			width:100px;
 		}
 		
@@ -39,7 +39,7 @@
 		}
 
 		#gender label,#gender input{
-			display:inline-block;
+			display:inline-block;/*aligning in one line*/
 			margin:2px;
 			width:50px;
 		}
@@ -68,6 +68,7 @@
 </head>
 <body>
 		<h1>Delta Subsystems</h1>
+		<!--main element container -->
 		<div class="container">
 			<div id="title2">
 				<h3>New Employee Registration</h3>

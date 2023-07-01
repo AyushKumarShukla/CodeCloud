@@ -6,32 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Tags</title>
     <style>
+    	/*to make margins and paddings a part of box size*/
     	*{
 		box-sizing:border-box;
 	}
     	.container{
 		width:2100px;
-		background-color:khaki;
-		margin:auto;
+		background-color:#feffc9;
+		margin:auto; /*center the box*/
 		border:4px solid black;
+		border-radius: 8px;
 		text-align:center;
 		font-family:arial;
 	}
+	td{
+		/*justify all text within*/
+		text-align:justify;
+		border:2px solid black;
+	}	
 	th,td{
 		margin:10px;
-		padding:5px;
+		padding:14px;
 		font-size:33px;
+
 	}
 	table{
-		border:2px dotted grey;
+		border:2px solid grey;
 		margin:10px;
 		padding:2px;
+		/*merge parallel borders in table*/
+		border-collapse:collapse;
 	}
     </style>
 </head>
 <body>
+	<!-- main element container --->
 	<div class="container">
-		<h1 id="header">Frontiers Of Computer Science</h2>
+		<h1 id="header">Frontiers Of Computer Science</h1>
 		<table>
 			<thead>
 				<tr>
@@ -53,7 +64,7 @@
 				</tr>
 				<tr>
 					<td>Donald E Knuth</td>
-					<td>He was the flag bearer of the propagation of asymptotic notations and computational complexity of algorithms, he also created the TEX typesetting platform and is currently working on a series of books under the title "The Art Of Programming" in which he aims to describe all the crucial core concepts of Computer Science in a concise manner.He has also been awarded with the ACM Turing award, the highest token of honor among Computer Science Laureates.He has also a professor of Computer Science at the Massachusetts Institute of Technology</td>
+					<td>He was the flag bearer of the propagation of asymptotic notations and computational complexity of algorithms, he also created the TEX typesetting platform and is currently working on a series of books under the title "The Art Of Programming" in which he aims to describe all the crucial core concepts of Computer Science in a concise manner.He has also been awarded with the ACM Turing award, the highest token of honor among Computer Science Laureates.He was also a professor of Computer Science at the Massachusetts Institute of Technology</td>
 					<td>Algorithms</td>
 				</tr>
 				<tr>

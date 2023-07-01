@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Form</title>
+    <style>
+    	body{
+		background-color:#FFFDE7;
+	}
+    	input,label{
+		display:inline-block;
+	}
+	input{
+		border:2px solid black;
+		border-radius:8px;
+	}
+	label{
+		text-align:right;
+		font-size:30px;
+		width:500px;
+	}
+	input,select{
+		width:225px;
+		height:30px;
+		font-size:22px;
+	}
+	.usrinput{
+		width:100%;
+		margin:10px auto;
+	}
+	.container{
+		text-align:center;
+		padding:20px 5px;
+		padding-right:187px;
+		border:4px solid black;
+		border-radius:10px;
+		width:85%;
+		margin:auto;
+		font-family:courier new;
+	}
+	span{
+		font-size:20px;
+	}
+	form{
+		margin:auto;
+	}
+	h1{
+		font-family:arial;
+		width:800px;
+		margin:auto;
+		padding:10px;
+		border:2px solid black;
+		margin:25px auto;
+		text-align:center;
+	}
+	h2{
+		width:80%;
+		margin:auto;
+		font-size:30px;
+	}
+	.button{
+		height:48px;
+		width:200px;
+		margin:0px 160px;
+	}
+	.navbar{
+                  width:1600px;
+                  border:2px solid black;
+                  border-radius:20px;
+                  background-color:#6399cf;
+                  margin:auto;
+                  font-size:40px;
+          }
+        .navbar li{
+                  float:left;
+                  list-style:none;
+                  margin:0px 123px;
+          }
+        .navbar ul{
+                   overflow:auto;
+                   margin:1px;
+          }
+        .navbar a{
+                   text-decoration:none;
+                   color:khaki;
+          }
+
+    </style>
+</head>
+<body>
+	<nav class="navbar">
+                   <ul>
+                           <li><a href="/index.html">Home</a></li>
+                           <li><a href="/academics.html">Academics</a></li>
+                           <li><a href="/adform.html">Admission</a></li>
+                           <li><a href="/gall.html">Gallery</a></li>
+                   </ul>
+        </nav>
+
+	<h1>Application Form For The Session 2023-2024</h1>
+	<div class="container">
+		<h2>Personal Credentials</h2>
+		<form action="backend.php">
+			<div class="usrinput">
+				<label for="fname">First Name:</label>
+				<input type="text" id="fname">
+			</div>
+			<div class="usrinput">
+				<label for="mname">Middle Name:</label>
+				<input type="text" id="mname">
+			</div>
+			<div class="usrinput">
+				<label for="lname">Last Name:</label>
+				<input type="text" id="lname">
+			</div>
+			<div class="usrinput">
+				<label for="dob">Date Of Birth:</label>
+				<input type="date" id="dob">
+			</div>
+			<div class="usrinput">
+				<label for="gen">Gender:</label>
+				<select id="gen">
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+					<option value="others">Others</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="mother">Mother's Name:</label>
+				<input type="text" id="mother">
+			</div>
+			<div class="usrinput">
+				<label for="father">Father's Name:</label>
+				<input type="text" id="father">
+			</div>
+			<div class="usrinput">
+				<label for="guard">Guardian's Name:</label>
+				<input type="text" id="guard">
+			</div>
+			<div class="usrinput">
+				<label for="nat">Nationality:</label>
+				<select id="nat">
+					<option value="Indian">Indian</option>
+					<option value="nri">Outside India</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="bg">Blood Group:</label>
+				<select id="bg">
+					<option value="a+">A+</option>
+					<option value="a-">A-</option>
+					<option value="b+">B+</option>
+					<option value="b-">B-</option>
+					<option value="ab+">AB+</option>
+					<option value="ab-">AB-</option>
+					<option value="o+">O+</option>
+					<option value="o-">O-</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="num">Contact Number:</label>
+				<input type="number" id="num">
+			</div>
+			<div class="usrinput">
+				<label for="email">Email ID:</label>
+				<input type="email">
+			</div>
+			<div class="usrinput">
+				<label for="pwd">Person With Disability?:</label>
+				<input type="checkbox">
+			</div>
+			<h2>Address Details</h2>
+			<div class="usrinput">
+				<label for="houseno">House Number:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="street">Street/Road:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="town">Town/City/Village:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="town">Post Office:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="town">District:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="town">State:</label>
+				<input type="text">
+			</div>
+			<div class="usrinput">
+				<label for="town">Area Pincode:</label>
+				<input type="number">
+			</div>
+			<h2>Details Of Last Qualified Examination</h2>
+			<h2>Enter The Marks Obtained In The Following Subjects</h2>
+			<div class="usrinput marks">
+				<label for="sub1">Core Subject 1:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="sub2">Core Subject 2:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="sub3">Core Subject 3:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="sub4">Core Subject 4:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="sub5">Optional Subject 5:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="sub6">Optional Subject 6:</label>
+				<input type="number">
+				<span>Out Of</span>
+				<input type="number">
+			</div>
+			<div class="usrinput marks">
+				<label for="obtained">Total Marks Obtained:</label>
+				<input type="number" id="obtained">
+			</div>
+			<div class="usrinput marks">
+				<label for="total">Total Marks In Examination:</label>
+				<input type="number" id="total">
+			</div>
+			<h2>Subjects Applying For:</h2>
+			<h2>Enter The Details Of The Course You Wish To Apply For:</h2>
+			<div class="usrinput">
+				<label for="degree">Degree:</label>
+				<select id="degree">
+					<option value="bs">BS</option>
+					<option value="bba">BBA</option>
+					<option value="bcom">BCOM</option>
+					<option value="ba">BA</option>
+					<option value="ms">MS</option>
+					<option value="mba">MBA</option>
+					<option value="phd">PHD</option>
+				</select>
+			</div>
+			<div class="usrinput"></div>
+				<label for="fac">Subject:</label>
+				<select id="fac">
+					<option value="bs">Computer Science</option>
+					<option value="bba">Mathematics</option>
+					<option value="bcom">Business Administration and Management</option>
+					<option value="ba">Marketing</option>
+					<option value="ms">Sanskrit</option>
+					<option value="mba">English</option>
+				</select>
+			<div class="usrinput">
+				<label for="opt1">Optional Subject 1 :</label>
+				<select id="fac" id="opt1">
+					<option value="phy">Physics</option>
+					<option value="ecom">E-Commerce</option>
+					<option value="lin">Linguistic</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="opt2">Optional Subject 2 :</label>
+				<select id="fac" id="opt2">
+					<option value="ele">Electronics</option>
+					<option value="ecom">Finance</option>
+					<option value="call">Calligraphy</option>
+				</select>
+			</div>
+			<input type="submit" class="button">
+			<input type="reset" value="Clear" class="button">
+		</form>	
+	</div>
+</body>
+</html>

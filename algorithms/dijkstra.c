@@ -2,8 +2,6 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-
-
 typedef struct node
 {
 	int data;
@@ -155,10 +153,12 @@ int main(void)
 	int item,v,i,s,cost=0;
 	node* adj[20];
 	vertex varr[20];
+	printf("To Solve All Pairs Shortest Path Problem Using Dijkstra's Algorithm:\n");
 	printf("Enter the number of vertices in the graph : ");
 	scanf("%d",&v);
 	init_adj(adj,v);
 	get_adjlist(adj,v);
+	printf("Adjacency List: \n");
 	disp_adjlist(adj,v);
 	printf("Enter the source vertex: ");
 	scanf("%d",&s);
