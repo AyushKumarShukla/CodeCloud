@@ -9,11 +9,33 @@
 		*{
 			box-sizing:border-box;
 		}
+	 	.navbar{
+                width:1600px;
+                border:2px solid black;
+                border-radius:20px;
+                background-color:#6399cf;
+                margin:auto;
+                font-size:40px;
+        	}
+        	.navbar li{
+         	        float:left;
+                	list-style:none;
+                	margin:0px 123px;
+        	}
+        	.navbar ul{
+                	overflow:auto;
+                	margin:1px;
+        	}
+        	.navbar a{
+                	text-decoration:none;
+                	color:khaki;
+        	}
+
 		body{
 			background-image:url("https://images.unsplash.com/photo-1620570623737-efc0ec4ab486?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
 		}
 		.container{
-			border:2px solid black;
+			border:6px solid black;
 			color:white;
 			border:2px solid black;
 			border-radius:10px;
@@ -22,7 +44,7 @@
 			background-color:#3d7583d9;
 			font-size:22px;
 			padding:10px;
-			margin:auto;	
+			margin:10px auto;	
 			font-family:courier new;
 		}
 		#overview{
@@ -42,7 +64,7 @@
 			display:block;
 			margin:10px auto;
 			height:100%;
-			font-size:23px;
+			font-size:27px;
 			width:100%;
 			padding:52px;
 		}
@@ -55,11 +77,17 @@
 	}
 	th{
 		padding:10px 0px;
+		font-size:29px;
 	}
 	th,td{
 		text-align:center;
 		border:2px solid white;
 	}
+	td{
+		font-size:34px;
+		font-weight:bold;
+	}
+	
 	/*table tbody th{
 		position:absolute;
 		margin:84px -35px;
@@ -77,6 +105,15 @@
 	</style>
 </head>
 <body>
+	<nav class="navbar">
+                <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="/academics.html">Academics</a></li>
+                        <li><a href="/adform.html">Admission</a></li>
+                        <li><a href="/gall.html">Gallery</a></li>
+                </ul>
+        </nav>
+
 	<div class="container" id="overview">
 		<h1>Bachelor Of Science</h1>
 		<h2>Computer Science</h2>
@@ -84,7 +121,7 @@
 		<h3>Honours Programme</h3>
 	</div>
 	<div class="container" id="des">
-		<p>The Bachelor Of Science In Computer Science is a 3 Year Course Spanning Over 6 Semesters as a Honours Programme Consisting of 4 credits per theory paper and 6 credits per practical paper, accumulating to a total of 10 credit points per subject in any given semester</p>
+		<p>The BACHELOR OF SCIENCE In COMPUTER SCIENCE is a 3 YEAR course spanning Over 6 semesters as a HONOURS programme consisting of 4 credits per theory paper and 6 credits per practical paper, accumulating to a total of 10 credit points per subject in any given semester.</p>
 		<h4>Course Outline</h4>
 		<ul>
 		<li>Core Computer Science, Digital Circuitry and Digital Logic, Programming, Computer Architecture, Software Engineering, Networking and Cybersecurity, Web Development along with parallel courses in Machine Learning Using TensorFlow, Artificial Intelligence, Data Science, Big Data, Cloud Computing.</li>

@@ -95,6 +95,7 @@ void bfs(node **adj,node **vertices,int v,int vs)
 {
 	int current,index;
 	node *queue=NULL,*trav=NULL;
+	//we want to be able to use a single function that creates both adjacency list rep. and enqueue operation
 	queue=insert_at_end(queue,vs,SRCCOL,SRCD,DEFPI);
 	while(queue!=NULL)
 	{
@@ -169,6 +170,7 @@ int main(void)
 {
 	int item,v,i,vs,vusr;
 	node *adj[20];
+	/*by not making the vertices list a linear array, we can reuse functions to create and display it*/
 	node *vertices[20];
 	init_list_to_null(adj,20);
 	init_list_to_null(vertices,20);
