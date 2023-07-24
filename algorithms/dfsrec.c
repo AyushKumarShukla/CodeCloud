@@ -52,7 +52,7 @@ void dfs(int vertex,int size,bool(*adj)[20],bool* visited,int* parent)
 
 int main(void)
 {
-	int v,i,parent[20];
+	int v,i,s,parent[20];
 	bool adj[20][20],visited[20];
 	printf("To perform Depth First Search recursively: \n");
 	printf("Enter the number of vertices in the graph: ");
@@ -70,18 +70,20 @@ int main(void)
 	for(i=0;i<v;i++)
 		printf("V%d\t",i);
 	printf("\n");
-	disp_mat(adj,v);
+	disp_mat(adj,v);	
+	printf("\nEnter the source vertex: ");
+	scanf("%d",&s);
 	printf("DFS traversal: \n");
-	dfs(0,v,adj,visited,parent);
+	dfs(s,v,adj,visited,parent); //start recursion with source vertex
 	//printing result after DFS traversal
 	printf("\nParent list:\n");
-	printf("VERTEX: ");
-	for(i=0;i<v;i++)
-		printf("%d\t",i);
-	printf("\n");
 	printf("PARENT: ");
 	for(i=0;i<v;i++)
 		printf("%d\t",parent[i]);
+	printf("\n");
+	printf("VERTEX: ");
+	for(i=0;i<v;i++)
+		printf("%d\t",i);
 	printf("\n");
 	return 0;
 }
