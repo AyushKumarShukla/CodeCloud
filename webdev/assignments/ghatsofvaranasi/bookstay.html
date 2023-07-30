@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay</title>
+    <link href="/navbar.css" rel="stylesheet">
+    <style>
+	@font-face {
+                font-family:'samar'; /* This is the name you'll use to refer to the font */
+                src: url('samarkan.ttf') format('truetype');
+                }
+	.navbar{
+		font-family:'samar'
+	}
+    	body{
+		background-color:#ffb4c196;
+	}
+    	input,label{
+		display:inline-block;
+	}
+	input{
+		border:2px solid black;
+		border-radius:8px;
+	}
+	label{
+		text-align:right;
+		font-size:30px;
+		width:500px;
+	}
+	input,select{
+		width:225px;
+		height:30px;
+		font-size:22px;
+	}
+	.usrinput{
+		width:100%;
+		margin:10px auto;
+	}
+	.container{
+		text-align:center;
+		padding:20px 5px;
+		padding-right:187px;
+		border:4px solid red;
+		border-radius:10px;
+		width:85%;
+		margin:auto;
+		font-family:verdana;
+	}
+	span{
+		font-size:20px;
+	}
+	form{
+		margin:auto;
+	}
+	h1{
+		font-family:arial;
+		width:800px;
+		margin:auto;
+		padding:10px;
+		border:2px solid red;
+		margin:25px auto;
+		text-align:center;
+	}
+	h2{
+		width:80%;
+		margin:0% 20%;
+		font-size:30px;
+	}
+	.button{
+		height:48px;
+		width:200px;
+		margin:1% 54%;
+	}
+    </style>
+</head>
+<body>
+	<nav class="navbar">
+                <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/heritage.html">Heritage Sites</a></li>
+                        <li><a href="#">Book Stay</a></li>
+                        <li><a href="/gallery.html">Gallery</a></li>
+                </ul>
+        </nav>
+	<h1>Book Your Stay At Varanasi</h1>
+	<div class="container">
+		<h2>Personal Information</h2>
+		<form action="backend.php">
+			<div class="usrinput">
+				<label for="fname">First Name:</label>
+				<input type="text" id="fname">
+			</div>
+			<div class="usrinput">
+				<label for="mname">Middle Name:</label>
+				<input type="text" id="mname">
+			</div>
+			<div class="usrinput">
+				<label for="lname">Last Name:</label>
+				<input type="text" id="lname">
+			</div>
+			<div class="usrinput">
+				<label for="dob">Date Of Birth:</label>
+				<input type="date" id="dob">
+			</div>
+			<div class="usrinput">
+				<label for="gen">Gender:</label>
+				<select id="gen">
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+					<option value="others">Others</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="nat">Nationality:</label>
+				<select id="nat">
+					<option value="Indian">Indian</option>
+					<option value="nri">Outside India</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="num">Contact Number:</label>
+				<input type="number" id="num">
+			</div>
+			<div class="usrinput">
+				<label for="email">Email ID:</label>
+				<input type="email">
+			</div>
+			<h2>Tour Related Information</h2>
+			<div class="usrinput">
+				<label for="members">Number Of Guests:</label>
+				<input type="number">
+			</div>
+			<div class="usrinput">
+				<label for="cityofstay">Select Place To Stay:</label>
+				<select id="cityofstay" id="opt2">
+					<option value="lt">Lahori Tola, Varanasi</option>
+					<option value="vc">Varanasi Cantt.</option>
+					<option value="bhu">BHU</option>
+					<option value="sarn">Sarnath</option>
+					<option value="godow">Godowlia Ghats</option>
+				</select>
+			</div>
+			<div class="usrinput">
+				<label for="checkin">Check-In Date:</label>
+				<input type="date">
+			</div>
+			<div class="usrinput">
+				<label for="checkout">Check-Out Date:</label>
+				<input type="date">
+			</div>
+
+			<input type="submit" class="button">
+			<input type="reset" value="Clear" class="button">
+		</form>	
+	</div>
+</body>
+</html>
