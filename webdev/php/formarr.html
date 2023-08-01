@@ -4,13 +4,14 @@
 	<title>"Welcome To Array"</title>
 </head>
 <body>
-	<h1>Type In Some Array Elements Below :) </h1>
-	<form action="formarr.php" method="GET">	
+	<h1>Enter an array of numbers below : </h1>
+	<!--send data to .php file to do sorting in backend -->	
+	<form action="bubblesort.php" method="GET"> 
 	<div class="input">
-		<label for="array">ARRAY: </label>
-		<input type="text" name="array">
+		<label for="arr">ARRAY: </label>
+		<input type="text" id="arr" name="array"> <!--the identifier for php script is "array"-->
 	</div>
-	<input type=submit>
+	<input type="submit">
 	</form>
 </body>
 </html>
