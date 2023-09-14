@@ -70,7 +70,7 @@ pattern()
 	echo
 	fi
 }
-
+echo "To print the Pascal's triangle: "
 echo -n "Enter the number of lines needed in the pattern: "
 read row
 col=$(((2*row)-1))

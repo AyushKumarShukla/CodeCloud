@@ -1,0 +1,7 @@
+
+Entry Time: Saturday 07 January 2023 09:48:22 PM IST 
+ID         NAME                 DESIGNATION          SALARY(In LPA)
+A1075      Ayush Kumar Shukla   Software Developer   8.5       
+Entry Time: Saturday 07 January 2023 09:48:55 PM IST 
+ID         NAME                 DESIGNATION          SALARY(In LPA)
+GW1889     John Williams        Web Designer         9.8       

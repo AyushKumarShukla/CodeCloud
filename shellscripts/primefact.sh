@@ -40,6 +40,6 @@ echo "Prime Factors: "
 primefact $num
 if [ $exists -eq 0 ]
 then
-	echo -n "None,$num is prime"
+	echo -n "$num is prime,so $num is the only prime factor of itself"
 fi
 echo

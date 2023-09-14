@@ -5,7 +5,7 @@
 double func(double x)
 {
 	double res=0;
-	res=sin(x)+cos(x)-1;
+	res=3*pow(x,2)+5*x-40;
 	return res;
 }
 
@@ -64,7 +64,7 @@ double reg_falsi(double lowl,double uppl)
 int main(void)
 {
 	double lowl,uppl,root;
-	printf("To find the root of the equation sinx + cosx - 1 = 0 using Regula Falsi method:\n");
+	printf("To find the root of the equation 3x^2 + 5x - 40 = 0 using Regula Falsi method:\n");
 	printf("Enter a small range of values: ");
 	range_input(&lowl,&uppl);
 	validate(lowl,uppl);

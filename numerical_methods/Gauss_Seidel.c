@@ -1,4 +1,4 @@
-/*C program to implement Gauss Jacobi method*/
+/*C program to implement Gauss Seidel method*/
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
@@ -94,7 +94,7 @@ int main(void)
 {
     int ord;
     float matrix[20][20];
-    printf("To solve a system of linear equations by Gauss-Jacobi Iteration Method:\n");
+    printf("To solve a system of linear equations by Gauss-Seidel Iteration Method:\n");
     printf("Enter the number of equations: ");
     scanf("%d",&ord);
     printf("\nEnter %d elements of the augmented matrix:\n",ord*(ord+1));

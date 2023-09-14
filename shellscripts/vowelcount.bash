@@ -7,8 +7,7 @@ then
 	cat "$file"
 	echo
 	count=`grep -o -i "[a,e,i,o,u]" "$file" | wc -l`
+	echo "The number of vowels in the file \"$file\" is = $count"
 else
 	echo "The file \"$file\" does not exist in the current directory "
 fi
-
-echo "The number of vowels in the file \"$file\" is = $count"

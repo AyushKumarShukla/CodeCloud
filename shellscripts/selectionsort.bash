@@ -27,6 +27,11 @@ read -a arr
 echo -n "Entered Elements: "
 echo "${arr[*]}"
 len=${#arr[@]}
+if [ $len -le 0 ]
+then
+	echo "Invalid Input, There Must Be Atleast 1 Entry"
+	exit 1
+fi
 selection_sort $len
 echo -n "Sorted array: "
 echo "${arr[*]}"

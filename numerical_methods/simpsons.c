@@ -5,7 +5,8 @@
 float expression(float x)
 {
 	float val;
-	val = 1/(2*x+1);
+	//val = 1/(2*x+1);
+	val=1/pow((1+x),2);
 	return val;
 }
 
@@ -39,7 +40,7 @@ float simpsons(float low,float high,float divnum)
 int main(void)
 {
 	float low,high,divnum,res;
-	printf("To calculate the integral of 1/2x+1 using Simpson's One-Third rule:\n");
+	printf("To calculate the integral of 1/(1+x)^2 using Simpson's One-Third rule:\n");
 	printf("Enter the lower limit: ");
 	scanf("%f",&low);
 	printf("Enter the higher limit: ");

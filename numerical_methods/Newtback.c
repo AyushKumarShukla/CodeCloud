@@ -105,7 +105,7 @@ int main(void)
 	scanf("%f",&val);
 
 	createtable(mat,terms);
-	printf("Forward Difference Table: \n");
+	printf("Difference Table: \n");
 	disparray(mat,terms,terms+1);
 
 	height=mat[1][0]-mat[0][0];

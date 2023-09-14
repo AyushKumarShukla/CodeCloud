@@ -5,7 +5,7 @@
 double eq(double x)
 {
 	double res;
-	res=pow(10,x)+sin(x)+2*x;
+	res=2*x-3*sin(x)-5;
 	//printf("%lf\n",res);
 	return res;
 }
@@ -16,7 +16,7 @@ void validate(double left,double right)
 	check = eq(left)*eq(right);
 	if(check>0)
 	{
-		printf("No root exists between %lf and %lf",left,right);
+		printf("No root exists between %lf and %lf\n",left,right);
 		exit(1);
 	}
 }
@@ -64,7 +64,7 @@ int main(void)
 {
 	double left,right,error,mid,res;
 	error=0.0000001;
-	printf("To find the root of 10^x + sinx + 2x = 0 using Bisection method\n");
+	printf("To find the root of 2x - 3sinx -5 = 0 using Bisection method\n");
 	printf("Enter the left limit: ");
 	scanf("%lf",&left);
 	printf("Enter the right limit: ");

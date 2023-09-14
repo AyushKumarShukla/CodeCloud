@@ -81,9 +81,14 @@ int main(void)
 	int terms,i,j;
 	float mat[20][20],val,result,phase,height;;
 	memset(mat,0,sizeof(mat));
-	printf("Enter the number of terms: ");
+	printf("To perform interpolation using Newtons' Forward Difference formula:\n");
+	printf("Enter the number of given terms: ");
 	scanf("%d",&terms);
-
+	if(terms<1)
+	{
+		printf("Invalid Input\n");
+		exit(1);
+	}
 	printf("Enter the values of x: ");
 	getarray(mat,terms,0);
 

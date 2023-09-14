@@ -31,3 +31,12 @@ taken to be default. Thus always use brace expansion like ${arr[$i]} before acce
 		Eg. 145 = 1!+4!+5! = 1 + 24 + 120 
 	Armstrong Numbers: A positive number whose sum of digits raised to the power of number of digits is equal to the number itself.
 		Eg. 1634 = 1^4 + 6^4 + 3^4 + 4^4 = 1 + 1296 + 81 + 256  
+29-12-22
+In The Pascal triangle code: 
+1. The huge space overhead - why 
+2.The printing format
+3.why it is printing only odd no of lines
+07-01-23
+1.-gt,-lt,-ge,-le,-eq are used to compare integer values
+   >,<,>=,<=,= are used to compare string values
+   Interchanging them will cause havoc, since strings are compared digit by digit and integers are compared as a whole.

@@ -5,7 +5,7 @@
 float expression(float x)
 {
 	float val;
-	//val = 1/pow((1+x),2);
+	//val=1/pow((1+x),2);
 	val=1/(1+2*x);
 	return val;
 }
@@ -35,8 +35,8 @@ float trapezoidal(float low,float high,float divnum)
 int main(void)
 {
 	float low,high,divnum,res;
-	//printf("To calculate the integral of 1/(1+x)^2\n");
-	printf("To calculate the integral of 1/(1+2xd)\n");
+	//printf("To calculate the integral of 1/(1+x)^2 using trapezoidal rule \n");
+	printf("To calculate the integral of 1/(1+2x) using trapezoidal rule \n");
 	printf("Enter the lower limit: ");
 	scanf("%f",&low);
 	printf("Enter the higher limit: ");

@@ -1,0 +1,22 @@
+	       WHAT ARE BUGS?
+1. Compile Time Errors-> mistakes in syntax
+2. Bugs-> Flaws in the program logic
+	1.typing mistakes
+	2.approach 
+	
+PROGRAM ANALYSIS
+step wise effect,variables,arguments,parameters
+
+	1.DRY RUN (great for small programs)
+	variables->track
+	
+	2.Debugger(program DRY RUN+extra features)
+	GDB-> GNU DEBUGGER
+	 Ada, C, C++, Objective-C, Free Pascal, Fortran, Go
+	
+	
+	
+	
+	
+	
+	

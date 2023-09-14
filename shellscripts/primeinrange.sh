@@ -34,3 +34,4 @@ prime_in_range (){
 	done
 }
 prime_in_range $low $up
+echo
