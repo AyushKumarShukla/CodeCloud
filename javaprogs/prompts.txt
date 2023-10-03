@@ -1,0 +1,160 @@
+AB ASSIGNMENT
+Subject: Object Oriented Programming using Java
+Assignment-1
+Objective:
+The objective of this assignment is to learn how to write some Simple JAVA Programs.
+1. Write a program to print your name.
+2. Write a program to read the price of an item in the decimal form (like 75.95) and print the output 
+in paise (like 7595 paise).
+3. WAP to calculate the area and the perimeter of a Rectangle.
+4. Write a program to convert the given temperature in Fahrenheit to Celsius using the following 
+conversion formula: C = (F-32)/1.8
+5. Write a program to determine sum of the following series for given value of n:(1 + 1/2 + 1/3 + 
+…… + 1/n). Print the result up to two decimal places.
+6. WAP to take your first and last name as command line argument and print by converting into a 
+single string.
+7. Write a program to find the product the sum of digits and reverse of a given integer number (take 
+input using command-line argument).
+8. Write a program to find the factorial of a given integer number using recursion (take input using 
+command-line argument).
+9. Write a program to show Fibonacci series up to n-th terms using recursion.
+10. Write a Program of Sum of Series (1+x+x2+x3+x4+………… up to n-th terms).
+11. Write a program to calculate the simple interest (si) while your inputs are principle (p), time in 
+years (n) and rate of interest (r) [take input using command-line argument].
+12. Write a program to find the real roots of the quadratic equation ax2 + bx + c = 0 where a, b and c 
+are constants.
+13. WAP to print all prime number within a given range.
+14. WAP to print all Armstrong number within a given range.
+15. WAP to calculate GCD and LCM of two numbers. (Implement 2 Versions).
+16. WAP to find sum and average of several integers (in an array) using enhanced-for loop.
+17. WAP to implement Linear Search. Take the values via command line argument.
+18. WAP to implement Binary Search.
+19. WAP to implement Bubble sort, Selection Sort, Insertion sort in a single menu driven program.
+20. WAP to count number of words in a string.
+21. WAP to check whether a string is palindrome or not. Make this Case Insensitive.
+22. Write a program to show addition, subtraction and multiplication of two matrices using menu driven 
+program.
+Assignment-2
+Objective:
+The objective of this assignment is to learn about Classes and Objects concept.
+1. Add two numbers by taking input using Command Line Input, Scanner class and BufferedReader 
+class. Implement two versions.
+2. Write a program to find surface area and volume of Cylinder Using Constructors - Keyboard 
+Input or Command Line Input.
+3. Write a program to find surface area and volume of Cone Using Constructors - keyboard input or 
+command line input.
+4. write a program to add two complex numbers using concept of method returning object and 
+method taking object as parameter.
+5. Write a Java code to find a number from an array of numbers.
+6. Show that static block execute before any object creation and implement the use of static 
+variable.
+7. Create a class; put a method inside this class which will return a class reference return same class 
+and/or different class object.
+8. See the problems below:
+a) Write a JAVA Program to make a Student class with proper attributes like roll no, name, 
+stream, and college. From main create such two students and show their information.
+b) Write a JAVA Program to consider the Student class in the previous Program.
+Assume that a student studies 6 subjects. Each subject has a title, internal marks and theory marks. 
+Write a Program to define Student class including the subjects as array. From main create such 
+two students and show their information including subjects’ name and grand total marks.
+c) Write a JAVA Program to consider the Student class in the first Program 8a. Assume that 
+students study varying number of subjects. Each subject has a title, internal marks and theory 
+marks. Write a Program to define Student class including the subjects as vararg argument of 
+constructor. From main create such two students and show their information including subjects’ 
+name and grand total marks. 
+13. Design a class to represent a Bank Account. Include the following things: Fields
+Name of the depositor 
+Address of the depositor 
+Account number
+Balance amount in the account
+Methods
+To assign initial values
+To deposit an amount
+To withdraw an amount after checking balance
+To display the name, address and balance of a customer
+From main create object and call these methods.
+Assignment-3
+Objective:
+The objective of this assignment is to learn about inheritance, polymorphism, and abstract
+classes.
+1. Create a class shape with three methods to calculate area of Triangle, Rectangle and Square 
+with method overloading.
+2. Create an abstract class Shape with two abstract methods, area() & disp(). Now design three 
+concrete classes Rectangle, Circle & Triangle can compute area and display its separately.
+3. Overload the constructors for classes Area and Volume of a rectangular figure and also
+display its area and volume. Area is the superclass and Volume is the subclass.
+4. Create a class Employee, having instance variables name and id. Create its subclass named
+Scientist which has instance variables no_of_publication and experience. Now create its
+subclass, say DScientist which has instance variable award. Put a method like: public 
+String toString(){ } in every class where you describe about the class and from main() 
+method create object of each class and print each object.
+5. Create a class with a method void show() and make three subclasses of it and all subclasses 
+have this show() method overridden and call those methods using their corresponding object
+references.
+6. Do the problem 4 using dynamic method dispatching.
+7. Assume that a bank maintains two kinds of account for its customers, one called savings
+account and other called current account. The savings account provides compound interest and 
+withdrawal facilities but no cheque book facility. The current account provides cheque book 
+facility but no interest. Current account holders should also maintain a minimum balance (say 
+Rs. 1000) and if the balance falls below this level a service charge is imposed (say Rs. 100).
+Create a class Account that stores customer name, account number and type of account. From
+this class derive two classes Curr_Acct and Savn_Acct respectively to make them more 
+specific to their requirements. Include the necessary methods to achieve the following tasks:
+a) Accept deposit from a customer and update the balance.
+b) Display the balance.
+c) Compute and deposit interest.
+d) Permit withdrawal and update the balance.
+e) Check for minimum balance, impose penalty, if necessary, and update balance.Use
+constructors to initialise the class members.
+8. Create a class Parent having instance variables id, name and address. Create a class
+ChildOne having instance variables id, name, address and marks. Also create another
+class ChildTwo with instance variables id, name, address, qualification and salary.Within
+each class define your own method to display values of these variables. Design the
+program using super call with proper parameter and use object of each class from main()
+to display their properties.
+Assignment-4
+Objective:
+The objective of this assignment is to learn interface, inner class and package concept.
+1. Create an interface named Shape. Create two subclasses of it named Circle and Sphere. 
+Create objects of the two classes and calculate their area/surface area.
+2. Create an interface named circularBase (that contains base details). Create another class 
+3dShape (Contains height, volume). Inherit two classes Cone and Cylinder from the interface 
+and the class.
+3. Create a class which contains an inner class. Show that inner class can use member of outer 
+class directly, but Outer class can use member of Inner class only through its object. Check the
+name of class file, you created.
+4. Create two interfaces, each with two methods. Inherit a new interface from the two, adding a 
+new method. Create a class by implementing the new interface and also inheriting from a 
+concrete class. In main() method, create an object of derived class and call the methods [do all
+without package statement].
+5. Create a class with variable(s) and method(s) (all will be default accessed) under package 
+pOne. Now create a class under package pTwo, which is subclass of firstly created class. In the 
+method here (i.e. class of pTwo) call variable(s) and method(s) of previous class (i.e. class of 
+pOne). If errors come, rectify them. Now from Main (under working directory) access second
+class’s members.
+6. Create an interface containing three methods, in a package ‘pkgOne’. Implement the interface 
+from a class under package pkgTwo. From main, under working directory, create object of the
+class and call methods of interface.
+Assignment-5 (Two days)
+Objective:
+The objective of this assignment is to learn String, Collection and File concept.
+1. Take a sting from keyboard and convert into character array (new one).
+2. Take a string from keyboard and a char array (filled up to length 5). Now append thestring to
+that char array. Show the char array.
+3. Write a java code to differentiate equals() method and == operator.
+4. Find length of a string taken from keyboard and also find the length of that stringexcept 
+front and end spaces.
+5. Write a Java code to sort ten names in ascending order.
+6. Check if "Tech" presents in "University of Technology" or not. If yes return itsposition.
+7. Write a program to take a sentence and convert it into string arrays and sort the wordsusing
+any sorting technique.
+8. Show that the String class type objects are immutable but StringBuffer class objectsare
+mutable.
+9. Convert the StringBuffer type object into a String object. Print the final result.
+10. Write a program in Java that checks whether a given string is a palindrome or not.Ignore
+the cases.
+11. Write a program in Java that converts a string into an array of strings and displaythem 
+[use command-line argument].
+12. Write a program in Java that accepts a shopping list of five items from the commandline and 
+stores them in a vector.
+13. Write a program to concatenate the contents of two Strings .
