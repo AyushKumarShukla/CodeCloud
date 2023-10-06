@@ -58,7 +58,7 @@ class Imath
 		double c = num2.re;
 		double b = num1.im;
 		double d = num2.im;
-
+			
 		double re_of_div=(a*c+b*d)/(Math.pow(c,2)+Math.pow(d,2));
 		double im_of_div=(b*c-a*d)/(Math.pow(c,2)+Math.pow(d,2));
 
