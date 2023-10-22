@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 class StringMan
 {
     static StringBuffer dashString(int length)
@@ -21,11 +22,14 @@ class StringMan
         System.out.println("Guess: "+state);
         while(true)
         {
-            System.out.println("Guess a word: ");
+            System.out.print("Guess a word: ");
             Scanner scan = new Scanner(System.in);
             String guess = scan.nextLine();
             if(!(guess.equals("")))
+            {
                 guess=guess.toLowerCase();
+                guess=guess.trim();
+            }
             else
                 guess=" ";
             if(secret.indexOf(guess) != -1) //HIT
@@ -65,7 +69,17 @@ class Driver
 {
     public static void main(String args[])
     {
-        String secret = "Hallucination";    
+        System.out.println("********** WELCOME TO WORDGUESSER!**********");
+        Random rand = new Random();
+        String[] words = {  "apple", "banana", "cat", "dog", "house", "family", "friend", "car", 
+                            "book", "movie", "music", "beach", "vacation", "coffee", "school", 
+                            "work", "pizza", "chocolate", "hobby", "guitar", "flower", "summer", 
+                            "computer", "phone", "television", "shoes", "jacket", "hat", 
+                            "sunglasses", "shopping", "restaurant", "exercise", "holiday", 
+                            "party", "weekend", "library", "ocean", "park", "friendship", 
+                            "adventure", "sunset", "laughter", "smile"};
+        int random_num = rand.nextInt(43);
+        String secret = words[random_num];    
         int len = secret.length();
         int counter=5;
         StringMan.askWord(secret,counter);
