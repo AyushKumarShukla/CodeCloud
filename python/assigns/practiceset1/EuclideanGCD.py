@@ -16,6 +16,6 @@ def gcd_list(nums):
         
         
 #driver code
-nums=[16,20,14,40,50,12]
+nums=[4,40,400,40,400,8]
 res=gcd_list(nums)
 print(res)
