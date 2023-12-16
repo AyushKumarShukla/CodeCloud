@@ -1,7 +1,7 @@
 import java.util.*;
 class Search
 {
-	static int linearSearch(list arr,int key)
+	static int linearSearch(List arr,int key)
 	{
 		for(int i=0;i<arr.getLength();i++)
 		{
@@ -11,7 +11,7 @@ class Search
 		return -1;	
 	}
 	
-	static int binarySearch(list arr,int key)
+	static int binarySearch(List arr,int key)
 	{
 		int left = 0;
 		int right = arr.getLength()-1;
@@ -31,7 +31,7 @@ class Search
 
 class Sort
 {
-	static void bubbleSort(list arr)
+	static void bubbleSort(List arr)
 	{
 		for(int i=0;i<arr.getLength();i++)
 		{
@@ -46,13 +46,17 @@ class Sort
 			}
 		}
 	}
+	static void selectionSort(List arr)
+	{
+		System.out.println("Code for selection sort");
+	}
 }
 
-class list
+class List
 {
 	int seq[];
 	
-	list(int... numbers)
+	List(int... numbers)
 	{
 		this.seq = new int[numbers.length];
 		for(int i=0;i<numbers.length;i++)
@@ -87,13 +91,38 @@ class Driver
 {
 	public static void main(String args[])
 	{
-		list l1 = new list(10,9,8,7,6,5,4,3,2,1);
+		List l1 = new List(10,9,8,7,6,5,4,3,2,1);
 		System.out.print("\nThe elements of the array are: ");
 		l1.show();
-		System.out.print("\nThe elements of the array are: ");
-		Sort.bubbleSort(l1);
-		l1.show();
+		int ch=5;
+		while(ch!=3)
+		{
+			Scanner sc = new Scanner(System.in);
+			System.out.format("\nMENU:\n1.BubbleSort\n2.SelectionSort\n3.Exit");
+			System.out.println("\nEnter your choice: ");
+			ch = sc.nextInt();
+			switch(ch)
+			{
+				case 1:
+					Sort.bubbleSort(l1);
+					System.out.print("After Sorting: ");
+					l1.show();
+					break;
+				case 2:
+					Sort.selectionSort(l1);
+					System.out.print("After Sorting: ");
+					l1.show();
+					break;
+				case 3:
+					System.exit(0);
+				default:
+					System.out.println("Invalid Choice");					
+					break;
+					
+			}
+		}
 	}
+
 	static void showFoundMessage(int found,int key)
 	{
 		if(found == -1)
