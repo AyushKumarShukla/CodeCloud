@@ -8,10 +8,6 @@ class MyString
 	}
 	int wordCount()
 	{
-		/*Alternate method:
-			If a space is encounted, as long as the next element is a space, the 
-			loop counter is incremented - this makes the control skip the 			consequetive spaces and count only non space strings
-		*/
 		String comp[] = var.split(" ");
 		int count=comp.length;
 		for(String val:comp)
@@ -80,4 +76,10 @@ class Driver
 		System.out.format("\nPalindrome: %b",str.isPalindrome());
 		System.out.format("\nReverse: %s",str.reverse());	
 	}
+	
+		/*Alternate method for word count:
+			If a space is encounted, as long as the next element is a space, the 
+			loop counter is incremented - this makes the control skip the consequetive spaces and count only non space strings
+		Include checking for null input strings
+		*/
 }
