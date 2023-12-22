@@ -82,19 +82,19 @@ class MatrixOp
 	static Matrix multiply(Matrix mat1,Matrix mat2) throws MatrixOrderMismatchException
 	{	
 		Matrix diff;
-		if((mat1.row() != mat2.col()))
-			throw new MatrixOrderMismatchException("Matrices not compatible for subtraction");
+		if((mat1.col() != mat2.row()))
+			throw new MatrixOrderMismatchException("Matrices not compatible for multiplication");
 
-		diff = new Matrix(mat1.row(),mat1.col());
+		diff = new Matrix(mat1.row(),mat2.col());
+		int sum;
 		for(int i=0;i<mat1.row();i++)
-		{
-			for(int j=0;j<mat1.col();j++)
+			for(int j=0;j<mat2.col();j++)
 			{
-				double sub = mat1.valueAt(i,j)-mat2.valueAt(i,j);
-				diff.insertAt(sub,i,j);
+				sum=0;	
+				for(int k=0;k<mat1.col();k++)
+					sum += mat1.valueAt(i,k)*mat2.valueAt(k,j);
+				diff.insertAt(sum,i,j);
 			}
-		}
-	
 		return diff;
 	}
 	
@@ -103,17 +103,17 @@ class Driver
 {
 	public static void main(String args[])
 	{
-		int row=Integer.parseInt(args[0]);
-		int col=Integer.parseInt(args[1]);
+		int row1=Integer.parseInt(args[0]);
+		int col1=Integer.parseInt(args[1]);
+		int row2=Integer.parseInt(args[2]);
+		int col2=Integer.parseInt(args[3]);
 		//option 1 - Addition
 		System.out.println("\nEnter the first Matrix: ");
-		
-		Matrix mat1 = new Matrix(2,2);
+		Matrix mat1 = new Matrix(row1,col1);
 		inputMat(mat1);
 		outputMat(mat1);
 		System.out.println("\nEnter the second Matrix: ");
-		
-		Matrix mat2 = new Matrix(2,2);
+		Matrix mat2 = new Matrix(row2,col2);
 		inputMat(mat2);
 		outputMat(mat2);
 		//add
@@ -142,7 +142,7 @@ class Driver
 			System.out.println("Please Ensure that the order of the matrices is same");
 
 		}
-		//multilply	
+		//multiply	
 		try
 		{
 			Matrix result = MatrixOp.multiply(mat1,mat2); //hit
@@ -152,7 +152,7 @@ class Driver
 		catch(MatrixOrderMismatchException e1)
 		{
 			System.out.println("Exception Caught: " + e1.getMessage());
-			System.out.println("Please Ensure that the order of the matrices is same");
+			System.out.println("Please Ensure that the matrices are conformable for multiplication");
 
 		}
 	}
