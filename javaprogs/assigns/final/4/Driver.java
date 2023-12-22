@@ -103,58 +103,73 @@ class Driver
 {
 	public static void main(String args[])
 	{
+		Scanner sc = new Scanner(System.in);
 		int row1=Integer.parseInt(args[0]);
 		int col1=Integer.parseInt(args[1]);
 		int row2=Integer.parseInt(args[2]);
 		int col2=Integer.parseInt(args[3]);
-		//option 1 - Addition
+		
 		System.out.println("\nEnter the first Matrix: ");
 		Matrix mat1 = new Matrix(row1,col1);
 		inputMat(mat1);
 		outputMat(mat1);
 		System.out.println("\nEnter the second Matrix: ");
-		Matrix mat2 = new Matrix(row2,col2);
+		Matrix mat2 = new Matrix(row2,col2);			
 		inputMat(mat2);
 		outputMat(mat2);
-		//add
-		try
+		
+	while(true)
+	{
+		System.out.format("MENU:\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Exit\n");
+		System.out.print("Select an option: ");
+		int ch = sc.nextInt(); 			
+		switch(ch)
 		{
-			Matrix result = MatrixOp.add(mat1,mat2); //hit
-			System.out.println("\nSum of the matrices: ");
-			outputMat(result);
-		}
-		catch(MatrixOrderMismatchException e1)
-		{
-			System.out.println("Exception Caught: " + e1.getMessage());
-			System.out.println("Please Ensure that the order of the matrices is same");
+				
+			case 1:
+				try
+				{
+					Matrix result = MatrixOp.add(mat1,mat2); //hit
+					System.out.println("\nSum of the matrices: ");
+					outputMat(result);
+				}
+				catch(MatrixOrderMismatchException e1)
+				{
+					System.out.println("Exception Caught: " + e1.getMessage());
+					System.out.println("Please Ensure that the order of the matrices is same");
+				}
+				break;
+			case 2:
+				try
+				{
+					Matrix result = MatrixOp.sub(mat1,mat2); //hit
+					System.out.println("\nDifference of the matrices: ");
+					outputMat(result);
+				}
+				catch(MatrixOrderMismatchException e1)
+				{
+					System.out.println("Exception Caught: " + e1.getMessage());
+					System.out.println("Please Ensure that the order of the matrices is same");
 
+				}
+				break;
+			case 3:	
+				try
+				{
+					Matrix result = MatrixOp.multiply(mat1,mat2); //hit
+					System.out.println("\nProduct of the matrices: ");
+					outputMat(result);
+				}
+				catch(MatrixOrderMismatchException e1)
+				{
+					System.out.println("Exception Caught: " + e1.getMessage());
+					System.out.println("Please Ensure that the matrices are conformable for multiplication");
+				}
+				break;
+			case 4:
+				System.out.println("Exit");
 		}
-		//subtract
-		try
-		{
-			Matrix result = MatrixOp.sub(mat1,mat2); //hit
-			System.out.println("\nDifference of the matrices: ");
-			outputMat(result);
-		}
-		catch(MatrixOrderMismatchException e1)
-		{
-			System.out.println("Exception Caught: " + e1.getMessage());
-			System.out.println("Please Ensure that the order of the matrices is same");
-
-		}
-		//multiply	
-		try
-		{
-			Matrix result = MatrixOp.multiply(mat1,mat2); //hit
-			System.out.println("\nProduct of the matrices: ");
-			outputMat(result);
-		}
-		catch(MatrixOrderMismatchException e1)
-		{
-			System.out.println("Exception Caught: " + e1.getMessage());
-			System.out.println("Please Ensure that the matrices are conformable for multiplication");
-
-		}
+	}
 	}
 
 	static void inputMat(Matrix mat1)
