@@ -44,7 +44,7 @@ class MatrixOp
 	static Matrix add(Matrix mat1,Matrix mat2) throws MatrixOrderMismatchException
 	{	
 		Matrix sum;
-		if((mat1.row() != mat2.row()) && (mat1.col() != mat2.col()))
+		if((mat1.row() != mat2.row()) || (mat1.col() != mat2.col()))
 			throw new MatrixOrderMismatchException("Matrices not compatible for addition");
 
 		sum = new Matrix(mat1.row(),mat1.col());
@@ -63,7 +63,7 @@ class MatrixOp
 	static Matrix sub(Matrix mat1,Matrix mat2) throws MatrixOrderMismatchException
 	{	
 		Matrix diff;
-		if((mat1.row() != mat2.row()) && (mat1.col() != mat2.col()))
+		if((mat1.row() != mat2.row()) || (mat1.col() != mat2.col()))
 			throw new MatrixOrderMismatchException("Matrices not compatible for subtraction");
 
 		diff = new Matrix(mat1.row(),mat1.col());
@@ -104,15 +104,17 @@ class Driver
 	public static void main(String args[])
 	{
 		Scanner sc = new Scanner(System.in);
-		int row1=Integer.parseInt(args[0]);
-		int col1=Integer.parseInt(args[1]);
-		int row2=Integer.parseInt(args[2]);
-		int col2=Integer.parseInt(args[3]);
-		
+		System.out.print("Enter the dimension of first matrix: ");
+		int row1=sc.nextInt();
+		int col1=sc.nextInt();
 		System.out.println("\nEnter the first Matrix: ");
 		Matrix mat1 = new Matrix(row1,col1);
 		inputMat(mat1);
 		outputMat(mat1);
+				
+		System.out.print("Enter the dimension of second matrix: ");
+		int row2=sc.nextInt();
+		int col2=sc.nextInt();
 		System.out.println("\nEnter the second Matrix: ");
 		Matrix mat2 = new Matrix(row2,col2);			
 		inputMat(mat2);
@@ -120,13 +122,29 @@ class Driver
 		
 	while(true)
 	{
-		System.out.format("MENU:\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Exit\n");
+		System.out.format("MENU:\n1.Reinput\n2.Addition\n3.Subtraction\n4.Multiplication\n5.Exit\n");
 		System.out.print("Select an option: ");
 		int ch = sc.nextInt(); 			
 		switch(ch)
 		{
-				
 			case 1:
+				System.out.print("Enter the dimension of first matrix: ");
+				row1=sc.nextInt();
+				col1=sc.nextInt();
+				System.out.println("\nEnter the first Matrix: ");
+				mat1 = new Matrix(row1,col1);
+				inputMat(mat1);
+				outputMat(mat1);
+				
+				System.out.print("Enter the dimension of second matrix: ");
+				row2=sc.nextInt();
+				col2=sc.nextInt();
+				System.out.println("\nEnter the second Matrix: ");
+				mat2 = new Matrix(row2,col2);			
+				inputMat(mat2);
+				outputMat(mat2);
+				break;		
+			case 2:
 				try
 				{
 					Matrix result = MatrixOp.add(mat1,mat2); //hit
@@ -139,7 +157,7 @@ class Driver
 					System.out.println("Please Ensure that the order of the matrices is same");
 				}
 				break;
-			case 2:
+			case 3:
 				try
 				{
 					Matrix result = MatrixOp.sub(mat1,mat2); //hit
@@ -153,7 +171,7 @@ class Driver
 
 				}
 				break;
-			case 3:	
+			case 4:	
 				try
 				{
 					Matrix result = MatrixOp.multiply(mat1,mat2); //hit
@@ -166,8 +184,9 @@ class Driver
 					System.out.println("Please Ensure that the matrices are conformable for multiplication");
 				}
 				break;
-			case 4:
-				System.out.println("Exit");
+			case 5:
+				System.out.println("Bye");
+				System.exit(0);
 		}
 	}
 	}
