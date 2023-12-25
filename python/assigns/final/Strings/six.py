@@ -6,6 +6,9 @@ off=1
 secret=""
 for char in msg:
     #msg=msg.replace(char,chr(ord(char)+1))
+    if char == " ":
+        secret += char
+        continue
     asc = ord(char)
     asc = asc + off
     mod = asc%122
