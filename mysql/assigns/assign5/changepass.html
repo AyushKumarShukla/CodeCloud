@@ -1,0 +1,41 @@
+
+<html>
+	<head>
+		<title>Change Password</title>
+		<style>
+			form,h3{
+				width:50%;
+				margin:4% auto;
+				text-align:center;
+			}
+			.inp{
+				margin:1%;
+				padding:1%;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>Reset Password</h3>
+		<form action="changepass.php" method="POST">
+			<div class="inp">
+				<label for="usr">Username:</label>
+				<input type="text" name="oldusr">
+			</div>
+			<div class="inp">
+				<label for="roll">Password:</label>
+				<input type="num" name="oldpass">
+			</div>
+			<div class="inp">
+				<label for="newpass">New Username:</label>
+				<input type="text" name="newusr">
+			</div>
+			<div class="inp">
+				<label for="newpass">New Password:</label>
+				<input type="text" name="newpass">
+			</div>
+			<div class="inp">
+				<input type="submit" name="submit">
+			</div>
+		</form>
+	</body>
+</html>

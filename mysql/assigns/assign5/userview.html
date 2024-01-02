@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<title>STUDENT VIEW</title>
+	<style>
+		.forminp{
+			display:block;
+			padding:1%;
+		}
+		form,h2,h3,p,a{
+			width:70%;
+			margin:3% auto;
+			text-align:center;
+			display:block;
+		}
+	</style>
+</head>
+<body>
+	<h2>WELCOME TO STUDENT DB</h2>
+	<h3>LOGIN</h3>
+	<p>ALERT: Your Username and Password is confidential, DO NOT SHARE</p>
+	<form action="auth.php" method="POST">
+		<div class="forminp">
+		<label for="name">Username: </label>
+		<input type="text" name="usrname">
+		</div>
+		<div class="forminp">
+		<label for="name">Password: </label>
+		<input type="text" name="password">
+		</div>
+		<input type="submit" name="submit">
+		<a href="changepass.html">Forgot Password ?</a>
+	</form>
+</body>

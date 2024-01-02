@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Insert Records</title>
+</head>
+	<style>
+		h2{
+			width:100%;
+			text-align:center;
+			margin:2% auto;
+		}
+		form{
+			width:60%;
+			margin:2% auto;
+			display:grid;
+			align-items:center;
+			grid-template-columns:auto 1fr;
+			grid-template-rows:auto 1fr;
+			gap:20px;
+		}
+		.inp{
+			padding:2%;
+			font-size:2em;
+			display:contents;
+		}
+		input{
+			width:80%;
+			height:80%;
+		}
+		#submit{
+			width:50%;
+			margin:10% 150%;
+			background-color:#c9c9ff;
+			border:2px solid black;
+			border-radius:10px;
+		}
+		
+	</style>
+<body>
+	<h2>Insert New Student Records</h2>
+	<form action="insert.php" method="POST">
+		<div class="inp">
+			<label for="name">Name:</label>
+			<input type="text" name="name">
+		</div>
+		<div class="inp">
+			<label for="roll">Roll:</label>
+			<input type="number" name="roll">
+		</div>
+		<div class="inp">
+			<label for="city">City:</label>
+			<input type="text" name="city">
+		</div>
+		<div class="inp">
+			<label for="email">E-mail:</label>
+			<input type="text" name="email">
+		</div>
+		<div class="inp">
+			<label for="dob">Date Of Birth:</label>
+			<input type="date" name="dob">
+		</div>
+		<input type="submit" id="submit" name="submit">
+	</form>
+</body>
+</html>
