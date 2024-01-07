@@ -67,7 +67,7 @@ class Driver
     {
         Scanner sc = new Scanner(System.in);
         Student students[] = new Student[30];
-        int cnt = 0,index;
+        int cnt = 1,index;
         while(true)
         {
             System.out.format("\nMENU:\n1.Admit New Student\n2.Set Student Marks\n3.Get Student Info\n4.Get Student Performance\n5.Exit\n");
@@ -81,34 +81,58 @@ class Driver
                 case 2:
                     System.out.print("Enter Roll No: ");
                     index = sc.nextInt();
-                    inputMarks(students[index]);
+                    try
+                    {
+                        if(students[index]==null)
+                            throw new NullPointerException();
+                        inputMarks(students[index]);
+                    }
+                    catch(NullPointerException e)
+                    {
+                        System.out.println("STUDENT NOT FOUND. Please admit the student first");
+                    }
                     break;
                 case 3:
-                    System.out.print("Enter Roll No: ");
-                    index = sc.nextInt();
-                    students[index].showStudentInfo();
+                    try
+                    {
+                        System.out.print("Enter Roll No: ");
+                        index = sc.nextInt();
+                        if(students[index]==null)
+                            throw new NullPointerException();
+                        students[index].showStudentInfo();
+                    }
+                    catch(NullPointerException e)
+                    {
+                        System.out.println("STUDENT NOT FOUND. Please admit the student first");
+                    }
                     break;
                 case 4:
-                    System.out.print("Enter Roll No: ");
-                    index = sc.nextInt();
-                    students[index].showStudentPerformanceInfo();
+                    try
+                    {
+                        System.out.print("Enter Roll No: ");
+                        index = sc.nextInt();
+                        students[index].showStudentPerformanceInfo();
+                    }
+                    catch(NullPointerException e)
+                    {
+                        System.out.println("STUDENT NOT FOUND. Please admit the student first");
+                    }
                     break;
                 case 5:
                     System.exit(0);
                     break;
             }
-
         }
     }
 
     static Student newAdmit(int count)
     {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Name: ");
+        System.out.print("Enter Name: ");
         String name = sc.nextLine();
-        System.out.println("Enter Stream: ");
+        System.out.print("Enter Stream: ");
         String stream = sc.nextLine();
-        Student s = new Student(name,stream,count);
+        Student s = new Student(name,stream,count+1);
         System.out.format("Roll Number Of %s of stream %s is: %d",name,stream,count);
         return s;
     }
