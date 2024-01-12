@@ -49,6 +49,7 @@ if(!$conn)
 $show = "SELECT * FROM MENU;";
 $res = mysqli_query($conn,$show);
 $rows = mysqli_num_rows($res);
+$cnt=1;
 if($rows != 0)
 {
 	while($row = mysqli_fetch_assoc($res))
@@ -56,8 +57,10 @@ if($rows != 0)
 		echo "<tr>\n";
 		echo "<td>".$row['ITEM']."</td>";
 		echo "<td>".$row['PRICE']."</td>";
-		echo "<td>"."<input type='number' min='0' max='10' value='0'>"."</td>\n";
+		$name = "item".$cnt;
+		echo "<td>"."<input type='number' min='0' max='10' value='0' name='$name'>"."</td>\n";
 		echo "</tr>\n";
+		$cnt = $cnt + 1;
 	}
 	echo "</table>\n";
 	echo "<input type='submit' value='Order Now!' name='submit'>";
