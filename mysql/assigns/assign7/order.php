@@ -50,6 +50,12 @@ if(isset($_POST['submit']))
 	$payable = $total + $tax;
 	echo "PAYABLE AMOUNT: ".$payable;
 	echo "</div>";
+	//Inserting payment details into db
+	$customer=$_POST['cname'];
+	$today = date("Y-m-d");
+	$ins = "INSERT INTO CUSTOMER VALUES ('$customer',$payable,'$today')";
+	mysqli_query($conn,$ins);
+	echo "<h3 style='width:50%;margin:2px auto;text-align:center;'>Dear $customer, Thank You For Ordering</h3>";
 }
 ?>
 

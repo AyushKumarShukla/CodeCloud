@@ -28,6 +28,9 @@
 			width:20%;
 			margin:4% 40%;
 		}	
+		#cname{
+			text-align:center;
+		}
 	</style>
 </head>
 <body>
@@ -63,6 +66,7 @@ if($rows != 0)
 		$cnt = $cnt + 1;
 	}
 	echo "</table>\n";
+	echo "Enter Your Name: <input type='text' name='cname'>";
 	echo "<input type='submit' value='Order Now!' name='submit'>";
 	echo "</form>\n";
 }
