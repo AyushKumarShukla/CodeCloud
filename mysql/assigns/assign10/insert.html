@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Insert Records</title>
+</head>
+	<style>
+		h2{
+			width:100%;
+			text-align:center;
+			margin:2% auto;
+		}
+		form{
+			width:60%;
+			margin:2% auto;
+			display:grid;
+			align-items:center;
+			grid-template-columns:auto 1fr;
+			grid-template-rows:auto 1fr;
+			gap:20px;
+		}
+		.inp{
+			padding:2%;
+			font-size:2em;
+			display:contents;
+		}
+		input{
+			width:80%;
+			height:80%;
+		}
+		#submit{
+			width:50%;
+			margin:10% 150%;
+			background-color:#c9c9ff;
+			border:2px solid black;
+			border-radius:10px;
+		}
+		a{
+			position:absolute;
+			right:350px;
+			bottom:105px;
+			text-decoration:none;
+			font-size:2em;
+		}
+	</style>
+<body>
+	<h2>Insert New Employee Records</h2>
+	<form action="insert.php" method="POST">
+		<div class="inp">
+			<label for="name">Name:</label>
+			<input type="text" name="name">
+		</div>
+		<div class="inp">
+			<label for="add">Address:</label>
+			<textarea name="add" rows="4" cols="25"></textarea>
+		</div>
+		<div class="inp">
+			<label for="ph">Phone No.:</label>
+			<input type="int" name="ph">
+		</div>
+		<div class="inp">
+			<label for="salary">Salary:</label>
+			<input type="int" name="salary" step="0.01">
+		</div>
+		<div class="inp">
+			<label for="opt1">GEN</label>
+			<input type="radio" id="opt1" value="GEN" name="cat">
+			<label for="opt2">SC</label>
+			<input type="radio" id="opt2" value="SC" name="cat">
+			<label for="opt3">ST</label>
+			<input type="radio" id="opt3" value="ST" name="cat">
+			<label for="opt4">OBC</label>
+			<input type="radio" id="opt4" value="OBC" name="cat">
+		</div>
+		<div class="inp">
+			<label for="hin">Hindi</label>		
+			<input type="checkbox" name="hin">
+			<label for="eng">English</label>		
+			<input type="checkbox" name="eng">
+			<label for="beng">Bengali</label>		
+			<input type="checkbox" name="beng">
+		</div>
+		<input type="submit" id="submit" name="submit">
+		<a href="display.html">VIEW EMPLOYEE RECORDS</a>
+	</form>
+</body>
+</html>
