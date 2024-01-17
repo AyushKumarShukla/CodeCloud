@@ -1,28 +1,34 @@
-class College
+class Outer
 {
-    int college_id = 5587;
-
-    class Person
+    private int outer_var = 123;
+    class Inner
     {
-        int personal_id = 1089;
+        int inner_var = 1089;
 
-        void printID()
+        void printOuterVars()
         {
-            System.out.format("PERSONAL ID: %d\nCOLLEGE ID: %d",personal_id,college_id);
+            //Access of outer class members from inner class without requiring any object
+            System.out.format("FROM INNER CLASS: WITHOUT OUTER CLASS OBJECT OUTER_VAR: %d\n",outer_var);
         }
     }
 
-    int getPersonId(College.Person obj)
+    void printInnerVars()
     {
-        return obj.personal_id;
+        //this object is required to access the members of the inner class
+        Inner innerobj = new Inner();
+        System.out.format("FROM OUTER CLASS: THROUGH INNER CLASS OBJECT: INNER VAR: %d\n",innerobj.inner_var);
     }
 }
 class Main
 {
     public static void main(String args[])
-    {   
-        College c = new College();
-        College.Person p = c.new Person();
-        c.getPersonId(p);
+    {
+        Outer out = new Outer();
+        //the inner class object must be instantiated with respect to a outer class object
+        //Outerclass.Innerclass is the fully qualified name for locating the class
+        Outer.Inner in = out.new Inner();
+        out.printInnerVars();
+        in.printOuterVars();
     }
+
 }
