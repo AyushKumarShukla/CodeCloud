@@ -22,6 +22,8 @@ public class ServletOne extends HttpServlet {
 		
 		RequestDispatcher rq = request.getRequestDispatcher("two");
 		rq.forward(request, response);
+		
+		
 	}
 
 }
