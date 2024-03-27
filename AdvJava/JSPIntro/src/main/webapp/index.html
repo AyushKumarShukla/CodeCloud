@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+	form{
+		width:50%;
+		margin: 2px auto;
+	}
+	
+</style>
+</head>
+<body>
+	<center><h2>Welcome To Basic Calculator</h2></center>
+	<form action="calc.jsp" method="POST">
+		<div class='inp'>
+			<label for='num1'>Number 1: </label>
+			<input type='number' name="num1">
+		</div>
+		<div class='inp'>
+			<label for='num2'>Number 2: </label>
+			<input type='number' name="num2">
+		</div>
+		<div class="inp">
+			<label for="operation">Select an operation:</label>
+        	<select id="operation" name="operation">
+	            <option value="add">Add</option>
+	            <option value="sub">Subtract</option>
+	            <option value="mul">Multiply</option>
+	            <option value="div">Divide</option>
+        	</select>
+		</div>
+		<input type="submit">
+	</form>
+</body>
+</html>
