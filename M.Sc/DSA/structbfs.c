@@ -53,15 +53,22 @@ int Dequeue(Queue* queue)
     }
 }
 
-void bfs(Graph* graph)
+
+void bfs(Graph* graph,int start,int* parent)
 {
-    int i,j,ret;
+    int i,j,ret,current;
     bool visited[MAX] = {false};
     Queue queue;
     initQueue(&queue);
+    
+    for(i=0;i<graph->vcount;i++)
+        parent[i] = -1;
 
     for(i=0;i<graph->vcount;i++)
     {
+        if(!visited[start])
+            i = start;
+
         if(!visited[i])
         {
             Enqueue(&queue,i);
@@ -78,11 +85,20 @@ void bfs(Graph* graph)
                     {
                         Enqueue(&queue,j);
                         visited[j] = true;
+                        parent[j] = ret; 
                     }
                 }
             }
         }
     }
+
+    // Display DFS Tree
+    printf("\nBFS Tree Edges:\n");
+    printf("{S,D})\n");
+    printf("------\n");
+    for(i=0;i<graph->vcount;i++)
+        if(parent[i] != -1)
+            printf("{%d,%d}\n",parent[i],i);
 }
 
 
@@ -121,9 +137,23 @@ void showGraph(Graph* graph)
 	}
 }
 
+int printShortestPath(int* parent,int vend,int vcount)
+{
+    int length=0;
+    int current=vend;   
+    while(parent[current] != -1)
+    {
+        length++;
+        printf("(%d,%d)\n",parent[current],current);
+        current = parent[current];
+    }
+    return length;
+}
+
 int main(void)
 {
-	int vcount,ecount;
+	int vcount,ecount,start,vstart,vend,ch,pathlength;
+    int parent[MAX];
 	Graph graph;
 	
 	printf("Enter the number of vertices: ");
@@ -135,8 +165,30 @@ int main(void)
 	inputGraph(&graph);
     printf("Generated Adjacency Matrix:\n");
 	showGraph(&graph);
-    printf("\n\nBFS TRAVERSAL:\t");
-    bfs(&graph);
-    printf("\n");
-	return 0;
+    
+    printf("MENU:\n1. Simple BFS with arbitrary start vertex\n2.Shortest path between two vertices using BFS\n");
+    printf("Enter Your Choice");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:
+            printf("\nEnter the start vertex for BFS traversal: ");
+            scanf("%d",&start);
+    
+            printf("\n\nBFS TRAVERSAL:\t");
+            bfs(&graph,start,parent);
+            
+            break;
+        case 2:
+            printf("Enter the two vertices to find shortest path: ");
+            scanf("%d%d",&vstart,&vend);
+            bfs(&graph,vstart,parent);
+            printf("Shortest Path Edges:\n");
+            pathlength = printShortestPath(parent,vend,vcount);
+            printf("\nShortest Path Length: %d\n",pathlength);
+            break;
+    }
+ 
+    printf("\n");	
+    return 0;
 }
