@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-
+#include<math.h>
 
 #define MAX_SIZE 20
 typedef struct sparsemat
@@ -80,11 +80,32 @@ int compare3Tuple(const void *a, const void *b) {
 
     return 0; // If all values are equal
 }
+// return the number of non zero elements in the matrix
+int NNZ(int(*mat)[20],int rowcnt, int colcnt)
+{
+    int i,j;
+    int nnzcnt = 0;
+    for(i=0;i<rowcnt;i++)
+     for(j=0;j<colcnt;j++)
+        if(mat[i][j] != 0)
+            nnzcnt++;
+    return nnzcnt;
+}
+
+bool verify(int nnzcnt,int row,int col)
+{
+    int size = row * col;
+    if(size % 3 == 0)
+        return(nnzcnt < (size/3));
+    else
+        return(nnzcnt < ceil(((double)size/3.0)));
+}
 int main(void)
 {
     int ch;
     int mat[MAX_SIZE][MAX_SIZE];
-
+    bool matinit = false;
+    bool sparseinit = false;
     sparsemat spmat;
     int row,col;
     int i,j;
@@ -92,7 +113,7 @@ int main(void)
     while(true)
     {
         printf("\nMENU:\n");
-        printf("1.Input\n2. Display original mat\n3. Display 3-tuple rep \n4. Transpose\n5.Generate 3 Tuple\n6. Exit");
+        printf("1.\tInput\n2.\tDisplay original mat\n3.\tGenerate 3 Tuple Rep \n4.\tTranspose\n5.\tDisplay 3 Tuple Rep\n6.\tExit");
         printf("\nEnter Your Choice: ");
         scanf("%d",&ch);
         switch(ch)
@@ -100,13 +121,24 @@ int main(void)
             case 1:
                 printf("Enter number of rows and cols: ");
                 scanf("%d%d",&row,&col);
-                printf("Enter %d elements of the matrix: ",row*col);
+                printf("Enter %d elements of the matrix: \n",row*col);
                 for(i=0;i<row;i++)
                     for(j=0;j<col;j++)
                         scanf("%d",&mat[i][j]);   
                 init3Tuple(&spmat,row);
+                matinit = true;
                 break;
             case 2:
+                if(!matinit)
+                {
+                    printf("INFO:\tNO MATRIX REGISTERED\n");
+                    break;
+                }
+                if(!sparseinit)
+                {
+                    printf("INFO:\t3-TUPLE REP. NOT GENERATED\n");
+                    break;
+                }
                 printf("Entered Matrix:\n");
                 for(i=0;i<row;i++)
                 {
@@ -119,15 +151,48 @@ int main(void)
 
                 break;
             
-            case 3:
+            case 5:
+                if(!matinit)
+                {
+                    printf("INFO:\tNO MATRIX REGISTERED\n");
+                    break;
+                }
+                if(!sparseinit)
+                {
+                    printf("INFO:\n3-TUP REP. NOT GENERATED");
+                    break;
+                }
                 qsort(spmat.values, spmat.ROW_CNT, sizeof(spmat.values[0]), compare3Tuple);
                 display3Tuple(&spmat);
                 break;
             case 4:
+                if(!matinit)
+                {
+                    printf("INFO:\tNO MATRIX REGISTERED\n");
+                    break;
+                }
+                if(!sparseinit)
+                {
+                    printf("INFO:\t 3-TUPLE REP. NOT GENERATED\n");
+                    break;
+                }
                 transpose(&spmat);
+                printf("INFO:\tTRANSPOSED: 3-TUPLE REPRESENTATION\n");
                 break;
-            case 5:
+            case 3:
+                if(!matinit)
+                {
+                    printf("INFO:\tNO MATRIX REGISTERED\n");
+                    break;
+                }
+                if(!verify(NNZ(mat,row,col),row,col))
+                {
+                    printf("INFO:\t Registered Matrix Not Sparse Enough.");
+                    break;
+                }
                 convert3Tuple(mat,&spmat,row,col);
+                sparseinit = true;
+                printf("INFO:\tGENERATED: 3-TUPLE SPARSE MATRIX REPRESENTATION\n");
                 break;
             case 6:
                 exit(0);
