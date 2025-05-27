@@ -4,6 +4,46 @@
 using namespace std;
 
 class Node{
+	public:
+		int id;
+		int reqtime;
+		
+		bool wantsCS;
+		bool inCS;
+		
+		vector<Node*> waiting;
+		vector<int> replies;
+		
+
+		Node(int id);
+		int getID();
+		void request(Node* req, int reqtime);
+		void makeWait(Node* req);
+		void goAhead(int id);
+		bool hasPermission(int SIZE);
+		void printReplies();
+		void yield();
+		void acquire();
+	
+};
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------------------*/
+/*
+class Node{
 	private:
 		int id;
 		int req_time;
@@ -11,7 +51,7 @@ class Node{
 		bool is_CS;
 		
 		vector<bool> replies;
-		vector<bool> waiting_nodes;
+		vector<Node> waiting_nodes;
 		
 	public:
 		Node(int id,int V);
@@ -29,7 +69,13 @@ class Node{
 		void logReply(int repid);
 		bool checkAllReplies();
 		
-		void addWaitingNode(int waitid);
+		void addWaitingNode(Node req);
+		
+		int requestCSAccess(Node req);
+		
+		void yieldCS();
+		void deferred_reply(int id);
 		
 };
 #endif
+*/
