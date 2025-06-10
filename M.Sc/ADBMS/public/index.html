@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To AlgoRhythm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        #title2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .userdata {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .phone-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .country-code {
+            flex: 0 0 80px;
+        }
+        
+        .phone-number {
+            flex: 1;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        #btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 10px;
+        }
+        
+        #btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .users-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e1e1e1;
+        }
+        
+        #viewUsersBtn {
+            background: #28a745;
+            margin-bottom: 20px;
+        }
+        
+        #viewUsersBtn:hover {
+            background: #218838;
+        }
+        
+        .users-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .user-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .user-details {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .validation-error {
+            color: #721c24;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .invalid {
+            border-color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="signup">
+        <h3 id="title2">Sign Up</h3>
+        <form id="signupForm">
+            <div class="userdata">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required>
+                <div class="validation-error" id="nameError"></div>
+            </div>
+            <div class="userdata">
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" id="email" required>
+                <div class="validation-error" id="emailError"></div>
+            </div>
+            <div class="userdata">
+                <label for="phone">Phone Number:</label>
+                <div class="phone-container">
+                    <select name="countryCode" id="countryCode" class="country-code" required>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+91" selected>🇮🇳 +91</option>
+                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+81">🇯🇵 +81</option>
+                        <option value="+86">🇨🇳 +86</option>
+                        <option value="+61">🇦🇺 +61</option>
+                        <option value="+55">🇧🇷 +55</option>
+                        <option value="+7">🇷🇺 +7</option>
+                    </select>
+                    <input type="tel" name="phone" id="phone" class="phone-number" placeholder="Enter phone number" required>
+                </div>
+                <div class="validation-error" id="phoneError"></div>
+            </div>
+            <button type="submit" id="btn">Register</button>
+        </form>
+        <div id="message" class="message"></div>
+        
+        <div class="users-section">
+            <button type="button" id="viewUsersBtn" onclick="loadUsers()">View All Users</button>
+            <div id="usersList" class="users-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const messageDiv = document.getElementById('message');
+        
+        // Phone number validation patterns for different countries
+        const phonePatterns = {
+            '+1': /^[2-9]\d{2}[2-9]\d{2}\d{4}$/, // US: 10 digits
+            '+44': /^\d{10,11}$/, // UK: 10-11 digits
+            '+91': /^[6-9]\d{9}$/, // India: 10 digits starting with 6-9
+            '+49': /^\d{10,12}$/, // Germany: 10-12 digits
+            '+33': /^[1-9]\d{8}$/, // France: 9 digits
+            '+81': /^\d{10,11}$/, // Japan: 10-11 digits
+            '+86': /^\d{11}$/, // China: 11 digits
+            '+61': /^\d{9}$/, // Australia: 9 digits
+            '+55': /^\d{10,11}$/, // Brazil: 10-11 digits
+            '+7': /^\d{10}$/ // Russia: 10 digits
+        };
+        
+        // Real-time validation
+        document.getElementById('phone').addEventListener('input', validatePhone);
+        document.getElementById('countryCode').addEventListener('change', validatePhone);
+        document.getElementById('email').addEventListener('blur', validateEmail);
+        document.getElementById('name').addEventListener('blur', validateName);
+        
+        function validateName() {
+            const name = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            
+            if (name.value.trim().length < 2) {
+                showFieldError(name, nameError, 'Name must be at least 2 characters long');
+                return false;
+            }
+            
+            hideFieldError(name, nameError);
+            return true;
+        }
+        
+        function validateEmail() {
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailPattern.test(email.value)) {
+                showFieldError(email, emailError, 'Please enter a valid email address');
+                return false;
+            }
+            
+            hideFieldError(email, emailError);
+            return true;
+        }
+        
+        function validatePhone() {
+            const phone = document.getElementById('phone');
+            const countryCode = document.getElementById('countryCode');
+            const phoneError = document.getElementById('phoneError');
+            
+            const pattern = phonePatterns[countryCode.value];
+            const cleanPhone = phone.value.replace(/\D/g, ''); // Remove non-digits
+            
+            if (!pattern.test(cleanPhone)) {
+                let message = 'Invalid phone number format';
+                if (countryCode.value === '+91') {
+                    message = 'Indian numbers should be 10 digits starting with 6-9';
+                } else if (countryCode.value === '+1') {
+                    message = 'US numbers should be 10 digits (e.g., 2125551234)';
+                }
+                showFieldError(phone, phoneError, message);
+                return false;
+            }
+            
+            hideFieldError(phone, phoneError);
+            return true;
+        }
+        
+        function showFieldError(field, errorDiv, message) {
+            field.classList.add('invalid');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function hideFieldError(field, errorDiv) {
+            field.classList.remove('invalid');
+            errorDiv.style.display = 'none';
+        }
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate all fields before submission
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPhoneValid = validatePhone();
+            
+            if (!isNameValid || !isEmailValid || !isPhoneValid) {
+                showMessage('Please fix the validation errors before submitting', 'error');
+                return;
+            }
+            
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Combine country code and phone number
+            data.fullPhone = data.countryCode + data.phone.replace(/\D/g, '');
+            
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage(result.message, 'success');
+                    form.reset();
+                    loadUsers(); // Automatically refresh users list
+                } else {
+                    showMessage(result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            }
+        });
+        
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        async function loadUsers() {
+            try {
+                const response = await fetch('/users');
+                const users = await response.json();
+                
+                const usersList = document.getElementById('usersList');
+                
+                if (users.length === 0) {
+                    usersList.innerHTML = '<p style="text-align: center; color: #666;">No users found.</p>';
+                    return;
+                }
+                
+                usersList.innerHTML = users.map(user => `
+                    <div class="user-item">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-details">
+                            Email: ${user.email} ${user.phone ? '| Phone: ' + user.phone : ''} | 
+                            Added: ${new Date(user.created_at).toLocaleDateString()}
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showMessage('Error loading users', 'error');
+            }
+        }
+        
+        // Format phone number as user types (for better UX)
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            const countryCode = document.getElementById('countryCode').value;
+            
+            // Format based on country
+            if (countryCode === '+1' && value.length >= 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+            } else if (countryCode === '+91' && value.length >= 5) {
+                value = value.replace(/(\d{5})(\d{5})/, '$1-$2');
+            }
+            
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
