@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Marks Entry</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .form-container, .chart-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    input[type="number"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      display: none;
+    }
+
+    .success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    /* Fullscreen Chart */
+    .chart-fullscreen {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      padding: 20px;
+      position: relative;
+    }
+
+    .chart-fullscreen canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="formSection" class="form-container">
+    <h1>Student Marks Entry</h1>
+    <form id="marksForm">
+      <div class="form-group">
+        <label for="roll">Roll Number:</label>
+        <input type="number" id="roll" name="roll" required min="1" />
+      </div>
+      <div class="form-group">
+        <label for="phy">Physics Marks:</label>
+        <input type="number" id="phy" name="phy" required min="0" max="100" />
+      </div>
+      <div class="form-group">
+        <label for="chem">Chemistry Marks:</label>
+        <input type="number" id="chem" name="chem" required min="0" max="100" />
+      </div>
+      <div class="form-group">
+        <label for="math">Mathematics Marks:</label>
+        <input type="number" id="math" name="math" required min="0" max="100" />
+      </div>
+      <div class="form-group">
+        <label for="bio">Biology Marks:</label>
+        <input type="number" id="bio" name="bio" required min="0" max="100" />
+      </div>
+      <button type="submit" id="submitBtn">Submit Marks</button>
+    </form>
+    <button onclick="showChart()" style="margin-top: 20px; background-color: #007BFF;">Plot Graph</button>
+    <div id="message" class="message"></div>
+  </div>
+
+  <!-- Fullscreen Chart Section -->
+  <div id="chartSection" class="chart-fullscreen">
+  <button class="back-button" onclick="hideChart()">← Back</button>
+
+  <!-- Legend -->
+  <div class="legend" style="margin-top: 50px; margin-bottom: 10px; text-align: center;">
+    <span style="display: inline-block; background: gold; padding: 6px 12px; margin: 0 10px; border-radius: 4px; color: black; font-weight: bold;">
+      Above 90%
+    </span>
+    <span style="display: inline-block; background: red; padding: 6px 12px; margin: 0 10px; border-radius: 4px; color: white; font-weight: bold;">
+      Below 40%
+    </span>
+    <span style="display: inline-block; background: green; padding: 6px 12px; margin: 0 10px; border-radius: 4px; color: white; font-weight: bold;">
+      Decent
+    </span>
+  </div>
+
+  <canvas id="marksChart"></canvas>
+</div>
+
+    <button class="back-button" onclick="hideChart()">← Back</button>
+    <canvas id="marksChart"></canvas>
+  </div>
+
+  <script>
+  document.getElementById('marksForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('message');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const formData = {
+      roll: parseInt(document.getElementById('roll').value),
+      phy: parseInt(document.getElementById('phy').value),
+      chem: parseInt(document.getElementById('chem').value),
+      math: parseInt(document.getElementById('math').value),
+      bio: parseInt(document.getElementById('bio').value)
+    };
+
+    try {
+      const response = await fetch('/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        messageDiv.className = 'message success';
+        messageDiv.textContent = 'Marks saved successfully!';
+        document.getElementById('marksForm').reset();
+      } else {
+        messageDiv.className = 'message error';
+        messageDiv.textContent = result.error || 'Failed to save marks';
+      }
+    } catch (error) {
+      messageDiv.className = 'message error';
+      messageDiv.textContent = 'Error: Unable to connect to server';
+      console.error('Error:', error);
+    } finally {
+      messageDiv.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Marks';
+
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
+  });
+
+  let chartInstance = null;
+
+  async function showChart() {
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('chartSection').style.display = 'block';
+
+    try {
+      const res = await fetch('/marks');
+      const data = await res.json();
+
+      const labels = data.map(d => d.roll.toString());
+      const phy = data.map(d => d.PHY);
+      const chem = data.map(d => d.CHEM);
+      const math = data.map(d => d.MATH);
+      const bio = data.map(d => d.BIOLOGY);
+
+      const labelColors = data.map(d => {
+        const avg = (d.PHY + d.CHEM + d.MATH + d.BIOLOGY) / 4;
+        if (avg < 40) return 'red';
+        if (avg >= 90) return 'gold';
+        return 'green';
+      });
+
+      const ctx = document.getElementById('marksChart').getContext('2d');
+
+      // Destroy previous chart instance if it exists
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Physics',
+              data: phy,
+              backgroundColor: 'rgba(255, 99, 132, 0.7)'
+            },
+            {
+              label: 'Chemistry',
+              data: chem,
+              backgroundColor: 'rgba(54, 162, 235, 0.7)'
+            },
+            {
+              label: 'Math',
+              data: math,
+              backgroundColor: 'rgba(75, 192, 192, 0.7)'
+            },
+            {
+              label: 'Biology',
+              data: bio,
+              backgroundColor: 'rgba(255, 206, 86, 0.7)'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Student Marks - Stacked Bar Chart',
+              font: {
+                size: 20
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            }
+          },
+          interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: {
+  color: function(context) {
+    return labelColors[context.index];
+  },
+  font: {
+    size: 14,
+    weight: 'bold'
+  }
+}
+
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              max: 400,
+              ticks: {
+                font: {
+                  size: 14
+                }
+              }
+            }
+          }
+        }
+      });
+
+    } catch (err) {
+      alert('Error loading chart data.');
+      console.error(err);
+      hideChart();
+    }
+  }
+
+  function hideChart() {
+    document.getElementById('chartSection').style.display = 'none';
+    document.getElementById('formSection').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
