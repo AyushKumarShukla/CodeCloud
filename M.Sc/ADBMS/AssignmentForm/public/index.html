@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Data Logger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 600px;
+            perspective: 1000px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 30px;
+            transform-origin: center;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .card.slide-in {
+            animation: slideInFromRight 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card.slide-out {
+            animation: slideOutToRight 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%) rotateY(20deg);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutToRight {
+            from {
+                transform: translateX(0) rotateY(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%) rotateY(-20deg);
+                opacity: 0;
+            }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .card-id {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .card-id::before {
+            content: '#';
+            font-size: 16px;
+            margin-right: 2px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #56ab2f, #a8e6cf);
+            color: white;
+            box-shadow: 0 10px 20px rgba(86, 171, 47, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(86, 171, 47, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .stacked-cards {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .stacked-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .stacked-card.slide-out {
+            animation: slideOutToRight 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+        }
+
+        .stacked-card .card-id {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            z-index: 10;
+        }
+
+        .stacked-card .card-id::before {
+            content: '#';
+            font-size: 14px;
+            margin-right: 1px;
+        }
+
+        .order-summary {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .order-summary.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .order-summary h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .order-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .order-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #28a745;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .loading.show {
+            display: block;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="stacked-cards" id="stackedCards"></div>
+        
+        <div class="card" id="currentCard">
+            <div class="card-header">
+                <div class="card-id" id="cardId">1</div>
+                <div class="card-title">Menu Item</div>
+                <div class="card-subtitle">Fill in the details below</div>
+            </div>
+            
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" id="itemName" name="itemName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemDescription">Item Description</label>
+                    <textarea id="itemDescription" name="itemDescription" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Price (in Rs.)</label>
+                    <input type="number" id="price" name="price" min="0" step="0.01" required>
+                </div>
+                
+                <div class="buttons">
+                    <button type="button" class="btn btn-primary" id="nextBtn">Next Item</button>
+                    <button type="submit" class="btn btn-success" id="submitBtn">Insert</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="order-summary" id="orderSummary">
+            <h2>Items Logged Successfully!</h2>
+            <div class="loading" id="loading">Logging orders to database...</div>
+            <div class="order-list" id="orderList"></div>
+            <div class="total" id="totalAmount"></div>
+            <button type="button" class="btn btn-primary" onclick="location.reload()">Repeat</button>
+        </div>
+    </div>
+
+    <script>
+        class OrderLogger {
+            constructor() {
+                this.currentCardId = 1;
+                this.orders = [];
+                this.currentCard = document.getElementById('currentCard');
+                this.stackedCards = document.getElementById('stackedCards');
+                this.form = document.getElementById('orderForm');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.orderSummary = document.getElementById('orderSummary');
+                this.loading = document.getElementById('loading');
+                
+                this.initializeEventListeners();
+            }
+            
+            initializeEventListeners() {
+                // Next button click
+                this.nextBtn.addEventListener('click', () => {
+                    if (this.validateCurrentForm()) {
+                        this.saveCurrentOrder();
+                        this.createNewCard();
+                    }
+                });
+                
+                // Form submission
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (this.validateCurrentForm()) {
+                        this.saveCurrentOrder();
+                        this.logAllOrders();
+                    }
+                });
+            }
+            
+            validateCurrentForm() {
+                const itemName = document.getElementById('itemName').value.trim();
+                const itemDescription = document.getElementById('itemDescription').value.trim();
+                const price = document.getElementById('price').value;
+                
+                if (!itemName || !itemDescription || !price) {
+                    alert('Please fill in all required fields');
+                    return false;
+                }
+                
+                if (parseFloat(price) <= 0) {
+                    alert('Price must be greater than 0');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            saveCurrentOrder() {
+                const order = {
+                    id: this.currentCardId,
+                    itemName: document.getElementById('itemName').value.trim(),
+                    itemDescription: document.getElementById('itemDescription').value.trim(),
+                    price: parseFloat(document.getElementById('price').value)
+                };
+                
+                this.orders.push(order);
+            }
+            
+            createNewCard() {
+                // Create stacked card from current card
+                const stackedCard = document.createElement('div');
+                stackedCard.className = 'stacked-card';
+                
+                // Calculate staggered positioning - each card shows 50px at the top
+                const cardOffset = (this.orders.length - 1) * 50;
+                stackedCard.style.transform = `translateY(${cardOffset}px)`;
+                stackedCard.style.zIndex = 1000 - this.orders.length; // Lower z-index for stacked cards
+                
+                // Add card ID indicator centered in the visible portion
+                const cardIdIndicator = document.createElement('div');
+                cardIdIndicator.className = 'card-id';
+                cardIdIndicator.textContent = this.currentCardId;
+                stackedCard.appendChild(cardIdIndicator);
+                
+                this.stackedCards.appendChild(stackedCard);
+                
+                // Slide current card out and create new one
+                this.currentCard.classList.add('slide-out');
+                
+                setTimeout(() => {
+                    this.currentCardId++;
+                    
+                    // Adjust the current card position to show stacked cards below
+                    const totalOffset = this.orders.length * 50;
+                    this.currentCard.style.transform = `translateY(${totalOffset}px)`;
+                    
+                    this.resetCurrentCard();
+                    this.currentCard.classList.remove('slide-out');
+                    this.currentCard.classList.add('slide-in');
+                    
+                    setTimeout(() => {
+                        this.currentCard.classList.remove('slide-in');
+                    }, 600);
+                }, 300);
+            }
+            
+            resetCurrentCard() {
+                // Update card ID
+                document.getElementById('cardId').textContent = this.currentCardId;
+                
+                // Reset form
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemDescription').value = '';
+                document.getElementById('price').value = '';
+                
+                // Reset current card transform when form is reset
+                this.currentCard.style.transform = '';
+            }
+            
+            async logAllOrders() {
+                // Hide the entire form container first
+                this.currentCard.style.display = 'none';
+                this.stackedCards.style.display = 'none';
+                
+                // Animate the entire stack sliding out to the right
+                const allStackedCards = Array.from(this.stackedCards.children);
+                
+                // Re-show for animation
+                this.currentCard.style.display = 'block';
+                this.stackedCards.style.display = 'block';
+                
+                // Animate current card first
+                this.currentCard.classList.add('slide-out');
+                
+                // Then animate all stacked cards with a slight delay
+                allStackedCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('slide-out');
+                    }, 100 + (index * 50));
+                });
+                
+                // Calculate total animation time based on number of cards
+                const totalAnimationTime = 800 + (allStackedCards.length * 50);
+                
+                // Hide everything after animation and show order summary
+                setTimeout(async () => {
+                    this.currentCard.style.display = 'none';
+                    this.stackedCards.style.display = 'none';
+                    await this.showOrderSummary();
+                }, totalAnimationTime);
+            }
+            
+            async showOrderSummary() {
+                const orderList = document.getElementById('orderList');
+                const totalAmount = document.getElementById('totalAmount');
+                
+                // Show loading first
+                this.orderSummary.classList.add('show');
+                this.loading.classList.add('show');
+                
+                try {
+                    // Send orders to server
+                    const response = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ orders: this.orders })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to log items');
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Items logged successfully:', result);
+                    
+                    // Hide loading and show results
+                    this.loading.classList.remove('show');
+                    
+                    let html = '';
+                    let total = 0;
+                    
+                    this.orders.forEach(order => {
+                        html += `
+                            <div class="order-item">
+                                <strong>${order.itemName}</strong> (ID: #${order.id})<br>
+                                <small>${order.itemDescription}</small><br>
+                                <span>₹${order.price.toFixed(2)}</span>
+                            </div>
+                        `;
+                        total += order.price;
+                    });
+                    
+                    orderList.innerHTML = html;
+                    totalAmount.innerHTML = `Total Amount: ₹${total.toFixed(2)}`;
+                    
+                    // Update the success message
+                    document.querySelector('.order-summary h2').textContent = 'Items Logged with the details of each item';
+                    
+                } catch (error) {
+                    console.error('Error logging orders:', error);
+                    this.loading.classList.remove('show');
+                    
+                    // Show error message
+                    orderList.innerHTML = '<div style="color: red;">Error logging orders. Please try again.</div>';
+                    totalAmount.innerHTML = '';
+                    document.querySelector('.order-summary h2').textContent = 'Error Logging Order';
+                }
+            }
+        }
+        
+        // Initialize the form when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new OrderLogger();
+        });
+    </script>
+</body>
+</html>

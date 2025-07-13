@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Entry Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .item-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .item-group select,
+    .item-group input {
+      flex: 1;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Order Entry Form</h2>
+    <form id="orderForm">
+      <div class="form-group">
+        <label for="orderNumber">Order Number</label>
+        <input type="text" id="orderNumber" name="orderNumber" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="orderDate">Order Date</label>
+        <input type="date" id="orderDate" name="orderDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="customerName">Customer Name</label>
+        <input type="text" id="customerName" name="customerName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="customerAddress">Customer Address</label>
+        <input type="text" id="customerAddress" name="customerAddress" required />
+      </div>
+
+      <div class="form-group">
+        <label for="pincode">Pincode</label>
+        <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required />
+      </div>
+
+      <div id="itemsWrapper" class="form-group">
+        <label>Items</label>
+        <!-- Dynamic item inputs go here -->
+      </div>
+
+      <button type="button" onclick="addItem()">+ Add Another Item</button>
+
+      <div class="form-group">
+        <label for="deliveryPerson">Delivery Person</label>
+        <select id="deliveryPerson" name="deliveryPerson" required>
+          <option value="" disabled selected>Select Delivery Person</option>
+          <option value="Ravi">Ravi</option>
+          <option value="Meena">Meena</option>
+          <option value="Sanjay">Sanjay</option>
+        </select>
+      </div>
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
+  <script>
+    const itemsFromDB = [
+      { name: "Burger", description: "A juicy grilled burger with lettuce and tomato" },
+      { name: "Pizza", description: "Cheesy pizza with your choice of toppings" },
+      { name: "Pasta", description: "Creamy Alfredo pasta with garlic bread" },
+      { name: "Fries", description: "Crispy golden French fries" }
+    ];
+
+    function createItemDropdown() {
+      const select = document.createElement('select');
+      select.name = "item[]";
+      select.required = true;
+
+      const defaultOption = document.createElement('option');
+      defaultOption.text = "Select Item";
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      select.appendChild(defaultOption);
+
+      itemsFromDB.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.name;
+        option.textContent = item.name;
+        option.title = item.description;  // Tooltip shown on hover
+        select.appendChild(option);
+      });
+
+      return select;
+    }
+
+    function addItem() {
+      const wrapper = document.getElementById('itemsWrapper');
+      const itemGroup = document.createElement('div');
+      itemGroup.className = 'item-group';
+
+      const itemDropdown = createItemDropdown();
+
+      const quantityInput = document.createElement('input');
+      quantityInput.type = 'number';
+      quantityInput.name = 'quantity[]';
+      quantityInput.placeholder = 'Quantity';
+      quantityInput.min = 1;
+      quantityInput.required = true;
+
+      itemGroup.appendChild(itemDropdown);
+      itemGroup.appendChild(quantityInput);
+      wrapper.appendChild(itemGroup);
+    }
+
+    function generateOrderNumber() {
+      const now = new Date();
+      return 'ORD-' + now.getTime();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('orderNumber').value = generateOrderNumber();
+      document.getElementById('orderDate').valueAsDate = new Date();
+      addItem();
+
+      document.getElementById('orderForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const order = {
+          orderNumber: formData.get('orderNumber'),
+          orderDate: formData.get('orderDate'),
+          customerName: formData.get('customerName'),
+          customerAddress: formData.get('customerAddress'),
+          pincode: formData.get('pincode'),
+          deliveryPerson: formData.get('deliveryPerson'),
+          items: []
+        };
+
+        const items = formData.getAll('item[]');
+        const quantities = formData.getAll('quantity[]');
+
+        items.forEach((item, index) => {
+          order.items.push({
+            name: item,
+            quantity: parseInt(quantities[index], 10)
+          });
+        });
+
+        console.log("Order Submitted:", order);
+        alert("Order submitted! Check console for details.");
+        e.target.reset();
+        document.getElementById('itemsWrapper').innerHTML = '';
+        addItem();
+        document.getElementById('orderNumber').value = generateOrderNumber();
+        document.getElementById('orderDate').valueAsDate = new Date();
+      });
+    });
+  </script>
+</body>
+</html>
