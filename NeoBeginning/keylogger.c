@@ -3,6 +3,9 @@
 #include<fcntl.h>
 #include<unistd.h>
 #include<linux/input.h>
+#include<linux/kd.h>
+#include<sys/ioctl.h>
+#include<stdbool.h>
 int main(int argc, char *argv[]){
 	
 	if(argc != 2){
@@ -14,14 +17,49 @@ int main(int argc, char *argv[]){
 	printf("log: <event-name> : %s\n",argv[1]);
 	
 	//open the event file
-	int fd = open(argv[1],O_RDONLY);
+	int fd;
+	if((fd = open(argv[1],O_RDONLY)) == -1){
+		perror("open");
+		exit(-1);
+	}
 	printf("log: active file descriptor: %d\n",fd);	
 	
 	//read the event file into a buffer
 	struct input_event ie;
+	
+	/*
+	 *	KDGKBLED is not giving proper flag states when used with /dev/tty3 or any vc
+	 *
+	 *
+	//get caps lock flag state
+	int vc;
+	if( (vc = open("/dev/tty3",O_RDONLY)) == -1 ){
+		perror("open");
+		exit(-1);
+	}
+	else
+		printf("log: active file descriptor: %d\n",vc);
+	*/
+	bool MODE_UPPERCASE;
+	char arg;
+	//get CAPS_LOCK state
+	if(ioctl(fd,EVIOCGLED(sizeof(arg)),&arg) == -1){
+		perror("EVIOCGLED");
+		close(fd);
+		exit(-1);
+	} else{
+		MODE_UPPERCASE = (arg >> LED_CAPSL) & 1;
+	}
+	printf("log: (flag)CAPS_LOCK_ENABLED:%d\n",MODE_UPPERCASE);
+
+
 	while(1){
+
 		int rd_bytes = read(fd,&ie,sizeof(ie));
+		
+		
 		if(ie.value==1){
+			
 			if(ie.code==2)
 				printf("1");
 			if(ie.code==3)
@@ -45,65 +83,72 @@ int main(int argc, char *argv[]){
 
 			
 			if(ie.code==16)
-				printf("q");
+				printf(MODE_UPPERCASE ? "Q":"q");
 			if(ie.code==17)
-				printf("w");
+				printf(MODE_UPPERCASE ? "W":"w");
 			if(ie.code==18)
-				printf("e");
+				printf(MODE_UPPERCASE ? "E":"e");
 			if(ie.code==19)
-				printf("r");
+				printf(MODE_UPPERCASE ? "R":"r");
 			if(ie.code==20)
-				printf("t");
+				printf(MODE_UPPERCASE ? "T":"t");
 			if(ie.code==21)
-				printf("y");
+				printf(MODE_UPPERCASE ? "Y":"y");
 			if(ie.code==22)
-				printf("u");
+				printf(MODE_UPPERCASE ? "U":"u");
 			if(ie.code==23)
-				printf("i");
+				printf(MODE_UPPERCASE ? "I":"i");
 			if(ie.code==24)
-				printf("o");
+				printf(MODE_UPPERCASE ? "O":"o");
 			if(ie.code==25)
-				printf("p");
+				printf(MODE_UPPERCASE ? "P":"p");
 
 			if(ie.code==30)
-				printf("a");
+				printf(MODE_UPPERCASE ? "A":"a");
 			if(ie.code==31)
-				printf("s");
+				printf(MODE_UPPERCASE ? "S":"s");
 			if(ie.code==32)
-				printf("d");
+				printf(MODE_UPPERCASE ? "D":"d");
 			if(ie.code==33)
-				printf("f");
+				printf(MODE_UPPERCASE ? "F":"f");
 			if(ie.code==34)
-				printf("g");
+				printf(MODE_UPPERCASE ? "G":"g");
 			if(ie.code==35)
-				printf("h");
+				printf(MODE_UPPERCASE ? "H":"h");
 			if(ie.code==36)
-				printf("j");
+				printf(MODE_UPPERCASE ? "J":"j");
 			if(ie.code==37)
-				printf("k");
+				printf(MODE_UPPERCASE ? "K":"k");
 			if(ie.code==38)
-				printf("l");
+				printf(MODE_UPPERCASE ? "L":"l");
 
 			if(ie.code==44)
-				printf("z");
+				printf(MODE_UPPERCASE ? "Z":"z");
 			if(ie.code==45)
-				printf("x");
+				printf(MODE_UPPERCASE ? "X":"x");
 			if(ie.code==46)
-				printf("c");
+				printf(MODE_UPPERCASE ? "C":"c");
 			if(ie.code==47)
-				printf("v");
+				printf(MODE_UPPERCASE ? "V":"v");
 			if(ie.code==48)
-				printf("b");
+				printf(MODE_UPPERCASE ? "B":"b");
 			if(ie.code==49)
-				printf("n");
+				printf(MODE_UPPERCASE ? "N":"n");
 			if(ie.code==50)
-				printf("m");
+				printf(MODE_UPPERCASE ? "M":"m");
 
 			if(ie.code==57)
 				printf(" ");
 			if(ie.code==14)
 				printf("⌫");
+			if(ie.code==28)
+				printf("⏎");
+			if(ie.code==56)
+				printf("⎇");
+			if(ie.code==58)
+				MODE_UPPERCASE = !MODE_UPPERCASE;
 		}
+
 		fflush(stdout);
 	}
 	return 0;
