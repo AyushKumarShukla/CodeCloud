@@ -1,4 +1,6 @@
 #include<SDL2/SDL.h>
+#include<SDL2/SDL_keycode.h>
+#include<SDL2/SDL_events.h>
 #include<stdbool.h>
 #include<math.h>
 
@@ -17,6 +19,9 @@
 //Map parameters
 #define MAP_HEIGHT 5
 #define MAP_WIDTH 5
+#define WALL 1
+#define CELL_WIDTH WIDTH/MAP_WIDTH
+#define CELL_HEIGHT HEIGHT/MAP_HEIGHT
 
 //Player parameters
 #define PLAYER_HEIGHT 20
@@ -24,14 +29,16 @@
 #define ARROW_HEAD_DIMENSION 5
 #define INITIAL_PLAYER_DIRECTION 45 //degrees
 #define FOV_ANGLE 60.0 //degrees
-
+#define PLAYER_ROTATION_SPEED 2
+#define PLAYER_STRIDE 10
+#define INITIAL_X 0
+#define INITIAL_Y 0
 //Geometric parameters
-#define DEFAULT_LINE_LENGTH 100
-
+#define DEFAULT_LINE_LENGTH 50
+#define RAY_SPEED 10 //pixels
 //Helper macros
 #define DEG2RAD M_PI/180
-
-
+#define RAY_WITHIN_BOUNDS raypoint.pos.x >=0 && raypoint.pos.x <= WIDTH && raypoint.pos.y >=0 && raypoint.pos.y <=HEIGHT
 int map[MAP_HEIGHT][MAP_WIDTH] = {
 
 	{0, 0, 1, 1, 1},
@@ -58,7 +65,13 @@ typedef struct{
 	Angle dir;
 }Player;
 
-Player player = {{0, 0}, PLAYER_WIDTH, PLAYER_HEIGHT, {INITIAL_PLAYER_DIRECTION}};
+typedef struct{
+	Point pos;
+	int cell_x;
+	int cell_y;
+}RayPoint;
+
+Player player = {{INITIAL_X,INITIAL_Y }, PLAYER_WIDTH, PLAYER_HEIGHT, {INITIAL_PLAYER_DIRECTION}};
 
 
 void DrawMapGrid(SDL_Surface *surface){
@@ -92,7 +105,24 @@ void DrawPlayerFOV(SDL_Surface *surface){
 	DrawArrowHead(surface, player.pos, left_fov, CGREEN);
 	DrawArrowHead(surface, player.pos, right_fov, CGREEN);
 
+	//cast rays					//controls scan speed
+	for(Angle angle=left_fov ; angle.value<=right_fov.value ; angle.value++){
+	RayPoint raypoint = {{player.pos.x, player.pos.y}, 0, 0};
+	while(map[raypoint.cell_y][raypoint.cell_x] != WALL && RAY_WITHIN_BOUNDS){
+		raypoint.pos.x = raypoint.pos.x + RAY_SPEED * cos(angle.value * DEG2RAD);
+		raypoint.pos.y = raypoint.pos.y + RAY_SPEED * sin(angle.value * DEG2RAD);
+
+		raypoint.cell_x = (int)raypoint.pos.x/180.0;
+		raypoint.cell_y = (int)raypoint.pos.y/180.0;
+		DrawArrowHead(surface, raypoint.pos, angle, CWHITE);
+		//printf("Raypoint cell_x:%d, cell_y:%d, pos:(%f,%f)\n",raypoint.cell_x,raypoint.cell_y,raypoint.pos.x,raypoint.pos.y);
+	}
+	printf("Wall Detected : Cell [%d,%d], RayPos: (%f,%f)\n",raypoint.cell_y,raypoint.cell_x,raypoint.pos.x,raypoint.pos.y);
+
+	//we can now compute the distance between the player and this raypoint at the wall and draw vertical lines according to the distance to see the 3D like projection
+	}
 }
+
 bool app_running = true;
 int main(int argc, char* argv[]){
 	SDL_Init(SDL_INIT_VIDEO);
@@ -109,6 +139,19 @@ int main(int argc, char* argv[]){
 			switch(event.type){
 				case SDL_QUIT:
 					app_running=false;
+				case SDL_KEYDOWN:
+					if(event.key.keysym.sym == SDLK_LEFT)
+						player.dir.value -= PLAYER_ROTATION_SPEED % 360;
+					if(event.key.keysym.sym == SDLK_RIGHT)
+						player.dir.value += PLAYER_ROTATION_SPEED % 360;
+					if(event.key.keysym.sym == SDLK_UP){
+						//move in the direction player.dir.value
+						double new_x,new_y;
+						new_x = player.pos.x + PLAYER_STRIDE * cos(player.dir.value * DEG2RAD);
+						new_y = player.pos.y + PLAYER_STRIDE * sin(player.dir.value * DEG2RAD);
+						player.pos.x = new_x;
+						player.pos.y = new_y;
+					}	
 			}
 		}
 
@@ -128,9 +171,8 @@ int main(int argc, char* argv[]){
 			DrawArrowHead(mainwin_surface, player.pos, player.dir, CGREEN);
 			DrawPlayerFOV(mainwin_surface);
 		}
-
-		//Add player movement + rotation
-
+		
+		//cast rays from player to detect distance to nearby walls
 	
 		SDL_UpdateWindowSurface(mainwin);
 		SDL_Delay(10);	
