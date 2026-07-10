@@ -16,12 +16,13 @@
 #define CCYAN	0x00395555
 #define CRED   	0x00ff0000
 #define CGREEN 	0x0000ff00
+#define CYELLOW 0x00ffff00
 //Map parameters
 #define MAP_HEIGHT 5
 #define MAP_WIDTH 5
 #define WALL 1
-#define CELL_WIDTH WIDTH/MAP_WIDTH
-#define CELL_HEIGHT HEIGHT/MAP_HEIGHT
+#define CELL_WIDTH (WIDTH/MAP_WIDTH)
+#define CELL_HEIGHT (HEIGHT/MAP_HEIGHT)
 
 //Player parameters
 #define PLAYER_HEIGHT 20
@@ -34,8 +35,10 @@
 #define INITIAL_X 0
 #define INITIAL_Y 0
 //Geometric parameters
-#define DEFAULT_LINE_LENGTH 50
-#define RAY_SPEED 10 //pixels
+#define DEFAULT_LINE_LENGTH 1
+#define RAY_SPEED 1 //pixels
+#define RAY_DENSITY (0.21)
+#define VERTICAL_SCALE HEIGHT * 100
 //Helper macros
 #define DEG2RAD M_PI/180
 #define RAY_WITHIN_BOUNDS raypoint.pos.x >=0 && raypoint.pos.x <= WIDTH && raypoint.pos.y >=0 && raypoint.pos.y <=HEIGHT
@@ -99,27 +102,42 @@ void DrawArrowHead(SDL_Surface *surface, Point start, Angle dir, Uint32 color){
 	SDL_FillRect(surface, &arrow_head, color);
 }
 
-void DrawPlayerFOV(SDL_Surface *surface){
+double GetDistance(Point player_pos, Point wall_pos){
+	return(sqrt(pow((wall_pos.x - player_pos.x),2) + pow((wall_pos.y - player_pos.y),2)));
+}
+
+void DrawPlayerFOV(SDL_Surface *surface, SDL_Surface *psurface){
 	Angle left_fov= {player.dir.value - (FOV_ANGLE/2.0)};
 	Angle right_fov = {player.dir.value + (FOV_ANGLE/2.0)};
 	DrawArrowHead(surface, player.pos, left_fov, CGREEN);
 	DrawArrowHead(surface, player.pos, right_fov, CGREEN);
-
+	
+	double vline_stride = WIDTH/(FOV_ANGLE * (1/RAY_DENSITY));
+	double vline_x;
+	Angle angle;
 	//cast rays					//controls scan speed
-	for(Angle angle=left_fov ; angle.value<=right_fov.value ; angle.value++){
+	for(angle=left_fov, (vline_x=0);angle.value<=right_fov.value && (vline_x <= WIDTH);(angle.value += RAY_DENSITY), (vline_x += vline_stride)){
 	RayPoint raypoint = {{player.pos.x, player.pos.y}, 0, 0};
 	while(map[raypoint.cell_y][raypoint.cell_x] != WALL && RAY_WITHIN_BOUNDS){
 		raypoint.pos.x = raypoint.pos.x + RAY_SPEED * cos(angle.value * DEG2RAD);
 		raypoint.pos.y = raypoint.pos.y + RAY_SPEED * sin(angle.value * DEG2RAD);
 
-		raypoint.cell_x = (int)raypoint.pos.x/180.0;
-		raypoint.cell_y = (int)raypoint.pos.y/180.0;
+		raypoint.cell_x = (int)raypoint.pos.x/CELL_WIDTH;
+		raypoint.cell_y = (int)raypoint.pos.y/CELL_HEIGHT;
 		DrawArrowHead(surface, raypoint.pos, angle, CWHITE);
 		//printf("Raypoint cell_x:%d, cell_y:%d, pos:(%f,%f)\n",raypoint.cell_x,raypoint.cell_y,raypoint.pos.x,raypoint.pos.y);
 	}
-	printf("Wall Detected : Cell [%d,%d], RayPos: (%f,%f)\n",raypoint.cell_y,raypoint.cell_x,raypoint.pos.x,raypoint.pos.y);
+	//printf("Wall Detected : Cell [%d,%d], RayPos: (%f,%f)\n",raypoint.cell_y,raypoint.cell_x,raypoint.pos.x,raypoint.pos.y);
 
 	//we can now compute the distance between the player and this raypoint at the wall and draw vertical lines according to the distance to see the 3D like projection
+		double ray_distance = GetDistance(player.pos, raypoint.pos);
+		printf("wall distance: %.2f\n",ray_distance);
+
+		//perform projection on projwin
+		double wall_height = VERTICAL_SCALE/ray_distance;
+		double vline_y = (HEIGHT/2.0) - (wall_height/2.0);
+		SDL_Rect vline = {vline_x, vline_y, 1, wall_height};
+		SDL_FillRect(psurface, &vline, CYELLOW);
 	}
 }
 
@@ -130,9 +148,15 @@ int main(int argc, char* argv[]){
 	SDL_Window *mainwin 
 		= SDL_CreateWindow("RayTracer",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WIDTH,HEIGHT,0);
 	
+	SDL_Window *projwin
+		= SDL_CreateWindow("Psudo3D Projection",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WIDTH,HEIGHT,0);
+	
 	SDL_Surface *mainwin_surface
 		= SDL_GetWindowSurface(mainwin);
 	
+	SDL_Surface *projwin_surface
+		= SDL_GetWindowSurface(projwin);
+
 	SDL_Event event;
 	while(app_running){
 		while(SDL_PollEvent(&event)){
@@ -158,6 +182,7 @@ int main(int argc, char* argv[]){
 		// ---------------------------------------------------
 		//Flush the surface buffer
 		SDL_FillRect(mainwin_surface,NULL,CBLACK);
+		SDL_FillRect(projwin_surface, NULL, CBLACK);
 		
 		//Draw the actual map from the map 2D array
 		DrawMapGrid(mainwin_surface);
@@ -169,12 +194,13 @@ int main(int argc, char* argv[]){
 				printf("%s",SDL_GetError());
 			}
 			DrawArrowHead(mainwin_surface, player.pos, player.dir, CGREEN);
-			DrawPlayerFOV(mainwin_surface);
+			DrawPlayerFOV(mainwin_surface,projwin_surface);
 		}
 		
 		//cast rays from player to detect distance to nearby walls
 	
 		SDL_UpdateWindowSurface(mainwin);
+		SDL_UpdateWindowSurface(projwin);
 		SDL_Delay(10);	
 	}
 		

