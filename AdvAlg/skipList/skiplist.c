@@ -5,7 +5,7 @@
 #include<stdbool.h>
 #include"avl_perf.h"
 
-#define MAXLEVEL 8
+#define MAXLEVEL 32
 #define p 0.5
 #define MAX_ELEMENT 1e9
 typedef struct Node{
@@ -74,12 +74,29 @@ void printList(List* l){
     for(int i=l->level-1;i>=0;i--){
         printf("L%d: H",i);
         for(Node* x=l->header->forward[i];x!=&null_node;x=x->forward[i])
-            printf(" -> %d",x->key);
+            printf(" -> [%d | %d] ",x->key,x->value);
         printf(" -> NIL\n");
     }
 }
 
-int main(int argc, char* argv[]){
+int list_search_path_length;
+int search(List* l, int search_key){
+	list_search_path_length = 0;
+	Node* x = l->header;
+	for(int i=l->level-1;i>=0;i--){
+		while(x->forward[i]->key < search_key){
+			x = x->forward[i];
+			list_search_path_length++;
+		}
+	}
+	x = x->forward[0];
+	list_search_path_length++;
+	if(x->key == search_key)
+		return x->value;
+	return -1;
+}
+
+int main(void){
 	bool app_running=true;
 	srand(time(0));
 	struct timespec start,end;
@@ -99,9 +116,8 @@ int main(int argc, char* argv[]){
 
 	List l = {1,&header};
 	int ch;
-	int num;
 	while(app_running){
-		printf("1. Benchmark Insertion\\Search \n2. Print\n3.Exit");
+		printf("1. Benchmark Insertion\n2. Insert and Search \n3. Print\n4.Exit");
 		printf("\nSelect an option: ");
 		scanf("%d",&ch);
 		switch(ch){
@@ -183,9 +199,54 @@ int main(int argc, char* argv[]){
 				pclose(gnuplot);
 				break;
 			case 2:
-				printList(&l);
+				FILE *pl = fopen("path_lengths.txt","w");
+				FILE *gp = popen("gnuplot","w");
+
+				fprintf(pl,"#N\t#skiplist\t#avltree\n");
+
+				int N,skey,ret,iter_num;
+				printf("Enter N,iter_num: ");
+				scanf("%d%d",&N,&iter_num);
+				int iter_cnt = 0;
+				while(iter_cnt < iter_num){
+				//reinitialize skiplist and avl tree
+       				Node** forward = malloc(sizeof(Node*) * MAXLEVEL);
+			         for(int i=0;i<MAXLEVEL;i++) forward[i] = &null_node;
+				 Node header = {-INT_MAX,-INT_MAX,forward};
+
+				 AVLPerfTree* avl = avl_perf_create();
+				 List l = {1,&header};
+
+
+				for(int i=0;i<N;i++){
+					int rval = rand()%1000;
+					insert(&l,i,rval);
+					avl_perf_insert(avl,i,rval);
+				}
+				//printList(&l);
+				//printf("search_key:");
+				//scanf("%d",&skey);
+				skey =  N-1;
+				if( (ret = search(&l,skey)) > 0 )
+					printf("\nlist found: path length: %d, value: %d\n",list_search_path_length,ret);
+				else
+					printf("list: NA");
+
+				if( (ret = avl_perf_search(avl,skey)) > 0)
+					printf("\navl found: path length: %d, value: %d\n",avl_search_path_length,ret);
+				else
+					printf("list: NA");
+				fprintf(pl,"%d\t%d\t%d\n",N,list_search_path_length,avl_search_path_length);
+				iter_cnt++;
+			}
+				fclose(pl);
+				fprintf(gp,"stats 'path_lengths.txt' using 2:3\n");
+				pclose(gp);
 				break;
 			case 3:
+				printList(&l);
+				break;
+			case 4:
 				app_running=false;
 				break;
 		}	

@@ -137,6 +137,21 @@ static inline int avl_perf_get(AVLPerfTree* tree, int key) {
     return -1; 
 }
 
+extern int avl_search_path_length;
+int avl_search_path_length=0;
+static inline int avl_perf_search(AVLPerfTree* avl, int search_key) {
+    avl_search_path_length = 0;
+    if (!avl) return -1;
+
+    AVLPerfNode* curr = avl->root;
+    while (curr) {
+        if (search_key == curr->key) return curr->value;
+        curr = (search_key < curr->key) ? curr->left : curr->right;
+        avl_search_path_length++;   // one step forward
+    }
+    return -1;
+}
+
 static inline void _avl_p_free_node(AVLPerfNode* n) {
     if (n) { _avl_p_free_node(n->left); _avl_p_free_node(n->right); free(n); }
 }
