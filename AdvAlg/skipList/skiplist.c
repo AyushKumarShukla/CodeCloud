@@ -4,6 +4,8 @@
 #include<time.h>
 #include<stdbool.h>
 #include"avl_perf.h"
+#include<string.h>
+
 
 #define MAXLEVEL 32
 #define p 0.5
@@ -96,6 +98,26 @@ int search(List* l, int search_key){
 	return -1;
 }
 
+int range_query(List* l,int* result,int left,int right){
+	
+	Node* x = l->header;
+	for(int i=l->level-1;i>=0;i--){
+		while(x->forward[i]->key < left){
+			x = x->forward[i];
+		}
+	}
+	x = x->forward[0]; 
+	
+	int written=0;
+
+	do{
+		result[written++] = x->key;
+		x = x->forward[0];
+	}while(x->key <= right);
+	
+	return written;
+}
+
 int main(void){
 	bool app_running=true;
 	srand(time(0));
@@ -117,7 +139,7 @@ int main(void){
 	List l = {1,&header};
 	int ch;
 	while(app_running){
-		printf("1. Benchmark Insertion\n2. Insert and Search \n3. Print\n4.Exit");
+		printf("1. Benchmark Insertion\n2. Insert and Search \n3. Range Query\n4.Print\n5.Exit");
 		printf("\nSelect an option: ");
 		scanf("%d",&ch);
 		switch(ch){
@@ -244,9 +266,40 @@ int main(void){
 				pclose(gp);
 				break;
 			case 3:
-				printList(&l);
+				FILE *rqc = fopen("range_query_comp.txt","a");
+
+				int left_limit, right_limit;
+				printf("Enter range [a,b]: ");
+				scanf("%d%d",&left_limit,&right_limit);
+				int range_query_result[100];
+				
+				clock_gettime(CLOCK_MONOTONIC, &start);
+				int size = range_query(&l,range_query_result,left_limit,right_limit);
+				clock_gettime(CLOCK_MONOTONIC, &end);
+				double time_elapsed_list 
+					= (end.tv_sec - start.tv_sec) + 
+					  (end.tv_nsec - start.tv_nsec)/ 1000000000.0;
+				
+				
+				memset(range_query_result,0,sizeof(*range_query_result * 100));
+
+				
+				clock_gettime(CLOCK_MONOTONIC, &start);
+				size = avl_perf_range_query(avl,range_query_result,left_limit,right_limit);
+				clock_gettime(CLOCK_MONOTONIC, &end);
+				double time_elapsed_tree
+					= (end.tv_sec - start.tv_sec) + 
+					  (end.tv_nsec - start.tv_nsec)/ 1000000000.0;
+				
+				printf("List:%.9f\tTree:%.9f",time_elapsed_list,time_elapsed_tree);
+				fprintf(rqc,"%.9f\t%.9f\n",time_elapsed_list,time_elapsed_tree);
+				fclose(rqc);
+				printf("\n");
 				break;
 			case 4:
+				printList(&l);
+				break;
+			case 5:
 				app_running=false;
 				break;
 		}	

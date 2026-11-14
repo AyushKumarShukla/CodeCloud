@@ -152,6 +152,40 @@ static inline int avl_perf_search(AVLPerfTree* avl, int search_key) {
     return -1;
 }
 
+// Range query: writes all keys in [left, right] to result in ascending order.
+// Returns the number of keys written. Caller must ensure result is large enough.
+static inline int avl_perf_range_query(AVLPerfTree* avl, int* result, int left, int right) {
+    if (!avl || !result || left > right) return 0;
+
+    AVLPerfNode* stack[64];
+    int top = 0;
+    int count = 0;
+    AVLPerfNode* curr = avl->root;
+
+    while (curr || top > 0) {
+        // Descend left, but skip subtrees entirely below the range
+        while (curr) {
+            if (curr->key >= left) {
+                stack[top++] = curr;
+                curr = curr->left;
+            } else {
+                curr = curr->right;
+            }
+        }
+
+        if (top == 0) break;
+        curr = stack[--top];
+
+        if (curr->key > right) break; // everything remaining is larger
+
+        result[count++] = curr->key;
+        curr = curr->right;
+    }
+
+    return count;
+}
+
+
 static inline void _avl_p_free_node(AVLPerfNode* n) {
     if (n) { _avl_p_free_node(n->left); _avl_p_free_node(n->right); free(n); }
 }
